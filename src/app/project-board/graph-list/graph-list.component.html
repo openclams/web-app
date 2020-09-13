@@ -1,0 +1,73 @@
+
+ 
+<mat-form-field style="min-width: 100%;">
+  <mat-label>Filter</mat-label>
+  <input style="min-width: 100%;" matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+</mat-form-field>
+
+  <table 
+  cdkDropList [cdkDropListData]="getGraphs()"
+    (cdkDropListDropped)="drop($event)"
+  mat-table [dataSource]="dataSource"  style="width:100%" matSort >
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <ng-container matColumnDef="drag">
+      <th mat-header-cell *matHeaderCellDef style="width:50px"></th>
+      <td mat-cell *matCellDef="let graph" >
+        <mat-icon cdkDragHandle  style="pointer-events:all;">reorder</mat-icon>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+      <td mat-cell *matCellDef="let graph" >
+          <mat-icon cdkDragHandle *ngIf="!isSequenceDiagram(graph)" matTooltip="User Profile" style="pointer-events: all" (click)="openGraph(graph)" >person</mat-icon>
+          <mat-icon cdkDragHandle *ngIf="isSequenceDiagram(graph)" matTooltip="Sequence Diagram" style="pointer-events: all" (click)="openGraph(graph)" >cloud</mat-icon>
+          
+      </td>
+    </ng-container>
+  
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let graph"  matDragHandle
+      (click)="openGraph(graph)"  
+      [ngStyle]="{'color': isOpen(graph) ? '#000' : '#c3c3c3'}">
+        <div fxLayout="row" fxLayoutAlign="space-between center"  matTooltip="{{graph.name}}" style="pointer-events: all">
+          {{graph.name | truncate : 20 : '...'}}
+        </div>
+      </td>
+    </ng-container>
+  
+    
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let graph" align="right">
+        <button style="pointer-events: all" mat-icon-button
+        class="edit-diagram"
+        (click)="editGraph(graph)"
+        onclick="this.blur()">
+        <mat-icon>
+          edit
+        </mat-icon>
+      </button> 
+        <button style="pointer-events: all"  mat-icon-button
+          class="delete-diagram"
+          (click)="deleteGraph(graph)"
+          onclick="this.blur()">
+          <mat-icon>
+            delete
+          </mat-icon>
+        </button> 
+      </td>
+  </ng-container> 
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr  (cdkDragStarted)="drag(row)" mat-row *matRowDef="let row; columns: displayedColumns;" style="pointer-events: none;"
+    cdkDrag [cdkDragData]="row" [ngStyle]="{'color': isOpen(row) ? '#000' : '#c3c3c3'}"></tr>
+    <tr class="mat-row" *matNoDataRow >
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>

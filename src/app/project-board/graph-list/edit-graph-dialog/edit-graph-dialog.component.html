@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Change Graph Name</h1>
+<div mat-dialog-content>
+    <form [formGroup]="graphForm" (ngSubmit)="onOk()" novalidate>
+        <mat-form-field appearance="fill" style="margin-right: 10px;">
+          <input matInput
+                 placeholder="Name"
+                 [formControl]="name"
+                 required
+                 autofocus>
+          <mat-error *ngIf="name.hasError('required') && !name.hasError('maxlength')">
+            Please enter a name
+          </mat-error>
+          <mat-error *ngIf="name.hasError('maxlength')">
+            Name too long
+          </mat-error>
+        </mat-form-field>
+    </form>    
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button mat-button type="submit" (click)="onOk()" cdkFocusInitial>Ok</button>
+</div>

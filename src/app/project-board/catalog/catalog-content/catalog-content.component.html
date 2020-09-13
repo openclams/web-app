@@ -1,0 +1,78 @@
+<div *ngIf="catalog; then showCatalog else showProgressBar"></div>
+
+<ng-template #showCatalog>
+  <mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel *ngFor="let category of catalog.categories">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{category.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+           <!-- <mat-icon>cloud</mat-icon> -->
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      <mat-grid-list cols="3" rowHeight="2:3" style="margin-top: 0px;">
+        <mat-grid-tile *ngFor="let component of category.components">
+          <!-- <div *ngIf="hasChildren(component); then withDorpdown else withoutDropdown"></div> -->
+        
+            <div id="dorpdown" style="width: 90px; height:100px">
+              <div cdkDropList class="example-list" (cdkDropListDropped)="dragEnd(component)" >
+                <div class="example-box" cdkDrag (cdkDragStarted)="dragStart(component)">
+                  <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                  <img style="width: 50px; height:50px"
+                  class="mat-grid-tile_img"
+                  id="{{component.id}}"
+                  [src]="component.img"
+                  alt="{{component.name}}"
+                  title="{{component.name}}">
+                </div>
+                <figcaption>{{component.name}}</figcaption>
+              </div>
+            </div>
+      
+          <!-- <ng-template #withDorpdown>
+            <div id="dorpdown" [matMenuTriggerFor]="menu" style="width: 50px; height:80px">
+              <img style="width: 50px; height:50px"
+                   (dragstart)="dragStart($event)"
+                   (dragend)="dragEnd($event)"
+                   (drag)="drag($event)"
+                   class="mat-grid-tile_img"
+                   id="{{component.id}}"
+                   [src]="component.img"
+                   alt="{{component.name}}"
+                   title="{{component.name}}">
+              <figcaption>{{component.name}}</figcaption>
+              <mat-menu #menu="matMenu">
+                <mat-select-trigger>
+                  <div mat-menu-item *ngFor="let child of component.children">
+                    <img style="margin: 13px 0 0 0;width: 20px; height:20px;" align=top
+                         (dragstart)="dragStart($event)"
+                         (dragend)="dragEnd($event)"
+                         (drag)="drag($event)"
+                         id="{{child.id}}"
+                         class="mat-grid-tile_img"
+                         [src]="child.img"
+                         alt="{{child.name}}"
+                         title="{{child.name}}">
+                    {{child.name}}
+                  </div>
+                </mat-select-trigger>
+              </mat-menu>
+            </div>
+          </ng-template> -->
+        </mat-grid-tile>
+      </mat-grid-list>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</ng-template>
+
+
+<ng-template #showProgressBar>
+  <mat-progress-bar mode="indeterminate" color="accent">
+  </mat-progress-bar>
+</ng-template>
+
+
+

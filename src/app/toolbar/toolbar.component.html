@@ -1,0 +1,31 @@
+<mat-toolbar color="primary" id="toolbar">
+    <mat-toolbar-row>
+  
+      <button mat-icon-button (click)="toggleSideNavigation()">
+        <mat-icon>menu</mat-icon>
+      </button>
+  
+      <span> OpenClams </span>
+  
+      <div fxFlex fxLayout fxLayoutAlign="flex-end">
+  
+        <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+  
+          <li fxHide.xs>
+            <button mat-icon-button>
+              <mat-icon>settings</mat-icon>
+            </button>
+          </li>
+  
+          <li fxHide.xs>
+            <button mat-icon-button>
+              <mat-icon>help_outline</mat-icon>
+            </button>
+          </li>
+  
+        </ul>
+  
+      </div>
+  
+    </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,76 @@
+<h1 mat-dialog-title>Create a new Project</h1>
+<div mat-dialog-content>
+    <form [formGroup]="projectForm" (ngSubmit)="onCreate()" novalidate>
+        <mat-form-field appearance="fill" style="margin-right: 10px;">
+          <input matInput
+                 placeholder="Project Name"
+                 [formControl]="name"
+                 required
+                 autofocus>
+          <mat-error *ngIf="name.hasError('required') && !name.hasError('maxlength')">
+            Please enter a name
+          </mat-error>
+          <mat-error *ngIf="name.hasError('maxlength')">
+            Name too long
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" >
+            <input matInput
+                   placeholder="Project Owner"
+                   [formControl]="owner">
+            <mat-error *ngIf="owner.hasError('maxlength')">
+              Owners too long
+            </mat-error>
+        </mat-form-field>
+       
+        <mat-form-field appearance="fill" style="width: 100%;">
+                  <textarea  matInput
+                            cdkTextareaAutosize
+                            cdkAutosizeMinRows="5"
+                            cdkAutosizeMaxRows="15"
+                            placeholder="Project Description"
+                            [formControl]="description">
+                  </textarea>
+          <mat-error *ngIf="description.hasError('maxlength')">
+            Description too long
+          </mat-error>
+        </mat-form-field>
+        <br>
+    </form>
+
+    Select all regions, which are neccessary for your cloud application.
+
+    <div class="provider-headers-align">
+        <mat-accordion  multi >
+            <mat-expansion-panel  *ngFor="let item of providerList">
+                <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-checkbox class="provider-margin"
+                                [checked]="item.allCompleted"
+                                [indeterminate]="someComplete(item)"
+                                (change)="setAll(item,$event.checked)">
+                        {{item.provider.title}}
+                    </mat-checkbox>
+                </mat-panel-title>
+                </mat-expansion-panel-header>
+            
+                <span class="provider-list-section">
+                    <ul>
+                    <li *ngFor="let option of item.options">
+                        <mat-checkbox [(ngModel)]="option.completed"
+                                    (ngModelChange)="updateAllComplete(item)">
+                        {{option.region.name}}
+                        </mat-checkbox>
+                    </li>
+                    </ul>
+                </span>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+       
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  <button mat-button type="submit" (click)="onCreate()" cdkFocusInitial>Create</button>
+</div>

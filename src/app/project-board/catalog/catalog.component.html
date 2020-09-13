@@ -1,0 +1,15 @@
+<mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel *ngFor="let provider of cloudProviders">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{provider.title}}
+        </mat-panel-title>
+        <mat-panel-description>
+           <mat-icon>cloud</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      <app-catalog-content [provider]="provider"></app-catalog-content>
+  
+    </mat-expansion-panel>
+  </mat-accordion>

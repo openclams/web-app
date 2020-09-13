@@ -1,0 +1,48 @@
+<mat-tab-group class="tab-group"
+               color="accent"
+               #tabGroup
+               (selectedTabChange)="activateTab($event.index)"
+               [selectedIndex]="getActiveGraphIndex()"
+               style="margin-right: 0.25%;margin-left: 0.25%">
+  <mat-tab *ngFor="let graph of frame.graphs; let index = index">
+    <ng-template mat-tab-label>
+        <!-- (dblclick)="openNameTabDialog(graph)" -->
+        <div  fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%;">
+        <span  matTooltip="{{graph.name}}">{{graph.name | truncate : 20 : '...'}}</span>
+     
+        <button mat-icon-button
+                (mouseover)="changeButtonColor(index)"
+                (mouseleave)="changeButtonColor(-1)"
+                [color]="index === closeButtonHoverIndex ? 'warn' : ''"
+                (click)="closeTab(graph)">
+          <mat-icon>
+            close
+          </mat-icon>
+        </button>
+      </div>
+    </ng-template>
+
+    <mat-drawer-container style="height:100%;overflow: hidden;" [hasBackdrop]="true">
+      <mat-drawer
+        [opened]="showInfo"
+        position="end"
+        mode="push"
+        (closedStart)="closeInfo(graph)"
+        class="drawer-width dragscroll">
+        <div *ngIf="showInfo">
+          <app-properties [component]="component" [element]="element" ></app-properties>
+        </div>
+      </mat-drawer>
+      <mat-drawer-content style="background: white;">
+        <div class="graph-container dragscroll" id="{{graph.id}}"></div>
+        <!-- (mouseenter)="sequenceRegistry.isFocused=true"
+           (mouseleave)="sequenceRegistry.isFocused=false" -->
+      </mat-drawer-content>
+    </mat-drawer-container>
+
+    <!-- <app-zoom-slider *ngIf="!showInfo"
+                     [graphRegistry]="sequenceRegistry"
+                     [initialZoomLevel]="getZoomLevelOfGraph(graph.id)">
+    </app-zoom-slider> -->
+  </mat-tab>
+</mat-tab-group>

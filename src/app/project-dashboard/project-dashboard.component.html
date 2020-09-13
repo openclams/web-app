@@ -1,0 +1,70 @@
+<app-command-bar>
+
+    <ng-container>
+      <button mat-button (click)="openCreateProjectDialog($event)">
+        <mat-icon>add</mat-icon>
+        Add Project
+      </button>
+  
+      <!--
+      <button mat-button class="crm-command-bar-button"
+              [disabled]="!isDirty() || !isValid()"
+              (click)="onSave()">
+        <mat-icon>save</mat-icon>
+        {{ 'SAVE' | translate }}
+      </button>
+      <button mat-button class="crm-command-bar-button"
+              [disabled]="!isDirty() || !isValid()"
+              (click)="onSaveAndClose()">
+        <mat-icon>arrow_back</mat-icon>
+        {{ 'SAVE_AND_CLOSE' | translate }}
+      </button>
+      -->
+    </ng-container>
+  
+    <div fxFlex fxLayout fxLayoutAlign="flex-end">
+        <button mat-icon-button>
+            <mat-icon>help_outline</mat-icon>
+        </button>
+    </div> 
+</app-command-bar>
+
+<div  fxLayout="column" id="main-container" fxLayoutAlign="start stretch">
+    
+        <h1 class="mat-h1" style="max-width: 600px; margin: 20px 0 20px 20px;">Projects</h1>
+   
+        <div fxFlex   fxLayout="row wrap" fxLayoutAlign="start start"  fxLayoutGap="20px" class="content" style="max-width: 600px; margin: 0 0 0 20px;">
+         
+            <mat-card class="project-card" *ngFor="let project of projects; let i = index" style="min-width:300px;">
+                <mat-card-header (click)="openProject(project)" style="cursor: pointer;">
+                    <div mat-card-avatar><mat-icon>cloud_queue</mat-icon></div>
+                    <mat-card-title matTooltip="{{project.name}}">
+                    {{project.name | truncate : 40 : '...'}}
+                    </mat-card-title>
+                    <mat-card-subtitle>{{project.owner}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>
+                        {{project.description}}
+                    </p>
+                </mat-card-content>
+                <mat-card-actions >
+                    <button mat-button (click)="openProject(project)">
+                        Open
+                    </button>
+                    <div fxFlex fxLayout fxLayoutAlign="flex-end">
+                        <button mat-icon-button (click)="openEditDialog(project)">
+                            <mat-icon>mode_edit</mat-icon>
+                        </button>
+
+                        <button mat-icon-button (click)="onDelete(project,i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </mat-card-actions>
+            </mat-card>
+                    
+
+        </div>
+    
+</div>

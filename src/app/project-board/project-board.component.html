@@ -1,0 +1,24 @@
+<div>
+  <div *ngIf="project; then showProject else showLoading"></div>
+
+  <ng-template #showProject>
+    <div>
+      <app-diagram></app-diagram> 
+    </div>
+  </ng-template>
+
+  <ng-template #showLoading>
+    <div *ngIf="projectNotFound; then show404 else showProgressBar"></div>
+
+    <ng-template #show404>
+      <div style="padding: 8px;">
+        <app-page-not-found></app-page-not-found>
+      </div>
+    </ng-template>
+
+    <ng-template #showProgressBar>
+      <mat-progress-bar mode="indeterminate" color="accent">
+      </mat-progress-bar>
+    </ng-template>
+  </ng-template>
+</div>

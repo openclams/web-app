@@ -1,0 +1,15 @@
+mat-drawer-container {
+  height: 100%;
+}
+
+.drawer-toggle-button {
+  position: absolute;
+  left: 8px;
+  top: calc(50% - 20px);
+  z-index: 2;
+  background-color: rgba(128, 128, 128, 0.02);
+}
+
+.drawer-toggle-button:hover {
+  background-color: rgba(128, 128, 128, 0.1);
+}

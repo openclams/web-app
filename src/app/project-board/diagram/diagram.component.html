@@ -1,0 +1,82 @@
+<app-command-bar>
+    <button mat-button (click)="openCreateGraphDialog()">
+      <mat-icon>add</mat-icon>
+      Add Graph
+    </button>
+
+    <!-- [disabled]="!isDirty() || !isValid()"
+            (click)="onSave()" -->
+    <button mat-button (click)="saveProject()" style="margin-right: 100px;">
+      <mat-icon>save</mat-icon>
+      Save
+    </button>
+    <mat-divider [vertical]="true"></mat-divider>
+    <div fxFlex fxLayout fxLayoutAlign="flex-start">
+  
+      <!-- <button mat-button (click)="undo()">
+        <mat-icon>undo</mat-icon>
+      </button>
+
+      <button mat-button (click)="redo()">
+        <mat-icon>redo</mat-icon>
+      </button> -->
+
+      <button mat-button (click)="selectAll()">
+        <mat-icon>select_all</mat-icon>
+      </button>
+
+      <button mat-button (click)="deleteSelection()">
+        <mat-icon>delete</mat-icon>
+      </button>
+  
+    </div>
+    
+    <div fxFlex fxLayout fxLayoutAlign="flex-end">
+  
+      <button mat-button (click)="closeProject()">
+        <mat-icon>clear</mat-icon>
+      </button>
+  
+    </div>
+</app-command-bar>
+
+    <mat-drawer-container [hasBackdrop]="false" id="main-container">
+      <mat-drawer class="mat-elevation-z1"
+                  #sidenav
+                  mode="side"  
+                  [opened]="drawerOpened"
+                  (openedChange)="openedChanged($event)">
+  
+               
+                  <mat-tab-group
+                  (selectedTabChange)="setTab($event.index)"
+                  [selectedIndex]="drawerTabIndex">
+                    <mat-tab label="Diagrams">
+                        <app-graph-list></app-graph-list>
+                    </mat-tab>
+                    <mat-tab label="Catalog">
+                      <app-catalog></app-catalog>
+                    </mat-tab>
+                  </mat-tab-group>
+                
+      </mat-drawer>
+  
+      <mat-drawer-content>
+        <div *ngIf="drawerOpened; then showLeftButton else showRightButton"></div>
+  
+        <ng-template #showLeftButton>
+          <button mat-icon-button class="drawer-toggle-button" (click)="drawerOpened = !drawerOpened">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+        </ng-template>
+  
+        <ng-template #showRightButton>
+          <button mat-icon-button class="drawer-toggle-button" (click)="drawerOpened = !drawerOpened">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </ng-template>
+        
+        <app-board [frame]='getFrame()' style="height: 100%;"></app-board>
+      
+      </mat-drawer-content>
+    </mat-drawer-container>

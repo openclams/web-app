@@ -1,0 +1,9 @@
+.graph-radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+  
+.graph-radio-button {
+    margin: 5px;
+}

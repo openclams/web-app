@@ -1,0 +1,59 @@
+<div fxLayout="column" fxLayoutAlign="space-around start" >
+    <mat-toolbar fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
+        <img *ngIf="component.img" style="width: 50px; height:50px"
+        class="mat-grid-tile_img"
+        [src]="component.img"
+        alt="{{component.name}}"
+        title="{{component.name}}">
+        <h2 >{{component.name}}</h2>
+      </mat-toolbar>
+
+<mat-divider></mat-divider>
+
+<div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
+    <span fxFlex='50'>Name</span>
+    <mat-form-field >
+        <input matInput="Name" [(ngModel)]="name" 
+            (keyup)="updateFilter()" [matAutocomplete]="matAutocompleteInstance">
+    </mat-form-field>
+    <mat-autocomplete #matAutocompleteInstance="matAutocomplete">
+        <mat-optgroup [label]="'Create new Instance'" *ngIf="!existsName(name) && name.length">
+        <mat-option [value]="name"
+                    (onSelectionChange)="(onSelectCreateNewInstance(name))">
+            {{name}}
+        </mat-option>
+        </mat-optgroup>
+        <mat-optgroup [label]="'Rename existing Instance'"
+                    *ngIf="!existsName(name) && name.length">
+        <mat-option [value]="name" (onSelectionChange)="(onSelectRenameInstance(name))">
+            {{name}}
+        </mat-option>
+        </mat-optgroup>
+        <mat-optgroup [label]="'Use existing Instance'"
+                    *ngIf="(filteredPossibleInstances).length > 0 && name.length">
+        <mat-option *ngFor="let i of filteredPossibleInstances"
+                    [value]="i.component.getAttribute('name').value"
+                    (onSelectionChange)="(onSelectExistingInstance(i))">
+            {{i.component.getAttribute('name').value}}
+        </mat-option>
+        </mat-optgroup>
+    </mat-autocomplete>
+</div>
+
+<mat-accordion  multi>
+    <mat-expansion-panel  *ngFor="let attribute of component.attributes">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{attribute.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{attribute.description}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      {{attribute.value}}
+  
+    </mat-expansion-panel>
+</mat-accordion>
+
+</div>
