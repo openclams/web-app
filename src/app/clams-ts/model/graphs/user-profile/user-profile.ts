@@ -1,7 +1,7 @@
 import Graph from '../graph';
 import Dot from './dot';
 import Geometry from '../geometry';
-import Project from '../../project';
+import Model from '../../model';
 
 export default class UserProfile extends Graph {
 

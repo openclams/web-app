@@ -6,7 +6,7 @@ import JsonEdge from './json-edge';
  */
 export default interface JsonGraph {
     /**
-     * Graph Id in the project
+     * Graph Id in the model
      */
     id: string;
 

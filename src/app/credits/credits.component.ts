@@ -57,10 +57,10 @@ export class CreditsComponent implements OnInit {
   }
 
   ngOnInit() {
-  
+
   }
 
-  closePage(){
+  closePage() {
     this.location.back();
   }
 }

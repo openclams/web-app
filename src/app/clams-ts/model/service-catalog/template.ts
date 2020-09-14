@@ -14,12 +14,11 @@ export default class Template extends Component {
    * @param name The human-readable name
    * @param img  The template's icon
    * @param attributes An array of attributes
-   * @param cloudProvider
    */
   constructor(public id: string,
               public name: string,
               public img: string,
-              public attributes:  Attribute[],
+              public attributes: Attribute[],
               public cloudProvider: CloudProvider
   ) {
     super(id, name, img, attributes, cloudProvider);

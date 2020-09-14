@@ -35,7 +35,7 @@ export default  class CloudProvider {
    */
   public image: string;
   /**
-   * Array of all available regions for this cloud provider in this project
+   * Array of all available regions for this cloud provider in this model
    */
   public regions: Region[];
   /**

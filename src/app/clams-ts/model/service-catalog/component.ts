@@ -25,10 +25,10 @@ export default  abstract class Component {
    * @param attributes A map of attributes
    */
   constructor(public id: string,
-    public name: string,
-    public img: string,
-    public attributes: Attribute[],
-    public cloudProvider: CloudProvider
+              public name: string,
+              public img: string,
+              public attributes: Attribute[],
+              public cloudProvider: CloudProvider
   ) {
     this.children = [];
     this.attributes = [];
@@ -36,16 +36,14 @@ export default  abstract class Component {
   }
 
   /**
-  * Returns the attribute if id exists, and undefined otherwise.
-  * @param id Attribute id
-  */
+   * Returns the attribute if id exists, and undefined otherwise.
+   */
   public getAttribute(id: string): Attribute {
     return this.attributes.find(attribute => attribute.id === id);
   }
 
   /**
    * Attach or repliace an attribute
-   * @param attribute
    */
   public setAttribute(attribute: Attribute) {
     const id = this.attributes.findIndex(a => a.id === attribute.id);
@@ -63,7 +61,7 @@ export default  abstract class Component {
     return this.parent == null;
   }
 
-  public bindTo(component: Component){
+  public bindTo(component: Component) {
     this.children  = component.children;
     this.category = component.category;
     this.parent = component.parent;

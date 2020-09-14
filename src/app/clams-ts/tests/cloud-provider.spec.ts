@@ -6,86 +6,86 @@ import CloudProviderFactory from '../factories/service-catalogs/cloud-provider-f
 describe('Cloud Providers', () => {
 
   const data: JsonCloudProvider[] = [{
-    'target': 'ibm',
-    'title': 'IBM Cloud',
-    'company': 'IBM',
-    'basePath': '/ibm/',
-    'costLookupFile': 'cost-lookup.json',
-    'catalogFile': 'service-catalog.json',
-    'image': 'ibm.png',
-    'regions': []
+    target: 'ibm',
+    title: 'IBM Cloud',
+    company: 'IBM',
+    basePath: '/ibm/',
+    costLookupFile: 'cost-lookup.json',
+    catalogFile: 'service-catalog.json',
+    image: 'ibm.png',
+    regions: []
   },
   {
-    'target': 'Azure',
-    'title': 'Microsoft Azure',
-    'company': 'Microsoft',
-    'basePath': '/azure/',
-    'costLookupFile': 'cost-lookup.json',
-    'catalogFile': 'service-catalog.json',
-    'image': 'microsoft-azure.png',
-    'regions': [
+    target: 'Azure',
+    title: 'Microsoft Azure',
+    company: 'Microsoft',
+    basePath: '/azure/',
+    costLookupFile: 'cost-lookup.json',
+    catalogFile: 'service-catalog.json',
+    image: 'microsoft-azure.png',
+    regions: [
       {
-        'id': 'europe-north',
-        'name': 'Europe (North)'
+        id: 'europe-north',
+        name: 'Europe (North)'
       },
       {
-        'id': 'europe-west',
-        'name': 'Europe (West)'
+        id: 'europe-west',
+        name: 'Europe (West)'
       },
       {
-        'id': 'france-central',
-        'name': 'France (Central)'
+        id: 'france-central',
+        name: 'France (Central)'
       }
     ]
   },
   {
-    'target': 'aws',
-    'title': 'Amazon Web Services',
-    'company': 'Amazon',
-    'basePath': '/aws/',
-    'costLookupFile': 'cost-lookup.json',
-    'catalogFile': 'service-catalog.json',
-    'image': '/cloud-type-icons/aws.png',
-    'regions': [
+    target: 'aws',
+    title: 'Amazon Web Services',
+    company: 'Amazon',
+    basePath: '/aws/',
+    costLookupFile: 'cost-lookup.json',
+    catalogFile: 'service-catalog.json',
+    image: '/cloud-type-icons/aws.png',
+    regions: [
       {
-        'id': 'us-east-2',
-        'name': 'US East (Ohio)'
+        id: 'us-east-2',
+        name: 'US East (Ohio)'
       },
       {
-        'id': 'us-east-1',
-        'name': 'US East (N. Virginia)'
+        id: 'us-east-1',
+        name: 'US East (N. Virginia)'
       },
       {
-        'id': 'us-west-1',
-        'name': 'US West (N. California)'
+        id: 'us-west-1',
+        name: 'US West (N. California)'
       },
       {
-        'id': 'us-west-2',
-        'name': 'USA West (Oregon)'
+        id: 'us-west-2',
+        name: 'USA West (Oregon)'
       },
       {
-        'id': 'ap-east-1',
-        'name': 'Asien-Pazifik (Hongkong)'
+        id: 'ap-east-1',
+        name: 'Asien-Pazifik (Hongkong)'
       },
       {
-        'id': 'ap-south-1',
-        'name': 'Asia-pacific (Mumbai)'
+        id: 'ap-south-1',
+        name: 'Asia-pacific (Mumbai)'
       },
       {
-        'id': 'ap-northeast-3',
-        'name': 'Asien-Pazifik (Osaka-Lokal)'
+        id: 'ap-northeast-3',
+        name: 'Asien-Pazifik (Osaka-Lokal)'
       },
       {
-        'id': 'ap-northeast-1',
-        'name': 'Asien-Pazifik (Sydney)'
+        id: 'ap-northeast-1',
+        name: 'Asien-Pazifik (Sydney)'
       },
       {
-        'id': 'ca-central-1',
-        'name': 'Kanada (Central)'
+        id: 'ca-central-1',
+        name: 'Kanada (Central)'
       },
       {
-        'id': 'eu-central-1',
-        'name': 'EU (Frankfurt)'
+        id: 'eu-central-1',
+        name: 'EU (Frankfurt)'
       }
     ]
   }];

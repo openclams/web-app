@@ -1,6 +1,6 @@
 import JsonProject from '../model/json-project';
 import Project from '../model/project';
-import ClamsProjectFactory from '../clams-ts/factories/project-factory';
+import ModelFactory from '../clams-ts/factories/model-factory';
 import { FrameFactory } from './frame-factory';
 
 
@@ -8,7 +8,7 @@ export class ProjectFactory {
     public static fromJSON(jsonProject: JsonProject): Project {
         const project = new Project();
         project.metaData = Object.assign({}, jsonProject.metaData);
-        project.model = ClamsProjectFactory.fromJSON(jsonProject.model);
+        project.model = ModelFactory.fromJSON(jsonProject.model);
         project.frames = jsonProject.frames.map(jsonFrame => FrameFactory.fromJSON.call(project, jsonFrame));
         return project;
     }
@@ -17,7 +17,7 @@ export class ProjectFactory {
         const jsonProject = {
             metaData: project.metaData,
             frames:  project.frames.map(frame => FrameFactory.toJSON(frame)),
-            model: ClamsProjectFactory.toJSON(project.model)
+            model: ModelFactory.toJSON(project.model)
         };
         return jsonProject;
     }

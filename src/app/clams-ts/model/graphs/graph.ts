@@ -1,4 +1,4 @@
-import Project from '../project';
+import Model from '../model';
 import Edge from './edge';
 import Node from './node';
 
@@ -21,7 +21,7 @@ export default abstract class Graph {
   public lastId: number;
 
   /**
-   * id of the Graph. This id is unique accross this project.
+   * id of the Graph. This id is unique accross this model.
    * We need this id, wehn we serilize user profiles. The state
    * will use this id to reference its sequence diagram when transformed
    * to JSON
@@ -48,11 +48,11 @@ export default abstract class Graph {
   /**
    * On init, set all fileds to empty, and assing
    * an id to the graph.
-   * @param project Reference to the project where the graph belongs
+   * @param model Reference to the model where the graph belongs
    */
-  constructor(public project: Project) {
-    if (this.project) {
-      this.id = this.project.getNewId();
+  constructor(public model: Model) {
+    if (this.model) {
+      this.id = this.model.getNewId();
     }
     this.lastId = 0;
     this.nodes = [];

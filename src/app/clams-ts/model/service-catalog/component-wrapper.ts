@@ -9,7 +9,7 @@ import Element from '../graphs/sequence-diagram/element';
 export default  class ComponentWrapper {
 
   /**
-   * Array of all instancs in this project that
+   * Array of all instancs in this model that
    * reference this component.
    */
   public instances: Element[];

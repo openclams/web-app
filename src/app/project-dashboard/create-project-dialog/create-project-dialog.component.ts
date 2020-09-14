@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import JsonCloudProvider from '../../clams-ts/json-model/service-catalog/json-cloud-provider';
 import { environment } from '../../../environments/environment';
 import Project from '../../model/project';
-import ClamsProject from '../../clams-ts/model/project';
+import ClamsProject from '../../clams-ts/model/model';
 import CloudProviderFactory from '../../clams-ts/factories/service-catalogs/cloud-provider-factory';
 
 @Component({

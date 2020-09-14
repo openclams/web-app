@@ -67,7 +67,7 @@ export class SequenceDiagramService extends GraphHandler {
 
     this.addNameAttribute(component);
     const componentWrapper = new ComponentWrapper(component);
-    this.graph.project.components.push(componentWrapper);
+    this.graph.model.components.push(componentWrapper);
 
     if (component instanceof TemplateType) {
       element = this.createTemplate(componentWrapper, parent);
@@ -105,7 +105,7 @@ export class SequenceDiagramService extends GraphHandler {
     let innerX = SequenceConfig.TEMPLATE_BOX_STROKE_DISTANCE;
 
     templateType.components.forEach(component => {
-      const componentCopy = ComponentFactory.copy(component, this.graph.project);
+      const componentCopy = ComponentFactory.copy(component, this.graph.model);
       const element = this.createElement(componentCopy, template);
       element.geometry.x = innerX;
       innerX += SequenceConfig.VERTEX_IMAGE_WIDTH_HEIGHT + SequenceConfig.MARGIN_BETWEEN_VERTICES;
@@ -229,10 +229,10 @@ export class SequenceDiagramService extends GraphHandler {
       Utils.removeItemFromArray(element, element.componentWrapper.instances);
       element.edgesOut.forEach(edge => this.onRemoveEdge(edge));
       element.edgesIn.forEach(edge => this.onRemoveEdge(edge));
-      // We need to check if this is the last instance of a component in the project
-      // Remove the project's component, if this was the last instance.
+      // We need to check if this is the last instance of a component in the model
+      // Remove the moodel's component, if this was the last instance.
       if ( element.componentWrapper.instances.length === 0) {
-        Utils.removeItemFromArray(element.componentWrapper, this.graph.project.components);
+        Utils.removeItemFromArray(element.componentWrapper, this.graph.model.components);
       }
     } else if (element instanceof Template) {
       Utils.removeItemFromArray(element , this.graph.nodes);
@@ -260,7 +260,7 @@ export class SequenceDiagramService extends GraphHandler {
 
   searchAndIncrement(name: string) {
     let maxInstance = 0;
-    this.graph.project.components.forEach(cw => {
+    this.graph.model.components.forEach(cw => {
       if (cw.component instanceof Service || cw.component instanceof Pattern) {
         const nameRef = cw.component.getAttribute('name').value;
         const tags = nameRef.match(/(.*?)(\s+\d+$)/);

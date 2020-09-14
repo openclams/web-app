@@ -84,7 +84,7 @@ export class TemplateFactory {
         if (this instanceof Graph) {
             template.graph = this;
 
-            const componentWrapper = this.project.components.find(c => c.component.id === jsonInstance.component);
+            const componentWrapper = this.model.components.find(c => c.component.id === jsonInstance.component);
             template.componentWrapper = componentWrapper;
 
             template.nodes = jsonInstance.nodes.map(jsonNode => NodeFactory.fromJSON.call(this, jsonNode));
@@ -111,7 +111,7 @@ export class InstanceFactory {
         if (this instanceof Graph) {
             instance.graph = this;
             const name = jsonInstance.component;
-            const componentWrapper = this.project.components.find(c => c.component.getAttribute('name').value === name);
+            const componentWrapper = this.model.components.find(c => c.component.getAttribute('name').value === name);
             instance.componentWrapper = componentWrapper;
             componentWrapper.instances.push(instance);
         }

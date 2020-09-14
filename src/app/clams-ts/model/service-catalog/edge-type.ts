@@ -22,16 +22,15 @@ export default  class EdgeType {
   }
 
   /**
-  * Returns the attribute if id exists, and undefined otherwise.
-  * @param id Attribute id
-  */
+   * Returns the attribute if id exists, and undefined otherwise.
+   * @param id Attribute id
+   */
   public getAttribute(id: string): Attribute {
     return this.attributes.find(attribute => attribute.id === id);
   }
 
   /**
    * Attach or repliace an attribute
-   * @param attribute
    */
   public setAttribute(attribute: Attribute) {
     const id = this.attributes.findIndex(a => a.id === attribute.id);

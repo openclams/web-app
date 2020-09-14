@@ -23,12 +23,12 @@ export default class ArrowFactory {
     }
     public static toJSON(arrow: Arrow): JsonEdge {
         const jsonEdge = {
-            'type': arrow.getType(),
-            'from': arrow.from.id,
-            'to': arrow.to.id,
+            type: arrow.getType(),
+            from: arrow.from.id,
+            to: arrow.to.id,
+            p: arrow.probability,
+            shape: {corners: arrow.shape}
         };
-        jsonEdge['p'] = arrow.probability;
-        jsonEdge['shape'] = { 'corners': arrow.shape };
         return jsonEdge;
     }
 }

@@ -40,7 +40,7 @@ export default class MessageFactory {
 
     public static toJSON(message: Message): JsonEdge {
         const jsonEdge = {
-            type: 'Message',
+            type: message.getType(),
             from: message.from.id,
             to: message.to.id,
             position: message.position,

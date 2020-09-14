@@ -18,9 +18,8 @@ export default abstract class Element extends Node {
 
   /**
    * Creating a new element in an sequence diagramm.
-   * @param graph
    * @param componentWrapper A reference to the direct component
-   * item in the components array of project. This reference can
+   * item in the components array of model. This reference can
    * be used to traverse all graphs that contain an element that
    * references the same component.
    */

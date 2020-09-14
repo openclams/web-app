@@ -2,7 +2,7 @@ import ISettable from '../model/ISettable';
 import DataManagement from './data-managment';
 
 /**
- * Store project or graph settings
+ * Store project and  model settings
  */
 export default class Settings {
   /**

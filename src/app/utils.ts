@@ -1,10 +1,10 @@
-import Project from './clams-ts/model/project';
-import ProjectFactory from './clams-ts/factories/project-factory';
+import Model from './clams-ts/model/model';
+import ModelFactory from './clams-ts/factories/model-factory';
 
 export default class Utils{
 
-    public static undoBuffer: Project[] = [];
-    public static redoBuffer: Project[] = [];
+    public static undoBuffer: Model[] = [];
+    public static redoBuffer: Model[] = [];
 
     public static removeItemFromArray(item: any, list: any[]){
         const index = list.indexOf(item, 0);
@@ -13,8 +13,8 @@ export default class Utils{
         }
     }
 
-    public static saveSnapshot(project: Project) {
-        Utils.undoBuffer.push(ProjectFactory.copy(project));
+    public static saveSnapshot(project: Model) {
+        Utils.undoBuffer.push(ModelFactory.copy(project));
     }
 
     public static undoSnapshot() {

@@ -4,7 +4,7 @@ import Pattern from '../../model/service-catalog/pattern';
 import Service from '../../model/service-catalog/service';
 import TemplateType from '../../model/service-catalog/template';
 import AttributeFactory from './attribute-factory';
-import Project from '../../model/project';
+import Model from '../../model/model';
 import RegionFactory from './region-factory';
 import CloudProvider from '../../model/service-catalog/cloud-provider';
 
@@ -14,7 +14,7 @@ export default class ComponentFactory {
         const attributes =  jsonComponent.attributes.map(a => AttributeFactory.fromJSON(a));
 
         let cloudProvider: CloudProvider = null;
-        if (this instanceof Project) {
+        if (this instanceof Model) {
             cloudProvider = this.cloudProviders.find(p => p.target === jsonComponent.targetCloud);
         }
 
@@ -57,8 +57,8 @@ export default class ComponentFactory {
         return jsonComponent;
     }
 
-    public static copy(component: Component, project?: Project): Component {
+    public static copy(component: Component, model?: Model): Component {
         const jsonComponent = ComponentFactory.toJSON(component);
-        return ComponentFactory.fromJSON.call(project, jsonComponent);
+        return ComponentFactory.fromJSON.call(model, jsonComponent);
     }
 }

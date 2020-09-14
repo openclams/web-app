@@ -32,7 +32,7 @@ export default interface JsonEdgeType {
     to: string;
   }[];
 
-   /**
+  /**
    * Constraints to defeine which componentes cannot use this
    * edge type. This includes also child components.
    */
