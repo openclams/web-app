@@ -1,4 +1,4 @@
-import JsonModel from '../json-model/json-model';
+import JsonModel from '../schema/json-model';
 import Model from '../model/model';
 import CloudProviderFactory from './service-catalogs/cloud-provider-factory';
 import ComponentFactory from './service-catalogs/component-factory';

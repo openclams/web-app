@@ -1,4 +1,4 @@
-import JsonRegion from '../../json-model/service-catalog/json-region';
+import JsonRegion from '../../schema/service-catalog/json-region';
 import Region from '../../model/service-catalog/region';
 import CloudProvider from '../../model/service-catalog/cloud-provider';
 

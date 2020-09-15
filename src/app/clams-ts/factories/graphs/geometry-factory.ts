@@ -1,4 +1,4 @@
-import JsonGeometry from '../../json-model/graphs/json-geometry';
+import JsonGeometry from '../../schema/graphs/json-geometry';
 import Geometry from '../../model/graphs/geometry';
 
 export default class GeometryFactory {

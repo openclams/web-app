@@ -1,4 +1,4 @@
-import JsonComponent from '../../json-model/graphs/json-component';
+import JsonComponent from '../../schema/graphs/json-component';
 import Component from '../../model/service-catalog/component';
 import Pattern from '../../model/service-catalog/pattern';
 import Service from '../../model/service-catalog/service';

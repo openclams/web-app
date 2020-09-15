@@ -1,4 +1,4 @@
-import JsonEdgeType from '../../json-model/service-catalog/json-edge-type';
+import JsonEdgeType from '../../schema/service-catalog/json-edge-type';
 import EdgeType from '../../model/service-catalog/edge-type';
 import AttributeFactory from './attribute-factory';
 

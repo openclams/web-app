@@ -1,4 +1,4 @@
-import JsonEdge from '../../json-model/graphs/json-edge';
+import JsonEdge from '../../schema/graphs/json-edge';
 import Edge from '../../model/graphs/edge';
 import ArrowFactory from './arrow-factory';
 import MessageFactory from './message-factory';

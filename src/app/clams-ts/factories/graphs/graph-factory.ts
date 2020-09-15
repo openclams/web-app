@@ -1,4 +1,4 @@
-import JsonGraph from '../../json-model/graphs/json-graph';
+import JsonGraph from '../../schema/graphs/json-graph';
 import Graph from '../../model/graphs/graph';
 import UserProfile from '../../model/graphs/user-profile/user-profile';
 import SequenceDiagram from '../../model/graphs/sequence-diagram/sequence-diagram';

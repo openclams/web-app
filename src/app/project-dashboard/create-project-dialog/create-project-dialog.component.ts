@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import CloudProviderItem from './cloud-provider-item';
 import { HttpClient } from '@angular/common/http';
-import JsonCloudProvider from '../../clams-ts/json-model/service-catalog/json-cloud-provider';
+import JsonCloudProvider from '../../clams-ts/schema/service-catalog/json-cloud-provider';
 import { environment } from '../../../environments/environment';
 import Project from '../../model/project';
 import ClamsProject from '../../clams-ts/model/model';

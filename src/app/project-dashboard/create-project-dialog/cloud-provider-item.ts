@@ -1,5 +1,5 @@
-import JsonCloudProvider from '../../clams-ts/json-model/service-catalog/json-cloud-provider';
-import JsonRegion from '../../clams-ts/json-model/service-catalog/json-region';
+import JsonCloudProvider from '../../clams-ts/schema/service-catalog/json-cloud-provider';
+import JsonRegion from '../../clams-ts/schema/service-catalog/json-region';
 
 export default class CloudProviderItem {
     public provider: JsonCloudProvider;

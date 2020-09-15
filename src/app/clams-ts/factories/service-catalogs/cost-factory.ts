@@ -1,4 +1,4 @@
-import JsonCost from '../../json-model/service-catalog/json-cost';
+import JsonCost from '../../schema/service-catalog/json-cost';
 import Cost from '../../model/service-catalog/cost';
 import RegionFactory from './region-factory';
 

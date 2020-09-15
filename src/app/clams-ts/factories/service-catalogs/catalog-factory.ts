@@ -1,4 +1,4 @@
-import JsonCatalog from '../../json-model/service-catalog/json-catalog';
+import JsonCatalog from '../../schema/service-catalog/json-catalog';
 import Catalog from '../../model/service-catalog/catalog';
 import Component from '../../model/service-catalog/component';
 import Service from '../../model/service-catalog/service';

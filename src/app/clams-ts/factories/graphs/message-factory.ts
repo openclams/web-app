@@ -1,4 +1,4 @@
-import JsonEdge from '../../json-model/graphs/json-edge';
+import JsonEdge from '../../schema/graphs/json-edge';
 import Message from '../../model/graphs/sequence-diagram/message';
 import EdgeTypeFactory from '../service-catalogs/edge-type-factory';
 import SequenceDiagram from '../../model/graphs/sequence-diagram/sequence-diagram';

@@ -1,7 +1,7 @@
 import JsonProjectMeta from './json-project-meta';
 import JsonFrame from './json-frame';
 
-import JsonClamsProject from '../clams-ts/json-model/json-model';
+import JsonClamsProject from '../clams-ts/schema/json-model';
 
 export default interface JsonProject {
     metaData: JsonProjectMeta;

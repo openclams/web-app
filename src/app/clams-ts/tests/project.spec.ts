@@ -2,7 +2,7 @@
 import Model from '../model/model';
 import ModelFactory from '../factories/model-factory';
 import { expect } from 'chai';
-import JsonModel from '../json-model/json-model';
+import JsonModel from '../schema/json-model';
 
 describe('Model', () => {
 

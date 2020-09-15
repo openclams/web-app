@@ -1,6 +1,6 @@
 // tslint:disable: no-unused-expression
 import { expect } from 'chai';
-import JsonCloudProvider from '../json-model/service-catalog/json-cloud-provider';
+import JsonCloudProvider from '../schema/service-catalog/json-cloud-provider';
 import CloudProviderFactory from '../factories/service-catalogs/cloud-provider-factory';
 
 describe('Cloud Providers', () => {

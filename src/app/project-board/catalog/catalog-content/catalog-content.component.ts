@@ -2,7 +2,7 @@ import {Component, OnInit, Input} from '@angular/core';
 import CloudProvider from 'src/app/clams-ts/model/service-catalog/cloud-provider';
 import { HttpClient } from '@angular/common/http';
 import { ProjectService } from 'src/app/project.service';
-import JsonCatalog from 'src/app/clams-ts/json-model/service-catalog/json-catalog';
+import JsonCatalog from 'src/app/clams-ts/schema/service-catalog/json-catalog';
 import Catalog from 'src/app/clams-ts/model/service-catalog/catalog';
 import CatalogFactory from 'src/app/clams-ts/factories/service-catalogs/catalog-factory';
 import Pattern from 'src/app/clams-ts/model/service-catalog/pattern';

@@ -1,4 +1,4 @@
-import JsonEdge from '../../json-model/graphs/json-edge';
+import JsonEdge from '../../schema/graphs/json-edge';
 import Arrow from '../../model/graphs/user-profile/arrow';
 import UserProfile from '../../model/graphs/user-profile/user-profile';
 import State from '../../model/graphs/user-profile/state';

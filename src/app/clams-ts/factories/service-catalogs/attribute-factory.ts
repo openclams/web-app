@@ -1,4 +1,4 @@
-import JsonAttribute from '../../json-model/service-catalog/json-attribute';
+import JsonAttribute from '../../schema/service-catalog/json-attribute';
 import Attribute from '../../model/service-catalog/attribute';
 import CostFactory from './cost-factory';
 import Cost from '../../model/service-catalog/cost';

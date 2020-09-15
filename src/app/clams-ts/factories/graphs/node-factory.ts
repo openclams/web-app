@@ -1,4 +1,4 @@
-import JsonNode from '../../json-model/graphs/json-node';
+import JsonNode from '../../schema/graphs/json-node';
 import Dot from '../../model/graphs/user-profile/dot';
 import State from '../../model/graphs/user-profile/state';
 import Template from '../../model/graphs/sequence-diagram/template';

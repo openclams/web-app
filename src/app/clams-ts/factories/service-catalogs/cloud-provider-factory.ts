@@ -1,5 +1,5 @@
 import CloudProvider from '../../model/service-catalog/cloud-provider';
-import JsonCloudProvider from '../../json-model/service-catalog/json-cloud-provider';
+import JsonCloudProvider from '../../schema/service-catalog/json-cloud-provider';
 import RegionFactory from './region-factory';
 
 export  default class CloudProviderFactory {
