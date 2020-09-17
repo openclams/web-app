@@ -13,7 +13,7 @@ export default abstract class RenderEngine {
 
     showMarker: boolean;
 
-    isRemoved:boolean = true;
+    isRemoved = true;
 
     graphHandler: GraphHandler;
 
@@ -73,8 +73,8 @@ export default abstract class RenderEngine {
 
     public selectElements(nodeBuffer: Node[], edgeBuffer: Edge[]) {
         const cells = [];
-        nodeBuffer.map(n => this.mgraph.getModel().getCell(n.id)).forEach(n=> cells.push(n));
-        edgeBuffer.map(n => this.mgraph.getModel().getCell(n.getId())).forEach(n=> cells.push(n));
+        nodeBuffer.map(n => this.mgraph.getModel().getCell(n.id)).forEach(n => cells.push(n));
+        edgeBuffer.map(n => this.mgraph.getModel().getCell(n.getId())).forEach(n => cells.push(n));
         this.mgraph.setSelectionCells(cells);
       }
 
@@ -85,11 +85,11 @@ export default abstract class RenderEngine {
                 event.getProperty('eventName') === 'mouseUp') {
                 this.onMouseMove(event.getProperty('event').graphX,
                                 event.getProperty('event').graphY);
-            }else{
-              // console.log(event);
+            } else {
+              //console.log(event);
             }
             if ( event.getName() === 'fireMouseEvent' &&
-                event.getProperty('eventName') === 'mouseDown' ){
+                event.getProperty('eventName') === 'mouseDown' ) {
                 // One mouse down check if we selected an edge
                 if ('sourceState' in event.getProperty('event') &&
                     event.getProperty('event').sourceState !== undefined &&
@@ -100,10 +100,10 @@ export default abstract class RenderEngine {
                     }
                 }
             }
-            if(event.getName() === 'size' && this.edgeCell !== null){
+            if (event.getName() === 'size' && this.edgeCell !== null) {
                 // If the follow up event is an size event
                 // the points of the edge has been changed
-                console.log('[OC] onChangeEdge', this.edgeCell);
+                console.log('[OC] onChangeEdge size', this.edgeCell);
                 this.onChangeEdge(this.edgeCell);
                 this.edgeCell = null;
             }
@@ -131,7 +131,7 @@ export default abstract class RenderEngine {
             const newValue = event.properties.value;
             const oldValue = event.properties.old;
             const cell = event.properties.cell;
-            console.log('[OC] onChangeEdge', cell, newValue, oldValue);
+            console.log('[OC] onChangeEdge label', cell, newValue, oldValue);
             if (cell && 'edge' in cell && cell.edge === true) {
                 this.onChangeEdge(cell);
             }
@@ -143,7 +143,7 @@ export default abstract class RenderEngine {
             if (cell && 'edge' in cell && cell.edge === true) {
                 console.log('[OC] onSelectEdge ', cell );
                 this.onSelectEdge(cell);
-            } else  if (cell){
+            } else  if (cell) {
                 console.log('[OC] onSelectNode ', cell );
                 this.onSelectNode(cell);
             }
@@ -155,7 +155,7 @@ export default abstract class RenderEngine {
             if (cell && 'edge' in cell && cell.edge === true) {
                 console.log('[OC] onUnselectEdge ', cell );
                 this.onUnselectEdge(cell);
-            } else  if (cell){
+            } else  if (cell) {
                 console.log('[OC] onUnselectNode ', cell );
                 this.onUnselectNode(cell);
             }

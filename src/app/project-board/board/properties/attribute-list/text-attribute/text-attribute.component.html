@@ -1,0 +1,11 @@
+<div *ngIf="writeable; then enableAttribute else disableAttribute"></div>
+
+<ng-template #enableAttribute>
+<mat-form-field>
+    <input matInput="Name" [(ngModel)]="attribute.value" >
+</mat-form-field>
+</ng-template>
+
+<ng-template #disableAttribute>
+{{attribute.value}}
+</ng-template>

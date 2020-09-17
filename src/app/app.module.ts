@@ -49,6 +49,12 @@ import { CommandBarComponent } from './command-bar/command-bar.component';
 import { PropertiesComponent } from './project-board/board/properties/properties.component';
 import { LicensesComponent } from './licenses/licenses.component';
 import { CreditsComponent } from './credits/credits.component';
+import { AttributeListComponent } from './project-board/board/properties/attribute-list/attribute-list.component';
+import { TextAttributeComponent } from './project-board/board/properties/attribute-list/text-attribute/text-attribute.component';
+import { NumberAttributeComponent } from './project-board/board/properties/attribute-list/number-attribute/number-attribute.component';
+import { EnumAttributeComponent } from './project-board/board/properties/attribute-list/enum-attribute/enum-attribute.component';
+import { CostAttributeComponent } from './project-board/board/properties/attribute-list/cost-attribute/cost-attribute.component';
+import { ComponentTreeComponent } from './project-board/board/properties/component-tree/component-tree.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +77,13 @@ import { CreditsComponent } from './credits/credits.component';
     CommandBarComponent,
     PropertiesComponent,
     LicensesComponent,
-    CreditsComponent
+    CreditsComponent,
+    AttributeListComponent,
+    TextAttributeComponent,
+    NumberAttributeComponent,
+    EnumAttributeComponent,
+    CostAttributeComponent,
+    ComponentTreeComponent
   ],
   imports: [
     HttpClientModule,

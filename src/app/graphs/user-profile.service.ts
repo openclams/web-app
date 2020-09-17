@@ -29,28 +29,27 @@ export class UserProfileService extends GraphHandler {
               private userProfileRenderService: UserProfileRenderService ) {
     super();
     userProfileRenderService.graphHandler = this;
-    this.initGraphObserver(this.graphService.graphObserver);
+    this.initGraphObserver(this.graphService);
   }
 
-  public initGraphObserver(observer: Observable<GraphEvent>) {
-    super.initGraphObserver(observer);
-    observer.subscribe(graphEvent => {
+  public initGraphObserver(graphService: GraphService) {
+    super.initGraphObserver(graphService);
+    this.graphService.addGraphListener(GraphEventType.DRAG_END, graph => {
       if (!this.isActive) {return; }
-      if (graphEvent.type === GraphEventType.DRAG_END) {
-        if (!(graphEvent.graph instanceof SequenceDiagram)) {
-          // We only allow for SQDs to be draged in;
-          return;
-        }
-        if (this.userProfileRenderService.mouseIsOver) {
-          this.createState(graphEvent.graph);
-          this.userProfileRenderService.draw();
-        }
-      } else if (graphEvent.type === GraphEventType.REMOVED) {
-        // When we removed a grpah we redraw the model
+      if (!(graph instanceof SequenceDiagram)) {
+        // We only allow for SQDs to be draged in;
+        return;
+      }
+      if (this.userProfileRenderService.mouseIsOver) {
+        this.createState(graph);
         this.userProfileRenderService.draw();
       }
     });
-}
+    this.graphService.addGraphListener(GraphEventType.REMOVED, () => {
+      // When we removed a grpah we redraw the model
+      this.userProfileRenderService.draw();
+    });
+  }
 
   public selectAll() {
     super.selectAll();
@@ -119,7 +118,7 @@ export class UserProfileService extends GraphHandler {
   }
 
   onDoubleClickNode(node: Node) {
-    this.graphService.update(GraphEventType.OPEN, ( node as State).sequenceDiagram);
+    this.graphService.triggerGraphEvent(GraphEventType.OPEN, ( node as State).sequenceDiagram);
   }
 
   onDoubleClickEdge(edge: Edge) {
@@ -166,7 +165,7 @@ export class UserProfileService extends GraphHandler {
   onUnselectEdge(edge: Edge) {
     const index = this.edgeSelectionBuffer.findIndex(e => e.from === edge.from && e.to === edge.to);
     if (index > -1) {
-      this.graph.edges.splice(index, 1);
+      this.edgeSelectionBuffer.splice(index, 1);
     }
   }
 

@@ -7,9 +7,10 @@ import Catalog from 'src/app/clams-ts/model/service-catalog/catalog';
 import CatalogFactory from 'src/app/clams-ts/factories/service-catalogs/catalog-factory';
 import Pattern from 'src/app/clams-ts/model/service-catalog/pattern';
 import { GraphService } from 'src/app/graph.service';
-import { ComponentEventType } from 'src/app/events/component-event-type';
+import { ElementEventType } from 'src/app/events/element-event-type';
 import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
 import ComponentFactory from 'src/app/clams-ts/factories/service-catalogs/component-factory';
+import { ComponentEventType } from 'src/app/events/component-event-type';
 
 
 @Component({
@@ -47,12 +48,12 @@ export class CatalogContentComponent implements OnInit {
 
   dragEnd(component: ClamsComponent): void {
     const componentCopy = ComponentFactory.copy(component, this.projectService.project.model);
-    this.graphService.updateComponent(ComponentEventType.DRAG_END, componentCopy);
+    this.graphService.triggerComponentEvent(ComponentEventType.DRAG_END, componentCopy);
   }
 
   dragStart(): void {
     console.log("Start Drag")
-    this.graphService.updateComponent(ComponentEventType.DRAGGING, null);
+    this.graphService.triggerComponentEvent(ComponentEventType.DRAGGING);
   }
 
 }

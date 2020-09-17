@@ -10,7 +10,7 @@ import Instance from '../clams-ts/model/graphs/sequence-diagram/instance';
 import Element from '../clams-ts/model/graphs/sequence-diagram/element';
 import Utils from '../utils';
 import Template from '../clams-ts/model/graphs/sequence-diagram/template';
-import { ComponentEventType } from '../events/component-event-type';
+import { ElementEventType } from '../events/element-event-type';
 import Component from '../clams-ts/model/service-catalog/component';
 import TemplateType from '../clams-ts/model/service-catalog/template';
 import ComponentWrapper from '../clams-ts/model/service-catalog/component-wrapper';
@@ -22,6 +22,7 @@ import ComponentFactory from '../clams-ts/factories/service-catalogs/component-f
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import EdgeType from '../clams-ts/model/service-catalog/edge-type';
+import { ComponentEventType } from '../events/component-event-type';
 
 @Injectable({
   providedIn: 'root'
@@ -33,17 +34,17 @@ export class SequenceDiagramService extends GraphHandler {
               private sequenceDiagramRenderService: SequenceDiagramRenderService) {
     super();
     sequenceDiagramRenderService.graphHandler = this;
-    this.initGraphObserver(this.graphService.graphObserver);
-    this.graphService.sequenceDiagramObserver.subscribe(componentEvent => {
+    this.initGraphObserver(this.graphService);
+    this.graphService.addComponentListener(ComponentEventType.DRAG_END, component =>{
       if (!this.isActive) {return; }
-      if (componentEvent.type === ComponentEventType.DRAG_END) {
-        if (this.sequenceDiagramRenderService.mouseIsOver) {
-          this.createElement(componentEvent.component);
-          this.sequenceDiagramRenderService.draw();
-        }
-      } else if (componentEvent.type === ComponentEventType.DRAW) {
+      if (this.sequenceDiagramRenderService.mouseIsOver) {
+        this.createElement(component);
         this.sequenceDiagramRenderService.draw();
       }
+    });
+    this.graphService.addComponentListener(ComponentEventType.DRAW, () =>{
+      if (!this.isActive) {return; }
+      this.sequenceDiagramRenderService.draw();
     });
   }
 
@@ -204,7 +205,7 @@ export class SequenceDiagramService extends GraphHandler {
 
   onDoubleClickNode(node: Node) {
     const element = node as Element;
-    this.graphService.updateComponent(ComponentEventType.SHOW_DETAILS, element.component, element);
+    this.graphService.triggerElementEvent(ElementEventType.SHOW_DETAILS, element);
   }
 
   onDoubleClickEdge(edge: Edge) {
@@ -212,6 +213,7 @@ export class SequenceDiagramService extends GraphHandler {
   }
 
   onChangeEdge(edge: Edge, label: string) {
+    console.log("change");
     // Change the name of the edge
     return;
   }
@@ -250,12 +252,15 @@ export class SequenceDiagramService extends GraphHandler {
   }
 
   onConnect(edge: Edge) {
+    console.log("connect");
     const message = edge as Message;
-    message.type = this.createDefaultEdgeType();
-    (message.from as Instance).edgesOut.push(message);
-    (message.to as Instance).edgesIn.push(message);
-    this.graph.edges.push(message);
-    this.sequenceDiagramRenderService.draw();
+    if( message.from !== message.to){
+      message.type = this.createDefaultEdgeType();
+      (message.from as Instance).edgesOut.push(message);
+      (message.to as Instance).edgesIn.push(message);
+      this.graph.edges.push(message);
+      this.sequenceDiagramRenderService.draw();
+    }
   }
 
   searchAndIncrement(name: string) {

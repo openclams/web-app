@@ -1,0 +1,30 @@
+<!-- <mat-accordion  multi>
+    <mat-expansion-panel  *ngFor="let attribute of component.attributes">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{attribute.name}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{attribute.description}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      {{attribute.value}}
+  
+    </mat-expansion-panel>
+</mat-accordion> -->
+
+<mat-action-list>
+    <div  *ngFor="let attribute of attributes">
+        <div mat-subheader> {{attribute.name}}</div>
+        <mat-list-item [ngSwitch]="attribute.type">
+            <app-text-attribute *ngSwitchCase="'text'" [attribute]="attribute"></app-text-attribute>
+            <app-number-attribute *ngSwitchCase="'number'" [attribute]="attribute"></app-number-attribute>
+            <app-enum-attribute *ngSwitchCase="'enum'" [attribute]="attribute"></app-enum-attribute>
+            <app-cost-attribute *ngSwitchCase="'cost'" [component]="component"></app-cost-attribute>
+            <app-text-attribute *ngSwitchDefault  [attribute]="attribute"></app-text-attribute>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+    </div>
+</mat-action-list>
+

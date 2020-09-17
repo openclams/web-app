@@ -7,8 +7,7 @@ import { UserProfileService } from 'src/app/graphs/user-profile.service';
 import UserProfile from 'src/app/clams-ts/model/graphs/user-profile/user-profile';
 import SequenceDiagram from 'src/app/clams-ts/model/graphs/sequence-diagram/sequence-diagram';
 import { SequenceDiagramService } from 'src/app/graphs/sequence-diagram.service';
-import { ComponentEventType } from 'src/app/events/component-event-type';
-import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
+import { ElementEventType } from 'src/app/events/element-event-type';
 import Element from 'src/app/clams-ts/model/graphs/sequence-diagram/element';
 
 @Component({
@@ -18,7 +17,6 @@ import Element from 'src/app/clams-ts/model/graphs/sequence-diagram/element';
 })
 export class BoardComponent implements OnInit {
 
-  component: ClamsComponent;
   element: Element;
 
   @Input() frame: Frame;
@@ -35,21 +33,23 @@ export class BoardComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.graphSeverice.graphObserver.subscribe(graphEvent => {
-        if (graphEvent.type === GraphEventType.REMOVED ||
-            graphEvent.type === GraphEventType.CLOSED) {
-          this.closeGraph(graphEvent.graph);
-        } else if (graphEvent.type === GraphEventType.OPEN ||
-                  graphEvent.type === GraphEventType.NEW ) {
-          this.setActiveGraph(graphEvent.graph);
-        }
+    this.graphSeverice.addGraphListener(GraphEventType.REMOVED, graph => {
+      this.closeGraph(graph);
     });
-    this.graphSeverice.sequenceDiagramObserver.subscribe(componentEvent=>{
-      if(componentEvent.type === ComponentEventType.SHOW_DETAILS){
-        this.showInfo = true;
-        this.component = componentEvent.component;
-        this.element = componentEvent.element;
-      }
+    this.graphSeverice.addGraphListener(GraphEventType.CLOSED, graph => {
+      this.closeGraph(graph);
+    });
+
+    this.graphSeverice.addGraphListener(GraphEventType.OPEN, graph => {
+      this.setActiveGraph(graph);
+    });
+    this.graphSeverice.addGraphListener(GraphEventType.NEW, graph => {
+      this.setActiveGraph(graph);
+    });
+
+    this.graphSeverice.addElementListener(ElementEventType.SHOW_DETAILS, element =>{
+      this.showInfo = true;
+      this.element = element;
     });
   }
 
@@ -112,7 +112,7 @@ export class BoardComponent implements OnInit {
 
 
   closeTab(graph: Graph) {
-    this.graphSeverice.update(GraphEventType.CLOSED, graph);
+    this.graphSeverice.triggerGraphEvent(GraphEventType.CLOSED, graph);
   }
 
   closeInfo() {

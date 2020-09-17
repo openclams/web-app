@@ -24,6 +24,7 @@ export class ProjectBoardComponent implements OnInit {
         this.project = project;
         this.projectService.set(project);
       }).catch(res => {
+        console.log("error");
         this.projectNotFound = true;
       });
     });

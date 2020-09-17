@@ -23,12 +23,12 @@ export class ProjectService {
 
   constructor(private graphService: GraphService) {
     this.project = null;
-    this.graphService.graphObserver.subscribe(graphEvent => {
-      if (graphEvent.type === GraphEventType.REMOVE) {
-        this.removeGraph(graphEvent.graph);
-      } else if ( graphEvent.type === GraphEventType.NEW ) {
-        this.addGraph(graphEvent.graph);
-      }
+    this.graphService.addGraphListener(GraphEventType.REMOVED, graph => {
+      this.removeGraph(graph);
+    });
+    this.graphService.addGraphListener(GraphEventType.NEW, graph => {
+      // When we removed a grpah we redraw the model
+      this.addGraph(graph);
     });
   }
 
@@ -75,7 +75,7 @@ export class ProjectService {
         return state.sequenceDiagram === graph;
       }).forEach( match => this.removeState(match, g) );
     });
-    this.graphService.update(GraphEventType.REMOVED, graph);
+    this.graphService.triggerGraphEvent(GraphEventType.REMOVED, graph);
     // const gidx = this.project.model.graphs.findIndex(g => g.id === graph.id);
     // if (gidx !== null) {
     //   this.project.model.graphs.splice(gidx, 1);

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { GraphEvent } from '../events/graph-event';
 import { GraphEventType } from '../events/graph-event-type';
 import Utils from '../utils';
+import { GraphService } from '../graph.service';
 
 
 export default abstract class GraphHandler {
@@ -24,14 +25,14 @@ export default abstract class GraphHandler {
     }
 
 
-    public initGraphObserver(observer: Observable<GraphEvent>) {
-        observer.subscribe(graphEvent => {
+    public initGraphObserver(graphService: GraphService) {
+        graphService.addGraphListener(GraphEventType.SELECT_ALL,()=>{
             if (!this.isActive) {return; }
-            if (graphEvent.type === GraphEventType.SELECT_ALL) {
-                this.selectAll();
-            } else if (graphEvent.type === GraphEventType.REMOVE_SELECTION) {
-                this.removeSelection();
-            }
+            this.selectAll();
+        });
+        graphService.addGraphListener( GraphEventType.REMOVE_SELECTION,()=>{
+            if (!this.isActive) {return; }
+            this.removeSelection();
         });
     }
 

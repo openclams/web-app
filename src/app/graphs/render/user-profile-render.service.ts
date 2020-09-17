@@ -25,13 +25,12 @@ export class UserProfileRenderService extends RenderEngine {
   constructor(private graphService: GraphService) {
     super();
     this.showMarker = false;
-    this.graphService.graphObserver.subscribe(graphEvent => {
-      if (graphEvent.type === GraphEventType.DRAGGING) {
-          this.showMarker = true;
-      } else if (graphEvent.type === GraphEventType.DRAG_END) {
-          this.showMarker = false;
-          this.removeMarker();
-      }
+    this.graphService.addGraphListener(GraphEventType.DRAGGING, () => {
+      this.showMarker = true;
+    });
+    this.graphService.addGraphListener(GraphEventType.DRAG_END, () => {
+      this.showMarker = false;
+      this.removeMarker();
     });
   }
 
@@ -205,7 +204,7 @@ export class UserProfileRenderService extends RenderEngine {
   private createArrow(edge: Edge) {
     const arrow = edge as Arrow & {wrongValue: boolean};
     let styleString = Styles.arrow().asString();
-    if('wrongValue' in arrow && arrow.wrongValue){
+    if ('wrongValue' in arrow && arrow.wrongValue) {
       styleString = Styles.redArrow().asString();
     }
 
@@ -217,7 +216,7 @@ export class UserProfileRenderService extends RenderEngine {
       this.mgraph.getModel().getCell(arrow.to.id),
       styleString
     );
-    medge.geometry['points'] = arrow.shape;
+    medge.geometry.points = arrow.shape;
   }
 
   // Handlers
@@ -225,7 +224,7 @@ export class UserProfileRenderService extends RenderEngine {
     super.onMouseMove(x, y);
     if (this.showMarker && this.mouseIsOver) {
       this.moveMarker({x, y});
-    }else{
+    } else {
       this.removeMarker();
     }
   }
@@ -256,25 +255,17 @@ export class UserProfileRenderService extends RenderEngine {
   }
 
   protected onChangeEdge(cell: any): void {
-    let arrow = cell.value;
-    if(typeof arrow === 'string'){
-      const value = arrow;
-      // When we change the label of an arrow
-      // mxgraph replaces the the arrow with an string
-      // so we need to infer the initial arrow form the 
-      // source and target of this edge
-      const sourceCell = this.mgraph.getModel().getTerminal(cell, true);
-      const targetCell = this.mgraph.getModel().getTerminal(cell, false);
-      arrow = (sourceCell.value as State).edgesOut.find( edge => edge.to === (targetCell.value as State)) as Arrow;
-      this.graphHandler.onChangeEdge(arrow, value );
-      return;
-    }
-
-    if (arrow instanceof Arrow) {
+    const arrow = this.graph.edges.find(e => e.getId() ===  cell.id) as Arrow;
+    if ( arrow ) {
+      let label = null;
+      if (typeof cell.value === 'string') {
+        label = cell.value;
+      }
       arrow.shape = cell.geometry.points;
-      this.graphHandler.onChangeEdge(arrow, null);
+      this.graphHandler.onChangeEdge(arrow, label);
     }
   }
+
   protected onSelectNode(cell: any): void {
     const state = cell.value;
     if (state instanceof State && !(state instanceof Dot)) {
@@ -356,7 +347,7 @@ export class UserProfileRenderService extends RenderEngine {
   }
 
   removeMarker() {
-    if(this.isRemoved){ return;}
+    if (this.isRemoved) { return; }
     const markerCell = this.getMarker();
     this.mgraph.getModel().remove(markerCell);
     this.isRemoved = true;

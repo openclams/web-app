@@ -17,7 +17,7 @@ import { CdkDragDrop, moveItemInArray, CdkDragSortEvent } from '@angular/cdk/dra
 })
 export class GraphListComponent implements OnInit {
 
-  displayedColumns: string[] = ['drag','type', 'name', 'actions'];
+  displayedColumns: string[] = ['drag', 'type', 'name', 'actions'];
   dataSource: MatTableDataSource<Graph>;
 
   @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -29,9 +29,12 @@ export class GraphListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.graphService.graphObserver.subscribe(graphEvent => {
-      // Update the tabel for every graph event
-      this.dataSource.data = this.getGraphs();
+    console.log('Init graph listners for list');
+    Object.values(GraphEventType).forEach(type => {
+      if (isNaN(Number(type))) { return; }
+      this.graphService.addGraphListener(Number(type), () => {
+        this.dataSource.data = this.getGraphs();
+      });
     });
   }
 
@@ -51,7 +54,7 @@ export class GraphListComponent implements OnInit {
 
 
   openGraph(graph: Graph) {
-    this.graphService.update(GraphEventType.OPEN, graph);
+    this.graphService.triggerGraphEvent(GraphEventType.OPEN, graph);
   }
 
   getGraphs(): Graph[] {
@@ -63,7 +66,7 @@ export class GraphListComponent implements OnInit {
   }
 
   deleteGraph(graph: Graph) {
-    this.graphService.update(GraphEventType.REMOVE, graph);
+    this.graphService.triggerGraphEvent(GraphEventType.REMOVE, graph);
   }
 
   editGraph(graph: Graph) {
@@ -75,7 +78,7 @@ export class GraphListComponent implements OnInit {
         return;
       }
       graph.name = result.name;
-      this.graphService.update(GraphEventType.CHANGED, graph);
+      this.graphService.triggerGraphEvent(GraphEventType.CHANGED, graph);
     });
   }
 
@@ -84,14 +87,14 @@ export class GraphListComponent implements OnInit {
    * @param dragEvent Mouse drag event
    */
   drag(graph: Graph): void {
-    this.graphService.update(GraphEventType.DRAGGING, graph);
+    this.graphService.triggerGraphEvent(GraphEventType.DRAGGING, graph);
   }
 
   drop(event: CdkDragDrop<Graph[]>) {
     const graph = event.item.data as Graph;
     moveItemInArray(this.getGraphs(), event.previousIndex, event.currentIndex);
     this.dataSource.data = this.getGraphs();
-    this.graphService.update(GraphEventType.DRAG_END, graph);
+    this.graphService.triggerGraphEvent(GraphEventType.DRAG_END, graph);
   }
 }
 

@@ -44,7 +44,8 @@ export class ProjectManager {
                     throw new Error("Project not found!");
                 }
                 DataManagement.storageDirver.put(DataManagement.KEY_LAST_PROJECT_ID, jsonProject.metaData.id);
-                return ProjectFactory.fromJSON(jsonProject);
+                const project = ProjectFactory.fromJSON(jsonProject);
+                return project;
             },
             reason => {
                 return null;

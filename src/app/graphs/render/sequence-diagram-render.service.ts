@@ -12,6 +12,7 @@ import Node from 'src/app/clams-ts/model/graphs/node';
 import { Styles } from './configs/styles';
 import Instance from 'src/app/clams-ts/model/graphs/sequence-diagram/instance';
 import Template from 'src/app/clams-ts/model/graphs/sequence-diagram/template';
+import { ElementEventType } from 'src/app/events/element-event-type';
 import { ComponentEventType } from 'src/app/events/component-event-type';
 
 
@@ -23,18 +24,17 @@ declare var mxGeometry: any;
 @Injectable({
   providedIn: 'root'
 })
-export class SequenceDiagramRenderService extends RenderEngine{
+export class SequenceDiagramRenderService extends RenderEngine {
 
   constructor(private graphService: GraphService) {
     super();
     this.showMarker = false;
-    this.graphService.sequenceDiagramObserver.subscribe(componentEvent => {
-      if (componentEvent.type === ComponentEventType.DRAGGING) {
-          this.showMarker = true;
-      } else if (componentEvent.type === ComponentEventType.DRAG_END) {
-          this.showMarker = false;
-          this.removeMarker();
-      }
+    this.graphService.addComponentListener(ComponentEventType.DRAGGING, () => {
+      this.showMarker = true;
+    });
+    this.graphService.addComponentListener(ComponentEventType.DRAG_END, () => {
+        this.showMarker = false;
+        this.removeMarker();
     });
   }
 
@@ -54,7 +54,7 @@ export class SequenceDiagramRenderService extends RenderEngine{
 
     // this.graph.panningHandler.useLeftButtonForPanning = true;
 
-    //this.mgraph.setPanning(true);
+    // this.mgraph.setPanning(true);
   }
 
   /**
@@ -93,11 +93,11 @@ export class SequenceDiagramRenderService extends RenderEngine{
     // Donot apply auto-size when cells are added
     // this.graph.autoSizeCellsOnAdd = false;
     // Allows moving of relative cells
-    this.mgraph.isCellLocked = function (cell) {
+    this.mgraph.isCellLocked = function(cell) {
       return this.isCellsLocked();
     };
     // Enables wrapping for vertex labels
-    this.mgraph.isWrapping = function (cell) {
+    this.mgraph.isWrapping = function(cell) {
       return this.model.isCollapsed(cell);
     };
     // Do not update the cell size after a
@@ -225,7 +225,7 @@ export class SequenceDiagramRenderService extends RenderEngine{
     const lifeLineCells = [];
     // Add lifeline
     const x = (SequenceConfig.VERTEX_IMAGE_WIDTH_HEIGHT + SequenceConfig.LIFELINE_WIDTH) / 2;
-
+    // const numSegements = Math.max(50,50);
     for (let i = 0; i < 50; i++) {
       // offest by 5 px
       const y = SequenceConfig.VERTEX_IMAGE_WIDTH_HEIGHT + i * 5;
@@ -303,7 +303,7 @@ export class SequenceDiagramRenderService extends RenderEngine{
     super.onMouseMove(x, y);
   }
 
-  public updateMarkerPosition(x:number){
+  public updateMarkerPosition(x: number) {
     if (this.showMarker && this.mouseIsOver) {
       this.moveMarker({x,  y: SequenceConfig.VERTEX_TOP_MARGIN});
     } else {
@@ -337,7 +337,15 @@ export class SequenceDiagramRenderService extends RenderEngine{
   }
 
   protected onChangeEdge(cell: any): void {
-    return;
+    // const message = cell.value;
+    // const sourceCell = this.mgraph.getModel().getTerminal(cell, true);
+    // const targetCell = this.mgraph.getModel().getTerminal(cell, false);
+
+    // const newMessage = new Message();
+    // newMessage.from = sourceCell.
+    // if (message instanceof Message) {
+    //   this.graphHandler.onChangeEdge(message);
+    // }
   }
 
   protected onSelectNode(cell: any): void {
@@ -364,6 +372,7 @@ export class SequenceDiagramRenderService extends RenderEngine{
       this.graphHandler.onUnselectEdge(message);
     }
   }
+
   protected onRemoveNode(cell: any): void {
     const element = cell.value;
     if (element instanceof Element) {
@@ -421,7 +430,7 @@ export class SequenceDiagramRenderService extends RenderEngine{
   }
 
   removeMarker() {
-    if(this.isRemoved){ return;}
+    if (this.isRemoved) { return; }
     const markerCell = this.getMarker();
     this.mgraph.getModel().remove(markerCell);
     this.isRemoved = true;

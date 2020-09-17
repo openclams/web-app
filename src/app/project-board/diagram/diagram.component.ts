@@ -72,7 +72,7 @@ export class DiagramComponent implements OnInit {
       graph.name = result.name;
 
       // Annonce that at new graph has been created
-      this.graphService.update(GraphEventType.NEW, graph);
+      this.graphService.triggerGraphEvent(GraphEventType.NEW, graph);
     });
   }
 
@@ -97,11 +97,11 @@ export class DiagramComponent implements OnInit {
   }
 
   selectAll(){
-    this.graphService.update(GraphEventType.SELECT_ALL, null);
+    this.graphService.triggerGraphEvent(GraphEventType.SELECT_ALL, null);
   }
 
   deleteSelection(){
-    this.graphService.update(GraphEventType.REMOVE_SELECTION, null);
+    this.graphService.triggerGraphEvent(GraphEventType.REMOVE_SELECTION, null);
   }
 
   undo(){

@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
 import { ProjectService } from 'src/app/project.service';
 import { GraphService } from 'src/app/graph.service';
-import { ComponentEventType } from 'src/app/events/component-event-type';
+import { ElementEventType } from 'src/app/events/element-event-type';
 import Element from 'src/app/clams-ts/model/graphs/sequence-diagram/element';
 import ComponentFactory from 'src/app/clams-ts/factories/service-catalogs/component-factory';
 import ComponentWrapper from 'src/app/clams-ts/model/service-catalog/component-wrapper';
@@ -16,18 +16,18 @@ import { Subscription } from 'rxjs';
 })
 export class PropertiesComponent implements OnInit {
 
-  oldName:string;
+
   name: string;
   public filteredPossibleInstances: ComponentWrapper[] = [];
 
-  @Input() component: ClamsComponent;
   @Input() element: Element;
+  component: ClamsComponent;
 
   constructor(private projectService: ProjectService, private graphSeverice: GraphService) { }
 
   ngOnInit() {
-    this.name = this.component.getAttribute('name').value;
-    this.oldName = this.component.getAttribute('name').value;
+    this.name = this.element.component.getAttribute('name').value;
+    this.component = this.element.component;
   }
 
   updateFilter() {
@@ -42,7 +42,6 @@ export class PropertiesComponent implements OnInit {
   }
 
   existsName(name): boolean {
-    //if(name === this.oldName){return true;}
     return this.projectService.project.model.components.findIndex(cw => cw.component.getAttribute('name').value === name) > -1;
   }
 

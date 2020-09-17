@@ -3,8 +3,11 @@ import { Observable, Subject } from 'rxjs';
 import { GraphEvent } from './events/graph-event';
 import { GraphEventType } from './events/graph-event-type';
 import Graph from './clams-ts/model/graphs/graph';
-import { ComponentEventType } from './events/component-event-type';
+import Element from './clams-ts/model/graphs/sequence-diagram/element';
+import { ElementEventType } from './events/element-event-type';
 import Component from './clams-ts/model/service-catalog/component';
+import { ElementEvent } from './events/element-event';
+import { ComponentEventType } from './events/component-event-type';
 import { ComponentEvent } from './events/component-event';
 
 @Injectable({
@@ -12,22 +15,64 @@ import { ComponentEvent } from './events/component-event';
 })
 export class GraphService {
 
-  private graphSource = new Subject<GraphEvent>();
-  private sequenceDiagramSource = new Subject<ComponentEvent>();
+  private graphSources: Record<string, Subject<Graph>>;
+  private elementSources: Record<string, Subject<Element>>;
+  private componentSources: Record<string, Subject<Component>>;
 
-  public sequenceDiagramObserver: Observable<ComponentEvent>;
-  public graphObserver: Observable<GraphEvent>;
+  private graphObserver: Record<string, Observable<Graph>>;
+  private elementObserver: Record<string, Observable<Element>>;
+  private componentObserver: Record<string, Observable<Component>>;
+
 
   constructor() {
-    this.graphObserver = this.graphSource.asObservable();
-    this.sequenceDiagramObserver = this.sequenceDiagramSource.asObservable();
+    this.graphSources = {};
+    this.elementSources = {};
+    this.componentSources = {};
+
+    this.graphObserver = {};
+    this.elementObserver = {};
+    this.componentObserver = {};
+
+    Object.values(GraphEventType).forEach(type => {
+      if (isNaN(Number(type))) { return; }
+      this.graphSources[type] = new Subject<Graph>();
+      this.graphObserver[type] = this.graphSources[type].asObservable();
+    });
+
+    Object.keys(ElementEventType).forEach(type => {
+      if (isNaN(Number(type))) { return; }
+      this.elementSources[type] = new Subject<Element>();
+      this.elementObserver[type] = this.elementSources[type].asObservable();
+    });
+
+    Object.keys(ComponentEventType).forEach(type => {
+      if (isNaN(Number(type))) { return; }
+      this.componentSources[type] = new Subject<Component>();
+      this.componentObserver[type] = this.componentSources[type].asObservable();
+    });
   }
 
-  update(graphEventType: GraphEventType, graph: Graph) {
-    this.graphSource.next({ type: graphEventType, graph });
+  addGraphListener(graphEventType: GraphEventType, fn: (graph: Graph) => void): any {
+    return this.graphObserver[graphEventType].subscribe(fn);
   }
 
-  updateComponent(componentEventType: ComponentEventType, component: Component, element=null) {
-    this.sequenceDiagramSource.next({ type: componentEventType, component,element});
+  addComponentListener(componentEventType: ComponentEventType, fn: (component: Component) => void): any {
+    return this.componentObserver[componentEventType].subscribe(fn);
+  }
+
+  addElementListener(elementEventType: ElementEventType, fn: (element: Element) => void): any {
+    return this.elementObserver[elementEventType].subscribe(fn);
+  }
+
+  triggerGraphEvent(graphEventType: GraphEventType, graph?: Graph) {
+    this.graphSources[graphEventType].next(graph);
+  }
+
+  triggerElementEvent(elementEventType: ElementEventType, element?: Element) {
+    this.elementSources[elementEventType].next(element);
+  }
+
+  triggerComponentEvent(componentEventType: ComponentEventType, component?: Component) {
+    this.componentSources[componentEventType].next(component);
   }
 }
