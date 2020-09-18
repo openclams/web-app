@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { GraphEvent } from './events/graph-event';
 import { GraphEventType } from './events/graph-event-type';
 import Graph from './clams-ts/model/graphs/graph';
 import Element from './clams-ts/model/graphs/sequence-diagram/element';
 import { ElementEventType } from './events/element-event-type';
 import Component from './clams-ts/model/service-catalog/component';
-import { ElementEvent } from './events/element-event';
 import { ComponentEventType } from './events/component-event-type';
-import { ComponentEvent } from './events/component-event';
 
 @Injectable({
   providedIn: 'root'

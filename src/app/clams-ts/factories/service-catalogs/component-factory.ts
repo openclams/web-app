@@ -59,6 +59,8 @@ export default class ComponentFactory {
 
     public static copy(component: Component, model?: Model): Component {
         const jsonComponent = ComponentFactory.toJSON(component);
-        return ComponentFactory.fromJSON.call(model, jsonComponent);
+        const componentCopy =  ComponentFactory.fromJSON.call(model, jsonComponent) as Component;
+        componentCopy.bindTo(component);
+        return componentCopy;
     }
 }

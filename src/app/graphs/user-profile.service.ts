@@ -8,14 +8,11 @@ import { GraphEventType } from '../events/graph-event-type';
 import Graph from '../clams-ts/model/graphs/graph';
 import State from '../clams-ts/model/graphs/user-profile/state';
 import SequenceDiagram from '../clams-ts/model/graphs/sequence-diagram/sequence-diagram';
-import UserProfile from '../clams-ts/model/graphs/user-profile/user-profile';
 import { UseCaseConfig } from './render/configs/use-case-config';
 import Dot from '../clams-ts/model/graphs/user-profile/dot';
 import Geometry from '../clams-ts/model/graphs/geometry';
 import Arrow from '../clams-ts/model/graphs/user-profile/arrow';
 import Utils from '../utils';
-import { Observable } from 'rxjs';
-import { GraphEvent } from '../events/graph-event';
 
 
 @Injectable({

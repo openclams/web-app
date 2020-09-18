@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import Attribute from 'src/app/clams-ts/model/service-catalog/attribute';
-import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
+import ComponentWrapper from 'src/app/clams-ts/model/service-catalog/component-wrapper';
 
 
 @Component({
@@ -10,13 +10,15 @@ import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
 })
 export class AttributeListComponent implements OnInit {
 
-  @Input() component: ClamsComponent; 
-  attributes: Attribute[];
+  @Input() componentWrapper: ComponentWrapper;
 
   constructor() { }
 
   ngOnInit() {
-    this.attributes = this.component.attributes.filter(a => !a.id.includes('name'));
+  }
+
+  allowed(attribute: Attribute){
+    return !attribute.id.includes('name');
   }
 
 }

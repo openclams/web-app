@@ -14,17 +14,18 @@
     </mat-expansion-panel>
 </mat-accordion> -->
 
-<mat-action-list>
-    <div  *ngFor="let attribute of attributes">
-        <div mat-subheader> {{attribute.name}}</div>
-        <mat-list-item [ngSwitch]="attribute.type">
-            <app-text-attribute *ngSwitchCase="'text'" [attribute]="attribute"></app-text-attribute>
-            <app-number-attribute *ngSwitchCase="'number'" [attribute]="attribute"></app-number-attribute>
-            <app-enum-attribute *ngSwitchCase="'enum'" [attribute]="attribute"></app-enum-attribute>
-            <app-cost-attribute *ngSwitchCase="'cost'" [component]="component"></app-cost-attribute>
-            <app-text-attribute *ngSwitchDefault  [attribute]="attribute"></app-text-attribute>
-        </mat-list-item>
-        <mat-divider></mat-divider>
+<mat-action-list *ngIf="componentWrapper">
+    <div  *ngFor="let attribute of componentWrapper.component.attributes">
+        <ng-container *ngIf="allowed(attribute)">
+          <div mat-subheader> {{attribute.name}}</div>
+          <mat-list-item [ngSwitch]="attribute.type">
+              <app-text-attribute *ngSwitchCase="'text'" [attribute]="attribute"></app-text-attribute>
+              <app-number-attribute *ngSwitchCase="'number'" [attribute]="attribute"></app-number-attribute>
+              <app-enum-attribute *ngSwitchCase="'enum'" [attribute]="attribute"></app-enum-attribute>
+              <app-text-attribute *ngSwitchDefault  [attribute]="attribute"></app-text-attribute>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </ng-container>
     </div>
 </mat-action-list>
 

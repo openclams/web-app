@@ -1,5 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
+import { ProjectService } from 'src/app/project.service';
+import ComponentFactory from 'src/app/clams-ts/factories/service-catalogs/component-factory';
+import ComponentWrapper from 'src/app/clams-ts/model/service-catalog/component-wrapper';
+import { GraphService } from 'src/app/graph.service';
+import { ComponentEventType } from 'src/app/events/component-event-type';
 
 
 @Component({
@@ -10,32 +15,56 @@ import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
 export class ComponentTreeComponent implements OnInit {
 
   @Input() direction: boolean;
-  @Input() component: ClamsComponent;
-  components: ClamsComponent[];
 
-  constructor() { }
+  @Input() componentWrapper: ComponentWrapper;
+
+
+  constructor(private projectService: ProjectService, private graphService: GraphService) { }
 
   ngOnInit() {
-    debugger;
-    this.components = this.direction ? this.getParent() : this.getChildren();
   }
 
-  getParent(){
-    if(this.component.parent){
-      return [this.component.parent]
-    }else{
+  getComponents(): ClamsComponent[]{
+    return this.direction ? this.getParent() : this.getChildren();
+  }
+
+  getParent() {
+    if (this.componentWrapper.component.parent) {
+      return [this.componentWrapper.component.parent];
+    } else {
       return [];
     }
   }
 
-  getChildren(){
-    if(this.component.children){
-      return this.component.children;
-    }else{
+  getChildren() {
+    if (this.componentWrapper.component.children) {
+      return this.componentWrapper.component.children;
+    } else {
       return [];
     }
   }
 
+  changeTo(component: ClamsComponent){
+    const name = this.componentWrapper.component.getAttribute('name').value;
+    const componentCopy = ComponentFactory.copy(component, this.projectService.project.model);
+    this.componentWrapper.component = componentCopy;
+    this.addNameAttribute(componentCopy, name);
+    this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
+  }
 
+  addNameAttribute(component: ClamsComponent, name: string) {
+    const nameAttribute = component.getAttribute('name');
+    if (!nameAttribute) {
+      component.setAttribute({
+        id : 'name',
+        img: null,
+        name: 'Name',
+        type: 'string',
+        value: name,
+        readable: false,
+        description: 'Component Name'
+      });
+    }
+  }
 
 }

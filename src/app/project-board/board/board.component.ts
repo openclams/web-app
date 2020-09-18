@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import Graph from 'src/app/clams-ts/model/graphs/graph';
 import { GraphService } from 'src/app/graph.service';
 import { GraphEventType } from 'src/app/events/graph-event-type';
@@ -17,14 +17,13 @@ import Element from 'src/app/clams-ts/model/graphs/sequence-diagram/element';
 })
 export class BoardComponent implements OnInit {
 
-  element: Element;
-
   @Input() frame: Frame;
 
+  element: Element;
   showInfo: boolean;
   closeButtonHoverIndex: number;
 
-  constructor(private graphSeverice: GraphService,
+  constructor(private graphService: GraphService,
               private userProfileServie: UserProfileService,
               private sequenceDiagramService: SequenceDiagramService
     ) {
@@ -33,21 +32,21 @@ export class BoardComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.graphSeverice.addGraphListener(GraphEventType.REMOVED, graph => {
+    this.graphService.addGraphListener(GraphEventType.REMOVED, graph => {
       this.closeGraph(graph);
     });
-    this.graphSeverice.addGraphListener(GraphEventType.CLOSED, graph => {
+    this.graphService.addGraphListener(GraphEventType.CLOSED, graph => {
       this.closeGraph(graph);
     });
 
-    this.graphSeverice.addGraphListener(GraphEventType.OPEN, graph => {
+    this.graphService.addGraphListener(GraphEventType.OPEN, graph => {
       this.setActiveGraph(graph);
     });
-    this.graphSeverice.addGraphListener(GraphEventType.NEW, graph => {
+    this.graphService.addGraphListener(GraphEventType.NEW, graph => {
       this.setActiveGraph(graph);
     });
 
-    this.graphSeverice.addElementListener(ElementEventType.SHOW_DETAILS, element =>{
+    this.graphService.addElementListener(ElementEventType.SHOW_DETAILS, element =>{
       this.showInfo = true;
       this.element = element;
     });
@@ -112,11 +111,12 @@ export class BoardComponent implements OnInit {
 
 
   closeTab(graph: Graph) {
-    this.graphSeverice.triggerGraphEvent(GraphEventType.CLOSED, graph);
+    this.graphService.triggerGraphEvent(GraphEventType.CLOSED, graph);
   }
 
   closeInfo() {
     this.showInfo = false;
+    this.element = null;
   }
 
   getZoomLevelOfGraph(id: string): number {

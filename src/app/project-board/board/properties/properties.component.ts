@@ -1,13 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
-import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { ProjectService } from 'src/app/project.service';
 import { GraphService } from 'src/app/graph.service';
-import { ElementEventType } from 'src/app/events/element-event-type';
 import Element from 'src/app/clams-ts/model/graphs/sequence-diagram/element';
 import ComponentFactory from 'src/app/clams-ts/factories/service-catalogs/component-factory';
 import ComponentWrapper from 'src/app/clams-ts/model/service-catalog/component-wrapper';
 import Utils from 'src/app/utils';
-import { Subscription } from 'rxjs';
+
+import { ComponentEventType } from 'src/app/events/component-event-type';
 
 @Component({
   selector: 'app-properties',
@@ -16,18 +15,17 @@ import { Subscription } from 'rxjs';
 })
 export class PropertiesComponent implements OnInit {
 
-
+  @Input() element: Element;
   name: string;
   public filteredPossibleInstances: ComponentWrapper[] = [];
 
-  @Input() element: Element;
-  component: ClamsComponent;
+  componentWrapper: ComponentWrapper;
 
-  constructor(private projectService: ProjectService, private graphSeverice: GraphService) { }
+  constructor(private projectService: ProjectService, private graphService: GraphService) { }
 
   ngOnInit() {
-    this.name = this.element.component.getAttribute('name').value;
-    this.component = this.element.component;
+    this.componentWrapper = this.element.componentWrapper;
+    this.name = this.componentWrapper.component.getAttribute('name').value;
   }
 
   updateFilter() {
@@ -48,34 +46,25 @@ export class PropertiesComponent implements OnInit {
   onSelectExistingInstance(componentWrapper: ComponentWrapper) {
     Utils.removeItemFromArray(this.element, this.element.componentWrapper.instances);
     this.element.componentWrapper = componentWrapper;
-    this.componentGC();
-    // update grpah image
+    this.projectService.componentGC();
+    this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
   }
 
   onSelectRenameInstance(name: string) {
-    this.component.getAttribute('name').value = name;
-    // update graph image
+    this.componentWrapper.component.getAttribute('name').value = name;
+    this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
   }
 
   onSelectCreateNewInstance(name: string) {
     Utils.removeItemFromArray(this.element, this.element.componentWrapper.instances);
-    const componentCopy = ComponentFactory.copy(this.component, this.projectService.project.model);
+    const componentCopy = ComponentFactory.copy(this.componentWrapper.component, this.projectService.project.model);
     componentCopy.getAttribute('name').value = name;
     const cw = new ComponentWrapper(componentCopy);
     this.element.componentWrapper = cw;
     cw.instances.push(this.element);
     this.projectService.project.model.components.push(cw);
-    this.componentGC();
-    // Reloade graph
-  }
-
-  /**
-   * Purge the components array of the project
-   * Search for all components that still reference
-   * instances
-   */
-  componentGC() {
-    this.projectService.project.model.components = this.projectService.project.model.components.filter(cw => cw.instances.length > 0);
+    this.projectService.componentGC();
+    this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
   }
 
 }

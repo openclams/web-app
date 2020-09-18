@@ -1,11 +1,11 @@
-<div fxLayout="column" fxLayoutAlign="space-around start" >
-    <mat-toolbar fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
-        <img *ngIf="component.img" style="width: 50px; height:50px"
+<div fxLayout="column" fxLayoutAlign="space-around start" *ngIf="this.element">
+    <mat-toolbar fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center" style="background-color: #ffffff;">
+        <img *ngIf="componentWrapper.component.img" style="width: 50px; height:50px"
         class="mat-grid-tile_img"
-        [src]="component.img"
-        alt="{{component.name}}"
-        title="{{component.name}}">
-        <h2 >{{component.name}}</h2>
+        [src]="componentWrapper.component.img"
+        alt="{{componentWrapper.component.name}}"
+        title="{{componentWrapper.component.name}}">
+        <h2 >{{componentWrapper.component.name}}</h2>
     </mat-toolbar>
 
     <mat-list>
@@ -36,40 +36,11 @@
       <mat-divider></mat-divider>
     </mat-list>
 
-<!-- <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start center">
-    <span fxFlex='50'>Name</span>
-    <mat-form-field >
-        <input matInput="Name" [(ngModel)]="name" 
-            (keyup)="updateFilter()" [matAutocomplete]="matAutocompleteInstance">
-    </mat-form-field>
-    <mat-autocomplete #matAutocompleteInstance="matAutocomplete">
-        <mat-optgroup [label]="'Create new Instance'" *ngIf="!existsName(name) && name.length">
-        <mat-option [value]="name"
-                    (onSelectionChange)="(onSelectCreateNewInstance(name))">
-            {{name}}
-        </mat-option>
-        </mat-optgroup>
-        <mat-optgroup [label]="'Rename existing Instance'"
-                    *ngIf="!existsName(name) && name.length">
-        <mat-option [value]="name" (onSelectionChange)="(onSelectRenameInstance(name))">
-            {{name}}
-        </mat-option>
-        </mat-optgroup>
-        <mat-optgroup [label]="'Use existing Instance'"
-                    *ngIf="(filteredPossibleInstances).length > 0 && name.length">
-        <mat-option *ngFor="let i of filteredPossibleInstances"
-                    [value]="i.component.getAttribute('name').value"
-                    (onSelectionChange)="(onSelectExistingInstance(i))">
-            {{i.component.getAttribute('name').value}}
-        </mat-option>
-        </mat-optgroup>
-    </mat-autocomplete>
-</div> -->
+<app-attribute-list  [componentWrapper]="componentWrapper"></app-attribute-list>
 
-<app-attribute-list [component]="component"></app-attribute-list>
-
-<app-component-tree [component]="component" [direction]="true">Change to more general</app-component-tree>
-<app-component-tree [component]="component" [direction]="false">Be more specific</app-component-tree>
-
+<mat-action-list>
+  <app-component-tree [componentWrapper]="componentWrapper" [direction]="true">Change to more general</app-component-tree>
+  <app-component-tree [componentWrapper]="componentWrapper" [direction]="false">Be more specific</app-component-tree>
+</mat-action-list>
 
 </div>

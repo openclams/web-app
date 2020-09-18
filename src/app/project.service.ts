@@ -96,4 +96,13 @@ export class ProjectService {
     Utils.removeItemFromArray(edge, (edge.to as State).edgesIn);
   }
 
+  /**
+   * Purge the components array of the project
+   * Search for all components that still reference
+   * instances
+   */
+  componentGC() {
+    this.project.model.components = this.project.model.components.filter(cw => cw.instances.length > 0);
+  }
+
 }

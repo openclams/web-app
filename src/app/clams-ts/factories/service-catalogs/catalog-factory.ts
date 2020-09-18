@@ -76,16 +76,17 @@ export default class CatalogFactory {
                  return;
             }
 
-           if ('parents' in jsonCatalogComponent &&
-                jsonCatalogComponent.parents &&
-                jsonCatalogComponent.parents.length > 0) {
-                const parent = cachedComponents[jsonCatalogComponent.parents[0]];
-                component.parent = parent;
-           }
+            //    if ('parents' in jsonCatalogComponent &&
+            //         jsonCatalogComponent.parents &&
+            //         jsonCatalogComponent.parents.length > 0) {
+            //         const parent = cachedComponents[jsonCatalogComponent.parents[0]];
+            //         component.parent = parent;
+            //    }
 
            if ( jsonCatalogComponent.children &&
                 jsonCatalogComponent.children.length > 0) {
-                    component.children = jsonCatalogComponent.children.map<Component>(id => cachedComponents[id]);
+                    component.children = jsonCatalogComponent.children.map<Component>(id => cachedComponents[id]).filter(p => p);
+                    component.children.forEach(c => c.parent = component);
            }
         });
 

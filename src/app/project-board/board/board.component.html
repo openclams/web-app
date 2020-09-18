@@ -29,9 +29,7 @@
         mode="push"
         (closedStart)="closeInfo(graph)"
         class="drawer-width dragscroll">
-        <div *ngIf="showInfo">
-          <app-properties [element]="element" ></app-properties>
-        </div>
+          <app-properties [element]="element" *ngIf="element"></app-properties>
       </mat-drawer>
       <mat-drawer-content style="background: white;">
         <div class="graph-container dragscroll" id="{{graph.id}}"></div>
