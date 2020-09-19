@@ -90,6 +90,22 @@ export default class CatalogFactory {
            }
         });
 
+        // If the child has no image, then we inherit the image of the parent.
+        components.forEach(c => {
+            // Image already contains the base path at the begining
+            // hence, we check if the end has null as string
+            if (c.img.endsWith('null')) {
+                let parent = c.parent;
+                while (parent) {
+                    if (!parent.img.endsWith('null')) {
+                        c.img = parent.img;
+                        break;
+                    }
+                    parent = parent.parent;
+                }
+            }
+        });
+
         if (jsonCatalog.templates && jsonCatalog.templates.length > 0) {
             // Add templates to the catalog
             const templates = jsonCatalog.templates.map<Template>( jsonCatalogTemplate => {

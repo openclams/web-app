@@ -11,6 +11,7 @@ import { ElementEventType } from 'src/app/events/element-event-type';
 import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
 import ComponentFactory from 'src/app/clams-ts/factories/service-catalogs/component-factory';
 import { ComponentEventType } from 'src/app/events/component-event-type';
+import Category from 'src/app/clams-ts/model/service-catalog/category';
 
 
 @Component({
@@ -39,6 +40,14 @@ export class CatalogContentComponent implements OnInit {
     });
   }
 
+  /**
+   * Filter out all categories, that start with an underscore.
+   * A underscore marks a categorie as hidden.
+   */
+  getCategories(): Category[] {
+    return this.catalog.categories.filter(c => !c.name.startsWith('_'));
+  }
+
   hasChildren(element: ClamsComponent): boolean {
     if (element instanceof Pattern) {
       return element.children.length > 0;
@@ -52,7 +61,7 @@ export class CatalogContentComponent implements OnInit {
   }
 
   dragStart(): void {
-    console.log("Start Drag")
+    console.log('Start Drag');
     this.graphService.triggerComponentEvent(ComponentEventType.DRAGGING);
   }
 

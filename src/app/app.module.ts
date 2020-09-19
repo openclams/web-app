@@ -55,7 +55,8 @@ import { NumberAttributeComponent } from './project-board/board/properties/attri
 import { EnumAttributeComponent } from './project-board/board/properties/attribute-list/enum-attribute/enum-attribute.component';
 import { CostAttributeComponent } from './project-board/board/properties/attribute-list/cost-attribute/cost-attribute.component';
 import { ComponentTreeComponent } from './project-board/board/properties/component-tree/component-tree.component';
-import {ToastrModule} from "ngx-toastr";
+import { ToastrModule } from "ngx-toastr";
+import { EvaluationComponent } from './project-board/evaluation/evaluation.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import {ToastrModule} from "ngx-toastr";
     NumberAttributeComponent,
     EnumAttributeComponent,
     CostAttributeComponent,
-    ComponentTreeComponent
+    ComponentTreeComponent,
+    EvaluationComponent
   ],
   imports: [
     HttpClientModule,

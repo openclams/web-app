@@ -17,7 +17,7 @@ export class AttributeListComponent implements OnInit {
   ngOnInit() {
   }
 
-  allowed(attribute: Attribute){
+  allowed(attribute: Attribute) {
     return !attribute.id.includes('name');
   }
 
