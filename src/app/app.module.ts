@@ -55,6 +55,7 @@ import { NumberAttributeComponent } from './project-board/board/properties/attri
 import { EnumAttributeComponent } from './project-board/board/properties/attribute-list/enum-attribute/enum-attribute.component';
 import { CostAttributeComponent } from './project-board/board/properties/attribute-list/cost-attribute/cost-attribute.component';
 import { ComponentTreeComponent } from './project-board/board/properties/component-tree/component-tree.component';
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { ComponentTreeComponent } from './project-board/board/properties/compone
     MatSortModule,
     FlexLayoutModule,
     DragDropModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
