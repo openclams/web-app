@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 import Graph from 'src/app/clams-ts/model/graphs/graph';
 import { GraphService } from 'src/app/graph.service';
 import { GraphEventType } from 'src/app/events/graph-event-type';
@@ -9,13 +9,14 @@ import SequenceDiagram from 'src/app/clams-ts/model/graphs/sequence-diagram/sequ
 import { SequenceDiagramService } from 'src/app/graphs/sequence-diagram.service';
 import { ElementEventType } from 'src/app/events/element-event-type';
 import Element from 'src/app/clams-ts/model/graphs/sequence-diagram/element';
+import {MatTabGroup} from "@angular/material/tabs";
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, AfterViewInit {
 
   @Input() frame: Frame;
 
@@ -30,6 +31,8 @@ export class BoardComponent implements OnInit {
       this.closeButtonHoverIndex = -1;
       this.showInfo = false;
    }
+
+  @ViewChild('tabGroup', {read: ElementRef, static: false}) tabGroup: ElementRef;
 
   ngOnInit() {
     this.graphService.addGraphListener(GraphEventType.REMOVED, graph => {
@@ -52,9 +55,9 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  // tslint:disable-next-line: use-lifecycle-interface
   ngAfterViewInit() {
     this.activateGraph();
+    this.enableKeyHandlerSupport();
   }
 
   activateGraph() {
@@ -122,5 +125,18 @@ export class BoardComponent implements OnInit {
   getZoomLevelOfGraph(id: string): number {
     return 0;
     // return this.sequenceRegistry.getGraphById(id).userSettings.zoom * 100;
+  }
+
+  private enableKeyHandlerSupport() {
+    const nativeTabContainer = this.tabGroup.nativeElement;
+
+    nativeTabContainer.onmouseenter = () => {
+      // tab index has to be set again for focus to work
+      nativeTabContainer.tabIndex = 0;
+      nativeTabContainer.focus();
+    };
+    nativeTabContainer.onmouseleave = () => {
+      nativeTabContainer.blur();
+    };
   }
 }
