@@ -24,11 +24,11 @@ export default abstract class GraphHandler {
 
 
     public initGraphObserver(graphService: GraphService) {
-        graphService.addGraphListener(GraphEventType.SELECT_ALL,()=>{
+        graphService.addGraphListener(GraphEventType.SELECT_ALL, () => {
             if (!this.isActive) {return; }
             this.selectAll();
         });
-        graphService.addGraphListener( GraphEventType.REMOVE_SELECTION,()=>{
+        graphService.addGraphListener( GraphEventType.REMOVE_SELECTION, () => {
             if (!this.isActive) {return; }
             this.removeSelection();
         });

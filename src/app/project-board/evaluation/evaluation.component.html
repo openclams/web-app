@@ -1,0 +1,7 @@
+<button mat-button [matMenuTriggerFor]="EvalMenu" *ngIf="evalServers.length > 0">  
+    <mat-icon>speed</mat-icon>
+    Evaluate
+</button>
+<mat-menu #EvalMenu="matMenu" >
+    <button mat-menu-item *ngFor="let server of evalServers">{{server.menuTitle}}</button>
+</mat-menu>

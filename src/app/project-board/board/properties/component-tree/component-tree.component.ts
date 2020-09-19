@@ -24,7 +24,7 @@ export class ComponentTreeComponent implements OnInit {
   ngOnInit() {
   }
 
-  getComponents(): ClamsComponent[]{
+  getComponents(): ClamsComponent[] {
     return this.direction ? this.getParent() : this.getChildren();
   }
 
@@ -44,7 +44,7 @@ export class ComponentTreeComponent implements OnInit {
     }
   }
 
-  changeTo(component: ClamsComponent){
+  changeTo(component: ClamsComponent) {
     const name = this.componentWrapper.component.getAttribute('name').value;
     const componentCopy = ComponentFactory.copy(component, this.projectService.project.model);
     this.componentWrapper.component = componentCopy;

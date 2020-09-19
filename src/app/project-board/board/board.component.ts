@@ -46,7 +46,7 @@ export class BoardComponent implements OnInit {
       this.setActiveGraph(graph);
     });
 
-    this.graphService.addElementListener(ElementEventType.SHOW_DETAILS, element =>{
+    this.graphService.addElementListener(ElementEventType.SHOW_DETAILS, element => {
       this.showInfo = true;
       this.element = element;
     });
@@ -57,7 +57,7 @@ export class BoardComponent implements OnInit {
     this.activateGraph();
   }
 
-  activateGraph(){
+  activateGraph() {
     this.userProfileServie.disable();
     this.sequenceDiagramService.disable();
     if (this.frame.activeGraph instanceof UserProfile) {

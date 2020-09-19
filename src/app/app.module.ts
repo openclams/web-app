@@ -55,6 +55,7 @@ import { NumberAttributeComponent } from './project-board/board/properties/attri
 import { EnumAttributeComponent } from './project-board/board/properties/attribute-list/enum-attribute/enum-attribute.component';
 import { CostAttributeComponent } from './project-board/board/properties/attribute-list/cost-attribute/cost-attribute.component';
 import { ComponentTreeComponent } from './project-board/board/properties/component-tree/component-tree.component';
+import { EvaluationComponent } from './project-board/evaluation/evaluation.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { ComponentTreeComponent } from './project-board/board/properties/compone
     NumberAttributeComponent,
     EnumAttributeComponent,
     CostAttributeComponent,
-    ComponentTreeComponent
+    ComponentTreeComponent,
+    EvaluationComponent
   ],
   imports: [
     HttpClientModule,

@@ -22,7 +22,7 @@ import { Config } from './config';
 
 export class SequenceConfig extends Config {
 
-  static readonly VERTEX_TOP_MARGIN = 64;
+  static readonly VERTEX_TOP_MARGIN = 112;
   static readonly VERTEX_BOTTOM_MARGIN = 8;
   static readonly VERTEX_IMAGE_WIDTH_HEIGHT = 80;
   static readonly MARGIN_BETWEEN_VERTICES = 16;
