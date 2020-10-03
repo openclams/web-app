@@ -1,6 +1,6 @@
 import JsonProject from '../model/json-project';
 import Project from '../model/project';
-import ModelFactory from '../clams-ts/factories/model-factory';
+import { ModelFactory } from 'clams-ml';
 import { FrameFactory } from './frame-factory';
 
 
