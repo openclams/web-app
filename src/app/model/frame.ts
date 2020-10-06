@@ -1,4 +1,4 @@
-import Graph from '../clams-ts/model/graphs/graph';
+import {Graph} from 'clams-ml';
 
 export default class Frame {
 

@@ -1,4 +1,4 @@
-import JsonCloudProvider from '../clams-ts/schema/service-catalog/json-cloud-provider';
+import {JsonCloudProvider} from 'clams-ml';
 
 /**
  * Project meta data
