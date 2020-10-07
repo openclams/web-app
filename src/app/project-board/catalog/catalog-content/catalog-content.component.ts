@@ -1,17 +1,17 @@
 import {Component, OnInit, Input} from '@angular/core';
-import CloudProvider from 'src/app/clams-ts/model/service-catalog/cloud-provider';
+import {CloudProvider} from 'clams-ml';
 import { HttpClient } from '@angular/common/http';
 import { ProjectService } from 'src/app/project.service';
-import JsonCatalog from 'src/app/clams-ts/schema/service-catalog/json-catalog';
-import Catalog from 'src/app/clams-ts/model/service-catalog/catalog';
-import CatalogFactory from 'src/app/clams-ts/factories/service-catalogs/catalog-factory';
-import Pattern from 'src/app/clams-ts/model/service-catalog/pattern';
+import {JsonCatalog} from 'clams-ml';
+import {Catalog} from 'clams-ml';
+import {CatalogFactory} from 'clams-ml';
+import {Pattern} from 'clams-ml';
 import { GraphService } from 'src/app/graph.service';
 import { ElementEventType } from 'src/app/events/element-event-type';
-import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
-import ComponentFactory from 'src/app/clams-ts/factories/service-catalogs/component-factory';
+import {ClamsComponent} from 'clams-ml';
+import {ComponentFactory} from 'clams-ml';
 import { ComponentEventType } from 'src/app/events/component-event-type';
-import Category from 'src/app/clams-ts/model/service-catalog/category';
+import {Category} from 'clams-ml';
 
 
 @Component({

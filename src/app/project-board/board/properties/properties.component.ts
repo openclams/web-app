@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { ProjectService } from 'src/app/project.service';
 import { GraphService } from 'src/app/graph.service';
-import Element from 'src/app/clams-ts/model/graphs/sequence-diagram/element';
-import ComponentFactory from 'src/app/clams-ts/factories/service-catalogs/component-factory';
-import ComponentWrapper from 'src/app/clams-ts/model/service-catalog/component-wrapper';
+import {Element} from 'clams-ml';
+import {ComponentFactory} from 'clams-ml';
+import {ComponentWrapper} from 'clams-ml';
 import Utils from 'src/app/utils';
 
 import { ComponentEventType } from 'src/app/events/component-event-type';

@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import CostFactory from 'src/app/clams-ts/factories/service-catalogs/cost-factory';
-import Attribute from 'src/app/clams-ts/model/service-catalog/attribute';
-import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
-import Cost from 'src/app/clams-ts/model/service-catalog/cost';
-import Service from 'src/app/clams-ts/model/service-catalog/service';
-import JsonCostLookupTable from 'src/app/clams-ts/schema/service-catalog/json-cost-lookup-table';
+import {CostFactory} from 'clams-ml';
+import {Attribute} from 'clams-ml';
+import {ClamsComponent} from 'clams-ml';
+import {Cost} from 'clams-ml';
+import {Service} from 'clams-ml';
+import {JsonCostLookupTable} from 'clams-ml';
 
 @Component({
   selector: 'app-cost-attribute',
