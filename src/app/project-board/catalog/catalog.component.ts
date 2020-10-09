@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from 'src/app/project.service';
-import CloudProvider from 'src/app/clams-ts/model/service-catalog/cloud-provider';
+import {CloudProvider} from 'clams-ml';
 
 @Component({
   selector: 'app-catalog',

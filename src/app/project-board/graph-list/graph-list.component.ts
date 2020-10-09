@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import Graph from 'src/app/clams-ts/model/graphs/graph';
+import {Graph} from 'clams-ml';
 import { ProjectService } from 'src/app/project.service';
 import { MatDialog, MatTableDataSource, MatSort } from '@angular/material';
-import { CreateGraphDialogComponent } from './create-graph-dialog/create-graph-dialog.component';
-import SequenceDiagram from 'src/app/clams-ts/model/graphs/sequence-diagram/sequence-diagram';
-import UserProfile from 'src/app/clams-ts/model/graphs/user-profile/user-profile';
+import {SequenceDiagram} from 'clams-ml';
 import { GraphService } from 'src/app/graph.service';
 import { GraphEventType } from 'src/app/events/graph-event-type';
 import { EditGraphDialogComponent } from './edit-graph-dialog/edit-graph-dialog.component';
