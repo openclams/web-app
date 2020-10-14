@@ -2,6 +2,7 @@ import Graph from './graphs/graph';
 import ComponentWrapper from './service-catalog/component-wrapper';
 import CloudProvider from './service-catalog/cloud-provider';
 import Catalog from './service-catalog/catalog';
+import Service from './service-catalog/service';
 
 /**
  * The model class bundels all necessary information about

@@ -12,14 +12,12 @@ import Edge from './clams-ts/model/graphs/edge';
 import State from './clams-ts/model/graphs/user-profile/state';
 import Node from './clams-ts/model/graphs/node';
 import Dot from './clams-ts/model/graphs/user-profile/dot';
+import Component from './clams-ts/model/service-catalog/component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-
-  public project: Project;
-  private activeFrame: Frame;
 
   constructor(private graphService: GraphService) {
     this.project = null;
@@ -30,32 +28,40 @@ export class ProjectService {
       // When we removed a grpah we redraw the model
       this.addGraph(graph);
     });
+    this.costCache = {};
   }
 
-  set(project: Project) {
-    this.project = project;
-    // Create a new frame if the project is new, and has no frame.
-    if (this.project && !this.project.frames.length) {
-      this.activeFrame = new Frame();
-      this.project.frames.push(this.activeFrame);
+  public project: Project;
+  private activeFrame: Frame;
+
+  // We rember here some preselected cost values, in case
+  // the user changes often the components, we want to remember the nuber of units
+    costCache: Record<string, {regionID: string, units: number}>;
+
+    set(project: Project) {
+      this.project = project;
+      // Create a new frame if the project is new, and has no frame.
+      if (this.project && !this.project.frames.length) {
+        this.activeFrame = new Frame();
+        this.project.frames.push(this.activeFrame);
+      }
+      this.activeFrame = this.project.frames[0];
     }
-    this.activeFrame = this.project.frames[0];
-  }
 
-  getActiveFrame(): Frame {
-    return this.activeFrame;
-  }
+    getActiveFrame(): Frame {
+      return this.activeFrame;
+    }
 
-  setActiveFrame(frame: Frame) {
-    this.activeFrame = frame;
-  }
+    setActiveFrame(frame: Frame) {
+      this.activeFrame = frame;
+    }
 
-  /**
-   * Search whether the grpah is open in some frame
-   * or not.
-   */
-  isGraphOpen(graph: Graph): boolean {
-    return this.project.frames.filter(frame => {
+    /**
+     * Search whether the grpah is open in some frame
+     * or not.
+     */
+    isGraphOpen(graph: Graph): boolean {
+      return this.project.frames.filter(frame => {
       return frame.graphs.includes(graph);
     }).length > 0;
   }
@@ -84,8 +90,8 @@ export class ProjectService {
 
   private removeState(node: Node, graph: Graph) {
     Utils.removeItemFromArray(node , graph.nodes);
-    (node as State).edgesOut.forEach(edge => this.removeArrow(edge,graph));
-    (node as State).edgesIn.forEach(edge => this.removeArrow(edge,graph));
+    (node as State).edgesOut.forEach(edge => this.removeArrow(edge, graph));
+    (node as State).edgesIn.forEach(edge => this.removeArrow(edge, graph));
   }
   private removeArrow(edge: Edge, graph: Graph) {
     const index = graph.edges.findIndex(e => e.from === edge.from && e.to === edge.to);
@@ -105,4 +111,30 @@ export class ProjectService {
     this.project.model.components = this.project.model.components.filter(cw => cw.instances.length > 0);
   }
 
+  getCostCache(component: Component) {
+    if(!component){
+      return null;
+    }
+    return component.id in this.costCache ? this.costCache[component.id] : null;
+  }
+
+  setCostCacheRegion(component: Component, regionId: string) {
+    const item = this.getCostCache(component);
+    if (!item ) {
+      this.newCostCacheEntry(component);
+    }
+    this.costCache[component.id].regionID = regionId;
+  }
+
+  setCostCacheUnits(component: Component, units: number) {
+    const item = this.getCostCache(component);
+    if (!item ) {
+      this.newCostCacheEntry(component);
+    }
+    this.costCache[component.id].units = units;
+  }
+
+  newCostCacheEntry(component: Component) {
+   this.costCache[component.id] = {regionID:'', units: 0};
+  }
 }

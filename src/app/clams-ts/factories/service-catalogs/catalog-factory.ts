@@ -157,6 +157,8 @@ export default class CatalogFactory {
                 return edgeType;
             });
         }
-        return new Catalog(edgeTypes, components, cloudProvider);
+
+        cloudProvider.catalog = new Catalog(edgeTypes, components, cloudProvider);
+        return  cloudProvider.catalog;
     }
 }

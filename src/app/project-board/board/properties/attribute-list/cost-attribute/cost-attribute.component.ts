@@ -6,6 +6,7 @@ import ClamsComponent from 'src/app/clams-ts/model/service-catalog/component';
 import Cost from 'src/app/clams-ts/model/service-catalog/cost';
 import Service from 'src/app/clams-ts/model/service-catalog/service';
 import JsonCostLookupTable from 'src/app/clams-ts/schema/service-catalog/json-cost-lookup-table';
+import { ProjectService } from 'src/app/project.service';
 
 @Component({
   selector: 'app-cost-attribute',
@@ -13,51 +14,42 @@ import JsonCostLookupTable from 'src/app/clams-ts/schema/service-catalog/json-co
   styleUrls: ['./cost-attribute.component.css']
 })
 export class CostAttributeComponent implements OnInit {
-
+  selectedCost: Cost;
   costs: Cost[];
   writeable: boolean;
+  units: number;
   @Input() component: ClamsComponent;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private projectService: ProjectService) { }
 
   ngOnInit() {
-    this.addCostAttribute(this.component);
-
-    //this.writeable = 'readable' in this.component.getAttribute() && !this.attribute.readable;
-
-    const costUrl = this.component.cloudProvider.basePath + this.component.cloudProvider.catalogFile;
+    this.costs = [];
+    this.selectedCost = null;
+    const costUrl = this.component.cloudProvider.basePath + this.component.cloudProvider.costLookupFile;
 
     this.http.get<JsonCostLookupTable>(costUrl).subscribe(jsonCostLookupTable => {
-      this.costs = this.getCostsByService(this.component as Service,jsonCostLookupTable);
+      this.costs = this.getCostsByService(this.component as Service, jsonCostLookupTable);
+      if ( this.costs.length > 0 ){
+        const rid = this.projectService.getCostCache(this.component.parent)
+        this.addCostAttribute(this.component, this.costs[0]);
+        this.selectedCost = this.component.getAttribute('cost').value as Cost;
+      }
     });
   }
 
-  loadCost(component: ClamsComponent) {
-    // if (component instanceof Service) {
-    //   this.costCatalogProvider.getCostLookupTable(component.cloudProvider).subscribe(jsonCostLookupTable => {
-    //     this.costs = this.costCatalogProvider.getCostsByService(component as Service, jsonCostLookupTable);
-    //     if (this.costs.length) {
-    //       // Chose by default the first entry
-    //       this.selectedCost = this.costs[0];
-    //     }
-    //     if (!('cost' in component.attributes)) {
-          
-    //     } else {
-
-    //       this.selectedCost = component.attributes.cost.value;
-    //     }
-    //   });
-    // }
+  onChange(cost: Cost){
+    this.component.getAttribute('cost').value = cost;
+    this.selectedCost = cost;
   }
 
-  addCostAttribute(component: ClamsComponent) {
+  addCostAttribute(component: ClamsComponent,defaultCost: Cost) {
     const costAttribute = component.getAttribute('cost');
     if (!costAttribute) {
       component.setAttribute({
         id: 'cost',
         name: 'Cost',
         type: 'cost',
-        value: null, // Check name clash
+        value: defaultCost,
         readable: false,
         img: null,
         description: 'Service cost'
@@ -67,6 +59,7 @@ export class CostAttributeComponent implements OnInit {
 
   getCostsByService(service: Service, jsonCostLookupTable: JsonCostLookupTable): Cost[] {
     let costs: Cost[] = [];
+    console.log(jsonCostLookupTable);
     const sidx = jsonCostLookupTable.costTable.findIndex(entry => entry.id === service.id);
     if (sidx > -1) {
       costs = jsonCostLookupTable.costTable[sidx].regions.map( costRegion => CostFactory.fromJSON(costRegion));

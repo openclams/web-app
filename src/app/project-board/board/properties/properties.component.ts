@@ -7,6 +7,7 @@ import ComponentWrapper from 'src/app/clams-ts/model/service-catalog/component-w
 import Utils from 'src/app/utils';
 
 import { ComponentEventType } from 'src/app/events/component-event-type';
+import Service from 'src/app/clams-ts/model/service-catalog/service';
 
 @Component({
   selector: 'app-properties',
@@ -65,6 +66,10 @@ export class PropertiesComponent implements OnInit {
     this.projectService.project.model.components.push(cw);
     this.projectService.componentGC();
     this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
+  }
+
+  isService(): boolean{
+    return this.componentWrapper.component instanceof Service;
   }
 
 }

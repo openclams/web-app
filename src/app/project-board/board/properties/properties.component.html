@@ -38,6 +38,8 @@
 
 <app-attribute-list  [componentWrapper]="componentWrapper"></app-attribute-list>
 
+<app-cost-attribute *ngIf="isService()" [component]="componentWrapper.component"></app-cost-attribute>
+
 <mat-action-list>
   <app-component-tree [componentWrapper]="componentWrapper" [direction]="true">Change to more general</app-component-tree>
   <app-component-tree [componentWrapper]="componentWrapper" [direction]="false">Be more specific</app-component-tree>

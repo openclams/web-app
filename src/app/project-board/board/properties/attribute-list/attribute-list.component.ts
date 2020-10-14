@@ -18,7 +18,7 @@ export class AttributeListComponent implements OnInit {
   }
 
   allowed(attribute: Attribute) {
-    return !attribute.id.includes('name');
+    return !attribute.id.includes('name') && !attribute.id.includes('cost');
   }
 
 }

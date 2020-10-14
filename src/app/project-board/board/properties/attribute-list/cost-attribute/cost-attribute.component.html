@@ -1,1 +1,15 @@
-<p>cost-attribute works!</p>
+<mat-action-list *ngIf="component" style="width: 200px;">
+  <div mat-subheader>Cost</div>
+  <mat-list-item>
+    <mat-select (selectionChange)="onChange($event.value)" [(ngModel)]="selectedCost">
+      <mat-option *ngFor="let cost of costs" [value]='cost'>
+        {{cost.cost}} {{cost.region.name}}
+      </mat-option>
+    </mat-select>
+  </mat-list-item>
+  <mat-list-item>
+    <mat-label>Units</mat-label>
+    <input matInput placeholder="0" [value]="units">
+  </mat-list-item>
+  <mat-divider></mat-divider>
+</mat-action-list>

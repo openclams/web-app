@@ -28,4 +28,9 @@ export default class Template extends Component {
   public getType(): string {
     return 'Template';
   }
+
+  public bindTo(component: Template) {
+    super.bindTo(component);
+    this.components.forEach((c, idx) => c.bindTo(component.components[idx]));
+  }
 }

@@ -107,6 +107,8 @@ export class SequenceDiagramService extends GraphHandler {
 
     templateType.components.forEach(component => {
       const componentCopy = ComponentFactory.copy(component, this.graph.model);
+      // Bind empty references of the copy, like children and parent to the references of the 
+      // catalog component
       const element = this.createElement(componentCopy, template);
       element.geometry.x = innerX;
       innerX += SequenceConfig.VERTEX_IMAGE_WIDTH_HEIGHT + SequenceConfig.MARGIN_BETWEEN_VERTICES;
