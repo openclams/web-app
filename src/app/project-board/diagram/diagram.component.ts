@@ -1,15 +1,16 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import Settings from 'src/app/data-management/settings';
-import { ProjectService } from 'src/app/project.service';
-import { MatDialog } from '@angular/material';
-import { CreateGraphDialogComponent } from '../graph-list/create-graph-dialog/create-graph-dialog.component';
-import Graph from 'src/app/clams-ts/model/graphs/graph';
-import SequenceDiagram from 'src/app/clams-ts/model/graphs/sequence-diagram/sequence-diagram';
-import UserProfile from 'src/app/clams-ts/model/graphs/user-profile/user-profile';
-import { GraphEventType } from 'src/app/events/graph-event-type';
-import { GraphService } from 'src/app/graph.service';
-import { ProjectManager } from 'src/app/data-management/project-manager';
-import { Router } from '@angular/router';
+import {ProjectService} from 'src/app/project.service';
+import {MatDialog} from '@angular/material';
+import {CreateGraphDialogComponent} from '../graph-list/create-graph-dialog/create-graph-dialog.component';
+import {Graph} from 'clams-ml';
+import {SequenceDiagram} from 'clams-ml';
+import {UserProfile} from 'clams-ml';
+import {GraphEventType} from 'src/app/events/graph-event-type';
+import {GraphService} from 'src/app/graph.service';
+import {ProjectManager} from 'src/app/data-management/project-manager';
+import {Router} from '@angular/router';
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -25,8 +26,10 @@ export class DiagramComponent implements OnInit {
   constructor(public dialog: MatDialog,
               private projectService: ProjectService,
               private graphService: GraphService,
-              private router: Router) {
-              }
+              private router: Router,
+              private toastr: ToastrService,
+              ) {
+  }
 
   ngOnInit() {
     this.drawerOpened = false;
@@ -41,15 +44,15 @@ export class DiagramComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event?) {
     const screenHeight = window.innerHeight;
-    let box2h = 64//document.getElementById("command-bar").offsetHeight
-    document.getElementById("main-container").style.height = (screenHeight - box2h)+'px';
+    const box2h = 64; // document.getElementById("command-bar").offsetHeight
+    document.getElementById('main-container').style.height = (screenHeight - box2h) + 'px';
   }
 
-  saveProject(){
+  saveProject() {
     ProjectManager.save(this.projectService.project);
   }
 
-  closeProject(){
+  closeProject() {
     this.saveProject();
     this.router.navigate(['/']);
   }
@@ -66,7 +69,9 @@ export class DiagramComponent implements OnInit {
       let graph: Graph = null;
       if (result.type === 0) {
         graph = new SequenceDiagram(this.projectService.project.model);
+        this.toastr.info(`Created Sequence Diagram ${result.name}`);
       } else {
+        this.toastr.info(`Created User Profile ${result.name}`);
         graph = new UserProfile(this.projectService.project.model);
       }
       graph.name = result.name;
@@ -84,7 +89,7 @@ export class DiagramComponent implements OnInit {
   setTab(index: number = -1) {
     // this.typeDrawer.close();
     if (index !== -1) {
-        Settings.set('SideBarTab', index, this.projectService.project);
+      Settings.set('SideBarTab', index, this.projectService.project);
     }
   }
 
@@ -96,19 +101,19 @@ export class DiagramComponent implements OnInit {
     return this.projectService.getActiveFrame();
   }
 
-  selectAll(){
+  selectAll() {
     this.graphService.triggerGraphEvent(GraphEventType.SELECT_ALL, null);
   }
 
-  deleteSelection(){
+  deleteSelection() {
     this.graphService.triggerGraphEvent(GraphEventType.REMOVE_SELECTION, null);
   }
 
-  undo(){
+  undo() {
 
   }
 
-  redo(){
-    
+  redo() {
+
   }
 }

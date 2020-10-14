@@ -1,8 +1,8 @@
-import Graph from 'src/app/clams-ts/model/graphs/graph';
+import {Graph} from 'clams-ml';
 import 'mxgraph/javascript/mxClient.js';
 import GraphHandler from '../graph-handler';
-import Edge from 'src/app/clams-ts/model/graphs/edge';
-import Node from 'src/app/clams-ts/model/graphs/node';
+import {Edge} from 'clams-ml';
+import {Node} from 'clams-ml';
 
 declare var mxGraph: any;
 declare var mxRubberband: any;

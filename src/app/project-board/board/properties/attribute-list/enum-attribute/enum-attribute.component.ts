@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import Attribute from 'src/app/clams-ts/model/service-catalog/attribute';
+import {Attribute} from 'clams-ml';
 
 @Component({
   selector: 'app-enum-attribute',

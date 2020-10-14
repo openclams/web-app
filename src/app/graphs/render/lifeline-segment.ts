@@ -1,4 +1,4 @@
-import Instance from 'src/app/clams-ts/model/graphs/sequence-diagram/instance';
+import {Instance} from 'clams-ml';
 
 export class LifelineSegment {
   constructor(public instance: Instance,

@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import GraphHandler from './graph-handler';
-import Edge from '../clams-ts/model/graphs/edge';
-import Node from '../clams-ts/model/graphs/node';
+import {Edge} from 'clams-ml';
+import {Node} from 'clams-ml';
 import { GraphService } from '../graph.service';
 import { UserProfileRenderService } from './render/user-profile-render.service';
 import { GraphEventType } from '../events/graph-event-type';
-import Graph from '../clams-ts/model/graphs/graph';
-import State from '../clams-ts/model/graphs/user-profile/state';
-import SequenceDiagram from '../clams-ts/model/graphs/sequence-diagram/sequence-diagram';
+import {Graph} from 'clams-ml';
+import {State} from 'clams-ml';
+import {SequenceDiagram} from 'clams-ml';
 import { UseCaseConfig } from './render/configs/use-case-config';
-import Dot from '../clams-ts/model/graphs/user-profile/dot';
-import Geometry from '../clams-ts/model/graphs/geometry';
-import Arrow from '../clams-ts/model/graphs/user-profile/arrow';
+import {Dot} from 'clams-ml';
+import {Geometry} from 'clams-ml';
+import {Arrow} from 'clams-ml';
 import Utils from '../utils';
 
 

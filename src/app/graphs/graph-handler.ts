@@ -1,6 +1,6 @@
-import Edge from '../clams-ts/model/graphs/edge';
-import Node from '../clams-ts/model/graphs/node';
-import Graph from '../clams-ts/model/graphs/graph';
+import {Edge} from 'clams-ml';
+import {Node} from 'clams-ml';
+import {Graph} from 'clams-ml';
 import { GraphEventType } from '../events/graph-event-type';
 import Utils from '../utils';
 import { GraphService } from '../graph.service';
