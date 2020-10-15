@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import Project from './model/project';
-import {Graph} from 'clams-ml';
+import {Graph} from '@openclams/clams-ml';
 import Frame from './model/frame';
-import {UserProfile} from 'clams-ml';
+import {UserProfile} from '@openclams/clams-ml';
 import { GraphService } from './graph.service';
 import { GraphEventType } from './events/graph-event-type';
 import Utils from './utils';
-import {Edge} from 'clams-ml';
-import {State} from 'clams-ml';
-import {Node} from 'clams-ml';
-import {Component} from 'clams-ml';
+import {Edge} from '@openclams/clams-ml';
+import {State} from '@openclams/clams-ml';
+import {Node} from '@openclams/clams-ml';
+import {Component} from '@openclams/clams-ml';
 @Injectable({
   providedIn: 'root'
 })

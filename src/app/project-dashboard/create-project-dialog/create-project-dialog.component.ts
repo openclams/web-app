@@ -3,11 +3,11 @@ import { MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import CloudProviderItem from './cloud-provider-item';
 import { HttpClient } from '@angular/common/http';
-import {JsonCloudProvider} from 'clams-ml';
+import {JsonCloudProvider} from '@openclams/clams-ml';
 import { environment } from '../../../environments/environment';
 import Project from '../../model/project';
-import {ClamsProject} from 'clams-ml';
-import {CloudProviderFactory} from 'clams-ml';
+import {ClamsProject} from '@openclams/clams-ml';
+import {CloudProviderFactory} from '@openclams/clams-ml';
 
 @Component({
   selector: 'app-create-project-dialog',

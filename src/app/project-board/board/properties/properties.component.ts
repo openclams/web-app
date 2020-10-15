@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { ProjectService } from 'src/app/project.service';
 import { GraphService } from 'src/app/graph.service';
-import {Element} from 'clams-ml';
-import {ComponentFactory} from 'clams-ml';
-import {ComponentWrapper} from 'clams-ml';
+import {Element} from '@openclams/clams-ml';
+import {ComponentFactory} from '@openclams/clams-ml';
+import {ComponentWrapper} from '@openclams/clams-ml';
 import Utils from 'src/app/utils';
 
 import { ComponentEventType } from 'src/app/events/component-event-type';
-import {Service} from 'clams-ml';
+import {Service} from '@openclams/clams-ml';
 
 @Component({
   selector: 'app-properties',

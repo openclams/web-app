@@ -1,14 +1,14 @@
 import { Component, OnInit, Input} from '@angular/core';
-import {Graph} from 'clams-ml';
+import {Graph} from '@openclams/clams-ml';
 import { GraphService } from 'src/app/graph.service';
 import { GraphEventType } from 'src/app/events/graph-event-type';
 import Frame from 'src/app/model/frame';
 import { UserProfileService } from 'src/app/graphs/user-profile.service';
-import {UserProfile} from 'clams-ml';
-import {SequenceDiagram} from 'clams-ml';
+import {UserProfile} from '@openclams/clams-ml';
+import {SequenceDiagram} from '@openclams/clams-ml';
 import { SequenceDiagramService } from 'src/app/graphs/sequence-diagram.service';
 import { ElementEventType } from 'src/app/events/element-event-type';
-import {Element} from 'clams-ml';
+import {Element} from '@openclams/clams-ml';
 
 @Component({
   selector: 'app-board',

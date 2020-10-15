@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {Model} from 'clams-ml';
+import {Model} from '@openclams/clams-ml';
 import { environment } from '../../../environments/environment';
 
 @Component({

@@ -1,6 +1,6 @@
-import {Edge} from 'clams-ml';
-import {Node} from 'clams-ml';
-import {Graph} from 'clams-ml';
+import {Edge} from '@openclams/clams-ml';
+import {Node} from '@openclams/clams-ml';
+import {Graph} from '@openclams/clams-ml';
 import { GraphEventType } from '../events/graph-event-type';
 import Utils from '../utils';
 import { GraphService } from '../graph.service';

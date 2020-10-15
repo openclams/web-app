@@ -1,4 +1,4 @@
-import {JsonCloudProvider} from 'clams-ml';
+import {JsonCloudProvider} from '@openclams/clams-ml';
 
 /**
  * Project meta data

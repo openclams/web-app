@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {Attribute} from 'clams-ml';
+import {Attribute} from '@openclams/clams-ml';
 
 @Component({
   selector: 'app-number-attribute',

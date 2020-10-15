@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {Attribute} from 'clams-ml';
-import {ComponentWrapper} from 'clams-ml';
+import {Attribute} from '@openclams/clams-ml';
+import {ComponentWrapper} from '@openclams/clams-ml';
 
 
 @Component({

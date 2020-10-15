@@ -1,5 +1,5 @@
-import {Model} from 'clams-ml';
-import {ModelFactory} from 'clams-ml';
+import {Model} from '@openclams/clams-ml';
+import {ModelFactory} from '@openclams/clams-ml';
 
 export default class Utils{
 

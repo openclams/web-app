@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {Graph} from 'clams-ml';
+import {Graph} from '@openclams/clams-ml';
 import { ProjectService } from 'src/app/project.service';
 import { MatDialog, MatTableDataSource, MatSort } from '@angular/material';
-import {SequenceDiagram} from 'clams-ml';
+import {SequenceDiagram} from '@openclams/clams-ml';
 import { GraphService } from 'src/app/graph.service';
 import { GraphEventType } from 'src/app/events/graph-event-type';
 import { EditGraphDialogComponent } from './edit-graph-dialog/edit-graph-dialog.component';

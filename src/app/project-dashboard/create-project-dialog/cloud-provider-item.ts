@@ -1,5 +1,5 @@
-import {JsonCloudProvider} from 'clams-ml';
-import {JsonRegion} from 'clams-ml';
+import {JsonCloudProvider} from '@openclams/clams-ml';
+import {JsonRegion} from '@openclams/clams-ml';
 
 export default class CloudProviderItem {
     public provider: JsonCloudProvider;

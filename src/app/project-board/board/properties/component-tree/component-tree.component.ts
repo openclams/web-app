@@ -1,8 +1,8 @@
 import { Component, Input, OnInit} from '@angular/core';
-import {ClamsComponent} from 'clams-ml';
+import {ClamsComponent} from '@openclams/clams-ml';
 import { ProjectService } from 'src/app/project.service';
-import {ComponentFactory} from 'clams-ml';
-import {ComponentWrapper} from 'clams-ml';
+import {ComponentFactory} from '@openclams/clams-ml';
+import {ComponentWrapper} from '@openclams/clams-ml';
 import { GraphService } from 'src/app/graph.service';
 import { ComponentEventType } from 'src/app/events/component-event-type';
 

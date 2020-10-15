@@ -1,7 +1,7 @@
 import ISettable from './ISettable';
 import Frame from './frame';
 import JsonProjectMeta from './json-project-meta';
-import {ClamsProject} from 'clams-ml';
+import {ClamsProject} from '@openclams/clams-ml';
 
 export default class Project implements ISettable {
 

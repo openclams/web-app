@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { GraphEventType } from './events/graph-event-type';
-import { Graph } from 'clams-ml';
-import { Element } from 'clams-ml';
+import { Graph } from '@openclams/clams-ml';
+import { Element } from '@openclams/clams-ml';
 import { ElementEventType } from './events/element-event-type';
-import { Component } from 'clams-ml';
+import { Component } from '@openclams/clams-ml';
 import { ComponentEventType } from './events/component-event-type';
 
 @Injectable({
