@@ -20,7 +20,7 @@ export default class Settings {
     if (ref) {
       storageKey = ref.getSettingsId() + storageKey;
     }
-    return DataManagement.storageDirver.get<T>(storageKey, defaultValue);
+    return DataManagement.storageDriver.get<T>(storageKey, defaultValue);
   }
 
   /**
@@ -37,6 +37,6 @@ export default class Settings {
     if (ref) {
       storageKey = ref.getSettingsId() + storageKey;
     }
-    DataManagement.storageDirver.put<T>(storageKey, value);
+    DataManagement.storageDriver.put<T>(storageKey, value);
   }
 }

@@ -13,7 +13,7 @@ export class ProjectManager {
      * Load project information for dashborad
      */
     public static getProjectMetas(): Promise<JsonProjectMeta[]> {
-        return DataManagement.storageDirver.get(DataManagement.KEY_PROJECT_DIRECTORY, []);
+        return DataManagement.storageDriver.get(DataManagement.KEY_PROJECT_DIRECTORY, []);
     }
 
     /**
@@ -30,20 +30,20 @@ export class ProjectManager {
             }
             Settings.set<JsonProjectMeta[]>(DataManagement.KEY_PROJECT_DIRECTORY, jsonProjectMetas);
         });
-        DataManagement.storageDirver.put(DataManagement.KEY_LAST_PROJECT_ID, project.metaData.id);
-        DataManagement.storageDirver.put(project.metaData.id, ProjectFactory.toJSON(project));
+        DataManagement.storageDriver.put(DataManagement.KEY_LAST_PROJECT_ID, project.metaData.id);
+        DataManagement.storageDriver.put(project.metaData.id, ProjectFactory.toJSON(project));
     }
 
     /**
      * Load project from storage
      */
     public static load(id: string): Promise<Project> {
-        return DataManagement.storageDirver.get<JsonProject>(id, null).then(
+        return DataManagement.storageDriver.get<JsonProject>(id, null).then(
             jsonProject => {
                 if (!jsonProject) {
                     throw new Error("Project not found!");
                 }
-                DataManagement.storageDirver.put(DataManagement.KEY_LAST_PROJECT_ID, jsonProject.metaData.id);
+                DataManagement.storageDriver.put(DataManagement.KEY_LAST_PROJECT_ID, jsonProject.metaData.id);
                 const project = ProjectFactory.fromJSON(jsonProject);
                 return project;
             },
@@ -66,7 +66,7 @@ export class ProjectManager {
             }
             Settings.set<JsonProjectMeta[]>(DataManagement.KEY_PROJECT_DIRECTORY, jsonProjectMetas);
         });
-        DataManagement.storageDirver.delete(id);
+        DataManagement.storageDriver.delete(id);
     }
 
     /**
@@ -75,6 +75,6 @@ export class ProjectManager {
      * The poroject will be removed from last project cache.
      */
     public static close() {
-        DataManagement.storageDirver.put(DataManagement.KEY_LAST_PROJECT_ID, null);
+        DataManagement.storageDriver.put(DataManagement.KEY_LAST_PROJECT_ID, null);
     }
 }

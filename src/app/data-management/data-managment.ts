@@ -32,17 +32,17 @@ export default class DataManagement {
     static readonly KEY_PROJECT_DIRECTORY = 'ClamsProjectsDirectory';
 
     /**
-     * Storage Driver to acces data
+     * Storage Driver to access data
      */
-    public static storageDirver: StorageDriver;
+    public static storageDriver: StorageDriver;
 
     /**
-     * Set a storage dirver to access and store project data and settings.
+     * Set a storage driver to access and store project data and settings.
      *
-     * @param storageDirver The concrete Storage Driver instance
+     * @param storageDriver The concrete Storage Driver instance
      */
-    public static setStorageDirver(storageDirver: StorageDriver) {
-        DataManagement.storageDirver = storageDirver;
+    public static setStorageDriver(storageDriver: StorageDriver) {
+        DataManagement.storageDriver = storageDriver;
     }
 
 }

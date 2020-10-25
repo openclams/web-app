@@ -16,7 +16,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('drawer', {static: false}) public sidenav: MatDrawer;
 
   constructor(private toastr: ToastrService, private sideNavService: SideNavService) {
-    DataManagement.setStorageDirver(new LocalStorageDriverPrinter());
+    DataManagement.setStorageDriver(new LocalStorageDriverPrinter());
   }
 
   ngAfterViewInit(): void {
