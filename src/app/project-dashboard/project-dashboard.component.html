@@ -5,7 +5,7 @@
         <mat-icon>add</mat-icon>
         Add Project
       </button>
-  
+
       <!--
       <button mat-button class="crm-command-bar-button"
               [disabled]="!isDirty() || !isValid()"
@@ -21,21 +21,21 @@
       </button>
       -->
     </ng-container>
-  
+
     <div fxFlex fxLayout fxLayoutAlign="flex-end">
         <button mat-icon-button>
             <mat-icon>help_outline</mat-icon>
         </button>
-    </div> 
+    </div>
 </app-command-bar>
 
 <div  fxLayout="column" id="main-container" fxLayoutAlign="start stretch">
-    
+
         <h1 class="mat-h1" style="max-width: 600px; margin: 20px 0 20px 20px;">Projects</h1>
-   
+
         <div fxFlex   fxLayout="row wrap" fxLayoutAlign="start start"  fxLayoutGap="20px" class="content" style="max-width: 600px; margin: 0 0 0 20px;">
-         
-            <mat-card class="project-card" *ngFor="let project of projects; let i = index" style="min-width:300px;">
+
+            <mat-card class="project-card" *ngFor="let project of getProjectMetas(); let i = index" style="min-width:300px;">
                 <mat-card-header (click)="openProject(project)" style="cursor: pointer;">
                     <div mat-card-avatar><mat-icon>cloud_queue</mat-icon></div>
                     <mat-card-title matTooltip="{{project.name}}">
@@ -63,8 +63,8 @@
                     </div>
                 </mat-card-actions>
             </mat-card>
-                    
+
 
         </div>
-    
+
 </div>

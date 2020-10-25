@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
 import {ProjectFileService} from '../project-file.service';
+import {error} from "@angular/compiler/src/util";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-menu',
@@ -9,20 +11,23 @@ import {ProjectFileService} from '../project-file.service';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private router:Router, private projectFileService: ProjectFileService) { }
+  @ViewChild('fileInputLabel') fileInput: ElementRef;
+
+  constructor(private router: Router, private projectFileService: ProjectFileService, private toastr: ToastrService) {
+  }
 
   ngOnInit() {
   }
 
-  openDashboard(){
+  openDashboard() {
     this.router.navigate(['']);
   }
 
-  openLicenses(){
+  openLicenses() {
     this.router.navigate(['license']);
   }
 
-  openCredits(){
+  openCredits() {
     this.router.navigate(['credits']);
   }
 
@@ -32,5 +37,18 @@ export class MenuComponent implements OnInit {
 
   downloadProject() {
     this.projectFileService.download();
+  }
+
+  handleFileInput(files: FileList) {
+    try {
+      this.projectFileService.uploadAll(files).then((successCounter) => this.toastr.info(`Uploaded ${successCounter} Projects`));
+    } catch (e) {
+      error(`Unable to upload files: ${files}`)
+    }
+  }
+
+  triggerFileUpload() {
+    const inputElement = this.fileInput.nativeElement;
+    inputElement.click()
   }
 }

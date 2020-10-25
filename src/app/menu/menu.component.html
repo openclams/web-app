@@ -11,12 +11,20 @@
     <mat-icon mat-list-icon>dashboard</mat-icon>
     <div mat-line>Dashboard</div>
   </button>
-  <button mat-list-item>
+
+  <button mat-list-item (click)="triggerFileUpload()">
     <mat-icon mat-list-icon>cloud_upload</mat-icon>
-    <div mat-line>Upload Project</div>
+    <div mat-line>Upload Project(s)</div>
   </button>
+  <div style="display: none">
+    <label #fileInputLabel for="file-input"></label>
+    <input id="file-input"
+           type="file"
+           multiple
+           (change)="handleFileInput($event.target.files)">
+  </div>
   <div *ngIf="inProject()">
-    <button mat-list-item (click) = 'downloadProject()'>
+    <button mat-list-item (click)='downloadProject()'>
       <mat-icon mat-list-icon>cloud_download</mat-icon>
       <div mat-line>Download Project</div>
     </button>
