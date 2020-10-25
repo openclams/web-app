@@ -6,10 +6,10 @@
                style="margin-right: 0.25%;margin-left: 0.25%">
   <mat-tab *ngFor="let graph of frame.graphs; let index = index">
     <ng-template mat-tab-label>
-        <!-- (dblclick)="openNameTabDialog(graph)" -->
-        <div  fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%;">
-        <span  matTooltip="{{graph.name}}">{{graph.name | truncate : 20 : '...'}}</span>
-     
+      <!-- (dblclick)="openNameTabDialog(graph)" -->
+      <div fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%;">
+        <span matTooltip="{{graph.name}}">{{graph.name | truncate : 20 : '...'}}</span>
+
         <button mat-icon-button
                 (mouseover)="changeButtonColor(index)"
                 (mouseleave)="changeButtonColor(-1)"
@@ -22,14 +22,17 @@
       </div>
     </ng-template>
 
-    <mat-drawer-container style="height:100%;overflow: hidden;" [hasBackdrop]="true">
+    <mat-drawer-container (mouseenter)="graphKeyHandlerActive(true)"
+                          (mouseleave)="graphKeyHandlerActive(false)"
+                          [hasBackdrop]="true"
+                          style="height:100%;overflow: hidden;">
       <mat-drawer
         [opened]="showInfo"
         position="end"
         mode="push"
-        (closedStart)="closeInfo(graph)"
+        (closedStart)="closeInfo()"
         class="drawer-width dragscroll">
-          <app-properties [element]="element" *ngIf="element"></app-properties>
+        <app-properties [element]="element" *ngIf="element"></app-properties>
       </mat-drawer>
       <mat-drawer-content style="background: white;">
         <div class="graph-container dragscroll" id="{{graph.id}}"></div>

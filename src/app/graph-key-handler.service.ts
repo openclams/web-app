@@ -1,6 +1,6 @@
-import {HostListener, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {GraphService} from './graph.service';
-import {GraphEventType} from "./events/graph-event-type";
+import {GraphEventType} from './events/graph-event-type';
 
 @Injectable({
   providedIn: 'root'

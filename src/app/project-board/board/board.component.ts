@@ -9,6 +9,7 @@ import {SequenceDiagram} from '@openclams/clams-ml';
 import { SequenceDiagramService } from 'src/app/graphs/sequence-diagram.service';
 import { ElementEventType } from 'src/app/events/element-event-type';
 import {Element} from '@openclams/clams-ml';
+import {GraphKeyHandlerService} from '../../graph-key-handler.service';
 
 @Component({
   selector: 'app-board',
@@ -25,7 +26,8 @@ export class BoardComponent implements OnInit {
 
   constructor(private graphService: GraphService,
               private userProfileService: UserProfileService,
-              private sequenceDiagramService: SequenceDiagramService
+              private sequenceDiagramService: SequenceDiagramService,
+              private graphKeyHandler: GraphKeyHandlerService,
     ) {
       this.closeButtonHoverIndex = -1;
       this.showInfo = false;
@@ -93,6 +95,10 @@ export class BoardComponent implements OnInit {
       // This method is always called then we press a tab
       this.activateGraph();
     }
+  }
+
+  graphKeyHandlerActive(to: boolean) {
+    this.graphKeyHandler.active = to
   }
 
 
