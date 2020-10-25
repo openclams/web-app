@@ -10,7 +10,7 @@ import {GraphEventType} from 'src/app/events/graph-event-type';
 import {GraphService} from 'src/app/graph.service';
 import {ProjectManager} from 'src/app/data-management/project-manager';
 import {Router} from '@angular/router';
-import {ToastrService} from "ngx-toastr";
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({

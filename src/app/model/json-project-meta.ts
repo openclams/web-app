@@ -3,7 +3,7 @@ import {JsonCloudProvider} from '@openclams/clams-ml';
 /**
  * Project meta data
  *
- * The dashborad should just load for preview propose
+ * The dashboard should just load for preview propose
  * important meta data of projects,
  * and not the whole project with all its grpahs.
  */

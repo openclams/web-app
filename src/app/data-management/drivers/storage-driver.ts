@@ -1,7 +1,7 @@
 /**
  * Abstract storage driver
  *
- * This class provides the generall interface
+ * This class provides the general interface
  * to store object to some external or internal
  * storage system
  */
@@ -9,12 +9,12 @@ export default abstract class StorageDriver {
     /**
      * Save an object to a key-value store
      * @param key Identifier of the object
-     * @param object Any serializable object
+     * @param value Any serializable object
      */
     public abstract put<T>(key: string, value: T);
 
     /**
-     * Retrive an object based on its key
+     * Retrieve an object based on its key
      * @param key Identifier of the object
      * @param defaultValue Default value if key not found
      */

@@ -1,36 +1,38 @@
 <mat-toolbar>
-    <mat-toolbar-row>
-        <img src='/assets/OpenClams.png' alt='OpenClams Logo' style="height: 60px; width: auto;">
-        <h2 class="toolbar-title"> OpenClams </h2>
-    </mat-toolbar-row>
- </mat-toolbar>
+  <mat-toolbar-row>
+    <img src='/assets/OpenClams.png' alt='OpenClams Logo' style="height: 60px; width: auto;">
+    <h2 class="toolbar-title"> OpenClams </h2>
+  </mat-toolbar-row>
+</mat-toolbar>
 
 <mat-action-list>
-    <div mat-subheader>Projects</div>
-    <button mat-list-item (click)='openDashboard()' >
-        <mat-icon mat-list-icon >dashboard</mat-icon>
-        <div mat-line>Dashboard</div>
+  <div mat-subheader>Projects</div>
+  <button mat-list-item (click)='openDashboard()'>
+    <mat-icon mat-list-icon>dashboard</mat-icon>
+    <div mat-line>Dashboard</div>
+  </button>
+  <button mat-list-item>
+    <mat-icon mat-list-icon>cloud_upload</mat-icon>
+    <div mat-line>Upload Project</div>
+  </button>
+  <div *ngIf="inProject()">
+    <button mat-list-item (click) = 'downloadProject()'>
+      <mat-icon mat-list-icon>cloud_download</mat-icon>
+      <div mat-line>Download Project</div>
     </button>
-    <button mat-list-item >
-        <mat-icon mat-list-icon>cloud_upload</mat-icon>
-        <div mat-line>Upload</div>
-    </button>
-    <button mat-list-item >
-        <mat-icon mat-list-icon>cloud_download</mat-icon>
-        <div mat-line>Download</div>
-    </button>
-    <mat-divider></mat-divider>
-    <div mat-subheader>Help</div>
-    <button mat-list-item (click)='openLicenses()'>
-        <mat-icon mat-list-icon>policy</mat-icon>
-        <div mat-line>License</div>
-    </button>
-    <button mat-list-item (click)='openCredits()'>
-        <mat-icon mat-list-icon>people</mat-icon>
-        <div mat-line>Credits</div>
-    </button>
-    <button mat-list-item >
-        <mat-icon mat-list-icon>alternate_email</mat-icon>
-        <div mat-line>Feedback</div>
-    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-subheader>Help</div>
+  <button mat-list-item (click)='openLicenses()'>
+    <mat-icon mat-list-icon>policy</mat-icon>
+    <div mat-line>License</div>
+  </button>
+  <button mat-list-item (click)='openCredits()'>
+    <mat-icon mat-list-icon>people</mat-icon>
+    <div mat-line>Credits</div>
+  </button>
+  <button mat-list-item>
+    <mat-icon mat-list-icon>alternate_email</mat-icon>
+    <div mat-line>Feedback</div>
+  </button>
 </mat-action-list>

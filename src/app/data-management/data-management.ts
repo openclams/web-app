@@ -44,5 +44,4 @@ export default class DataManagement {
     public static setStorageDriver(storageDriver: StorageDriver) {
         DataManagement.storageDriver = storageDriver;
     }
-
 }
