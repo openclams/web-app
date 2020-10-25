@@ -24,7 +24,7 @@ export class BoardComponent implements OnInit {
   closeButtonHoverIndex: number;
 
   constructor(private graphService: GraphService,
-              private userProfileServie: UserProfileService,
+              private userProfileService: UserProfileService,
               private sequenceDiagramService: SequenceDiagramService
     ) {
       this.closeButtonHoverIndex = -1;
@@ -58,10 +58,10 @@ export class BoardComponent implements OnInit {
   }
 
   activateGraph() {
-    this.userProfileServie.disable();
+    this.userProfileService.disable();
     this.sequenceDiagramService.disable();
     if (this.frame.activeGraph instanceof UserProfile) {
-      this.userProfileServie.set(this.frame.activeGraph);
+      this.userProfileService.set(this.frame.activeGraph);
     } else if (this.frame.activeGraph instanceof SequenceDiagram) {
       this.sequenceDiagramService.set(this.frame.activeGraph);
     }
