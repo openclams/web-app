@@ -22,13 +22,13 @@
     "@angular/platform-browser": "~10.0.6",
     "@angular/platform-browser-dynamic": "~10.0.6",
     "@angular/router": "~10.0.6",
+    "@openclams/clams-ml": "^1.5.7",
     "mxgraph": "^4.2.0",
     "ngx-toastr": "^11.2.1",
     "rxjs": "~6.5.5",
     "s": "^1.0.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.3",
-    "@openclams/clams-ml": "1.5.7"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1000.5",
