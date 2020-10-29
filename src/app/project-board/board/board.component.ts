@@ -9,6 +9,7 @@ import {SequenceDiagram} from '@openclams/clams-ml';
 import { SequenceDiagramService } from 'src/app/graphs/sequence-diagram.service';
 import { ElementEventType } from 'src/app/events/element-event-type';
 import {Element} from '@openclams/clams-ml';
+import {GraphKeyHandlerService} from '../../graph-key-handler.service';
 
 @Component({
   selector: 'app-board',
@@ -24,8 +25,9 @@ export class BoardComponent implements OnInit {
   closeButtonHoverIndex: number;
 
   constructor(private graphService: GraphService,
-              private userProfileServie: UserProfileService,
-              private sequenceDiagramService: SequenceDiagramService
+              private userProfileService: UserProfileService,
+              private sequenceDiagramService: SequenceDiagramService,
+              private graphKeyHandler: GraphKeyHandlerService,
     ) {
       this.closeButtonHoverIndex = -1;
       this.showInfo = false;
@@ -58,10 +60,10 @@ export class BoardComponent implements OnInit {
   }
 
   activateGraph() {
-    this.userProfileServie.disable();
+    this.userProfileService.disable();
     this.sequenceDiagramService.disable();
     if (this.frame.activeGraph instanceof UserProfile) {
-      this.userProfileServie.set(this.frame.activeGraph);
+      this.userProfileService.set(this.frame.activeGraph);
     } else if (this.frame.activeGraph instanceof SequenceDiagram) {
       this.sequenceDiagramService.set(this.frame.activeGraph);
     }
@@ -93,6 +95,10 @@ export class BoardComponent implements OnInit {
       // This method is always called then we press a tab
       this.activateGraph();
     }
+  }
+
+  graphKeyHandlerActive(to: boolean) {
+    this.graphKeyHandler.active = to
   }
 
 
