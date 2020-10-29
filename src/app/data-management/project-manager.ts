@@ -10,10 +10,13 @@ import {ProjectFactory} from './project-factory';
  */
 export class ProjectManager {
 
+  // currently available project metas
+  static projectMetas: JsonProjectMeta[] = []
+
   /**
    * Load project information for dashboard
    */
-  public static getProjectMetas(): Promise<JsonProjectMeta[]> {
+  private static getProjectMetas(): Promise<JsonProjectMeta[]> {
     return DataManagement.storageDriver.get(DataManagement.KEY_PROJECT_DIRECTORY, []);
   }
 
@@ -21,8 +24,8 @@ export class ProjectManager {
    * Save project to storage
    *
    */
-  public static save(project: Project) {
-    Settings.get<JsonProjectMeta[]>(DataManagement.KEY_PROJECT_DIRECTORY, []).then(jsonProjectMetas => {
+  public static async save(project: Project) {
+    await Settings.get<JsonProjectMeta[]>(DataManagement.KEY_PROJECT_DIRECTORY, []).then(jsonProjectMetas => {
       const index = jsonProjectMetas.findIndex(p => p.id === project.metaData.id);
       if (index > -1) {
         jsonProjectMetas[index] = project.metaData;
@@ -33,6 +36,7 @@ export class ProjectManager {
     });
     DataManagement.storageDriver.put(DataManagement.KEY_LAST_PROJECT_ID, project.metaData.id);
     DataManagement.storageDriver.put(project.metaData.id, ProjectFactory.toJSON(project));
+    this.refreshProjectMetas()
   }
 
   /**
@@ -67,6 +71,7 @@ export class ProjectManager {
       Settings.set<JsonProjectMeta[]>(DataManagement.KEY_PROJECT_DIRECTORY, jsonProjectMetas);
     });
     DataManagement.storageDriver.delete(id);
+    this.refreshProjectMetas()
   }
 
   /**
@@ -76,5 +81,9 @@ export class ProjectManager {
    */
   public static close() {
     DataManagement.storageDriver.put(DataManagement.KEY_LAST_PROJECT_ID, null);
+  }
+
+  public static refreshProjectMetas() {
+    ProjectManager.getProjectMetas().then(metas => {this.projectMetas = metas})
   }
 }

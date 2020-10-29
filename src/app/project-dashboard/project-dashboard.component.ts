@@ -14,14 +14,12 @@ import { Router } from '@angular/router';
 })
 export class ProjectDashboardComponent implements OnInit {
 
-  public projects: JsonProjectMeta[];
 
   constructor(public dialog: MatDialog, private router: Router) {
-    this.projects = [];
   }
 
   ngOnInit() {
-    ProjectManager.getProjectMetas().then(projects => this.projects = projects);
+    ProjectManager.refreshProjectMetas()
     this.onResize();
   }
 
@@ -34,7 +32,6 @@ export class ProjectDashboardComponent implements OnInit {
 
   onDelete(project: JsonProjectMeta, idx: number) {
     ProjectManager.delete(project.id);
-    this.projects.splice(idx, 1);
   }
 
   openProject(project: JsonProjectMeta){
@@ -53,8 +50,6 @@ export class ProjectDashboardComponent implements OnInit {
       console.log(`Dialog result:`, project);
       // Save project
       ProjectManager.save(project);
-      // Extend projects list
-      this.projects.push(project.metaData);
     });
   }
 
@@ -72,6 +67,10 @@ export class ProjectDashboardComponent implements OnInit {
           ProjectManager.save(project);
         });
     });
+  }
+
+  getProjectMetas(): JsonProjectMeta[] {
+    return ProjectManager.projectMetas;
   }
 
 }
