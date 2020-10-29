@@ -1,5 +1,5 @@
 import ISettable from '../model/ISettable';
-import DataManagement from './data-managment';
+import DataManagement from './data-management';
 
 /**
  * Store project and  model settings
@@ -10,7 +10,7 @@ export default class Settings {
    *
    * A setting might be associated with an object `ref`, hence we
    * can have the same setting key for multiple objects, which return
-   * differnt values.
+   * different values.
    * @param key Setting key
    * @param defaultValue  default value when no setting was found
    * @param ref Reference object of the setting (works likes a namespace)
@@ -20,7 +20,7 @@ export default class Settings {
     if (ref) {
       storageKey = ref.getSettingsId() + storageKey;
     }
-    return DataManagement.storageDirver.get<T>(storageKey, defaultValue);
+    return DataManagement.storageDriver.get<T>(storageKey, defaultValue);
   }
 
   /**
@@ -28,8 +28,9 @@ export default class Settings {
    *
    * A setting can be associated with an object `ref`, hence we
    * can have the same setting key for multiple objects, which return
-   * differnt values.
+   * different values.
    * @param key Setting key
+   * @param value Any serializable object
    * @param ref Reference object of the setting (works likes a namespace)
    */
   public static set<T>(key: string, value: T, ref?: ISettable) {
@@ -37,6 +38,6 @@ export default class Settings {
     if (ref) {
       storageKey = ref.getSettingsId() + storageKey;
     }
-    DataManagement.storageDirver.put<T>(storageKey, value);
+    DataManagement.storageDriver.put<T>(storageKey, value);
   }
 }

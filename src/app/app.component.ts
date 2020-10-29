@@ -1,5 +1,5 @@
 import {Component, ViewChild, HostListener, AfterViewInit} from '@angular/core';
-import DataManagement from './data-management/data-managment';
+import DataManagement from './data-management/data-management';
 import LocalStorageDriverPrinter from './data-management/drivers/local-storage-driver-printer';
 import { SideNavService } from './side-nav.service';
 import { MatDrawer } from '@angular/material';
