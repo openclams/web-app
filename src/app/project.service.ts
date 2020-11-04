@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import Project from './model/project';
-import {Graph} from '@openclams/clams-ml';
+import { Graph } from '@openclams/clams-ml';
 import Frame from './model/frame';
-import {UserProfile} from '@openclams/clams-ml';
+import { UserProfile } from '@openclams/clams-ml';
 import { GraphService } from './graph.service';
 import { GraphEventType } from './events/graph-event-type';
 import Utils from './utils';
-import {Edge} from '@openclams/clams-ml';
-import {State} from '@openclams/clams-ml';
-import {Node} from '@openclams/clams-ml';
-import {Component} from '@openclams/clams-ml';
+import { Edge } from '@openclams/clams-ml';
+import { State } from '@openclams/clams-ml';
+import { Node } from '@openclams/clams-ml';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,40 +24,36 @@ export class ProjectService {
       // When we removed a grpah we redraw the model
       this.addGraph(graph);
     });
-    this.costCache = {};
   }
 
   public project: Project;
   private activeFrame: Frame;
 
-  // We rember here some preselected cost values, in case
-  // the user changes often the components, we want to remember the nuber of units
-    costCache: Record<string, {regionID: string, units: number}>;
 
-    set(project: Project) {
-      this.project = project;
-      // Create a new frame if the project is new, and has no frame.
-      if (this.project && !this.project.frames.length) {
-        this.activeFrame = new Frame();
-        this.project.frames.push(this.activeFrame);
-      }
-      this.activeFrame = this.project.frames[0];
+  set(project: Project) {
+    this.project = project;
+    // Create a new frame if the project is new, and has no frame.
+    if (this.project && !this.project.frames.length) {
+      this.activeFrame = new Frame();
+      this.project.frames.push(this.activeFrame);
     }
+    this.activeFrame = this.project.frames[0];
+  }
 
-    getActiveFrame(): Frame {
-      return this.activeFrame;
-    }
+  getActiveFrame(): Frame {
+    return this.activeFrame;
+  }
 
-    setActiveFrame(frame: Frame) {
-      this.activeFrame = frame;
-    }
+  setActiveFrame(frame: Frame) {
+    this.activeFrame = frame;
+  }
 
-    /**
-     * Search whether the grpah is open in some frame
-     * or not.
-     */
-    isGraphOpen(graph: Graph): boolean {
-      return this.project.frames.filter(frame => {
+  /**
+   * Search whether the grpah is open in some frame
+   * or not.
+   */
+  isGraphOpen(graph: Graph): boolean {
+    return this.project.frames.filter(frame => {
       return frame.graphs.includes(graph);
     }).length > 0;
   }
@@ -69,13 +65,13 @@ export class ProjectService {
 
   removeGraph(graph: Graph) {
     // Remove from model
-    Utils.removeItemFromArray(graph , this.project.model.graphs);
+    Utils.removeItemFromArray(graph, this.project.model.graphs);
     const userProfiles = this.project.model.graphs.filter(g => g instanceof UserProfile);
     userProfiles.forEach(g => {
       g.nodes.filter(n => {
         const state = n as State;
         return state.sequenceDiagram === graph;
-      }).forEach( match => this.removeState(match, g) );
+      }).forEach(match => this.removeState(match, g));
     });
     this.graphService.triggerGraphEvent(GraphEventType.REMOVED, graph);
     // const gidx = this.project.model.graphs.findIndex(g => g.id === graph.id);
@@ -85,7 +81,7 @@ export class ProjectService {
   }
 
   private removeState(node: Node, graph: Graph) {
-    Utils.removeItemFromArray(node , graph.nodes);
+    Utils.removeItemFromArray(node, graph.nodes);
     (node as State).edgesOut.forEach(edge => this.removeArrow(edge, graph));
     (node as State).edgesIn.forEach(edge => this.removeArrow(edge, graph));
   }
@@ -105,32 +101,5 @@ export class ProjectService {
    */
   componentGC() {
     this.project.model.components = this.project.model.components.filter(cw => cw.instances.length > 0);
-  }
-
-  getCostCache(component: Component) {
-    if(!component){
-      return null;
-    }
-    return component.id in this.costCache ? this.costCache[component.id] : null;
-  }
-
-  setCostCacheRegion(component: Component, regionId: string) {
-    const item = this.getCostCache(component);
-    if (!item ) {
-      this.newCostCacheEntry(component);
-    }
-    this.costCache[component.id].regionID = regionId;
-  }
-
-  setCostCacheUnits(component: Component, units: number) {
-    const item = this.getCostCache(component);
-    if (!item ) {
-      this.newCostCacheEntry(component);
-    }
-    this.costCache[component.id].units = units;
-  }
-
-  newCostCacheEntry(component: Component) {
-   this.costCache[component.id] = {regionID:'', units: 0};
   }
 }
