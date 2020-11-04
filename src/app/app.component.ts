@@ -5,7 +5,7 @@ import { SideNavService } from './side-nav.service';
 import { MatDrawer } from '@angular/material';
 import {ToastrService} from 'ngx-toastr';
 import {GraphEventType} from './events/graph-event-type';
-import {GraphKeyHandlerService} from "./graph-key-handler.service";
+import {GraphKeyHandlerService} from './graph-key-handler.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('drawer', {static: false}) public sidenav: MatDrawer;
 
   constructor(private toastr: ToastrService, private sideNavService: SideNavService, private graphKeyHandler: GraphKeyHandlerService) {
-    DataManagement.setStorageDirver(new LocalStorageDriverPrinter());
+    DataManagement.setStorageDriver(new LocalStorageDriverPrinter());
   }
 
   ngAfterViewInit(): void {
