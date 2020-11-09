@@ -3,5 +3,5 @@
     Evaluate
 </button>
 <mat-menu #EvalMenu="matMenu" >
-    <button mat-menu-item *ngFor="let server of evalServers">{{server.menuTitle}}</button>
+    <button mat-menu-item *ngFor="let server of evalServers" (click)="transfer(server)">{{server.menuTitle}}</button>
 </mat-menu>

@@ -10,7 +10,18 @@ export const environment = {
   serviceServer: 'http://localhost:80/bosch/service-catalogs.json',
   evalServers: [{
     menuTitle: 'Predict Availability',
-    url: 'http://localhost:8088/'
+    url: 'http://localhost:8088/',
+    parameters:{
+      head: 'Minimal Cost Recommendation',
+      body: 'Select cost-minimal services for a given availability requirement',
+      args:[
+        {
+          label:'Availability Limit',
+          name: 'availability',
+          unit: '%'
+        }
+      ]
+    }
   }]
 };
 

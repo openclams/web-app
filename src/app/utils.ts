@@ -1,32 +1,21 @@
 import {Model} from '@openclams/clams-ml';
 import {ModelFactory} from '@openclams/clams-ml';
 
+/**
+ * The utils class provides helpful methods
+ * for recurring problems, like removing
+ * items from an array.
+ */
 export default class Utils{
 
-    public static undoBuffer: Model[] = [];
-    public static redoBuffer: Model[] = [];
-
+    /**
+     * Remove an item from an array/list
+     */
     public static removeItemFromArray(item: any, list: any[]){
         const index = list.indexOf(item, 0);
         if (index > -1) {
             list.splice(index, 1);
         }
-    }
-
-    public static saveSnapshot(project: Model) {
-        Utils.undoBuffer.push(ModelFactory.copy(project));
-    }
-
-    public static undoSnapshot() {
-        const project = Utils.undoBuffer.pop();
-        Utils.redoBuffer.push(project);
-        return project;
-    }
-
-    public static redoSnapshot() {
-        const project = Utils.redoBuffer.pop();
-        Utils.undoBuffer.push(project);
-        return project;
     }
 }
 

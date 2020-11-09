@@ -64,6 +64,8 @@ export class ComponentTreeComponent implements OnInit {
         readable: false,
         description: 'Component Name'
       });
+    }else{
+      nameAttribute.value = name;
     }
   }
 

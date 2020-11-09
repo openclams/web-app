@@ -1,0 +1,12 @@
+.mat-grid-tile_img {
+    width: 100%;
+    height: 100%;
+}
+    
+figcaption {
+    font-family: Arial;
+    line-height: 80%;
+    font-weight: normal;
+    font-size: x-small;
+    color: #030303;
+}

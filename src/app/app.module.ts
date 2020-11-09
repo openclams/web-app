@@ -57,6 +57,8 @@ import { CostAttributeComponent } from './project-board/board/properties/attribu
 import { ComponentTreeComponent } from './project-board/board/properties/component-tree/component-tree.component';
 import { ToastrModule } from 'ngx-toastr';
 import { EvaluationComponent } from './project-board/evaluation/evaluation.component';
+import { ReplacementDialogComponent } from './project-board/evaluation/replacement-dialog/replacement-dialog.component';
+import { InputDialogComponent } from './project-board/evaluation/input-dialog/input-dialog.component';
 
 @NgModule({
   declarations: [
@@ -86,7 +88,9 @@ import { EvaluationComponent } from './project-board/evaluation/evaluation.compo
     EnumAttributeComponent,
     CostAttributeComponent,
     ComponentTreeComponent,
-    EvaluationComponent
+    EvaluationComponent,
+    ReplacementDialogComponent,
+    InputDialogComponent
   ],
   imports: [
     HttpClientModule,
@@ -126,6 +130,8 @@ import { EvaluationComponent } from './project-board/evaluation/evaluation.compo
     CreateProjectDialogComponent,
     EditProjectDialogComponent,
     CreateGraphDialogComponent,
-    EditGraphDialogComponent],
+    EditGraphDialogComponent,
+    ReplacementDialogComponent,
+    InputDialogComponent],
 })
 export class AppModule { }
