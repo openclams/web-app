@@ -7,11 +7,14 @@
                  [formControl]="name"
                  required
                  autofocus>
-          <mat-error *ngIf="name.hasError('required') && !name.hasError('maxlength')">
-            Please enter a name
-          </mat-error>
-          <mat-error *ngIf="name.hasError('maxlength')">
-            Name too long
+<!--          <mat-error *ngIf="name.hasError('required') && !name.hasError('maxlength')">-->
+<!--            Please enter a name-->
+<!--          </mat-error>-->
+<!--          <mat-error *ngIf="name.hasError('maxlength')">-->
+<!--            Name too long-->
+<!--          </mat-error>-->
+          <mat-error *ngIf="name.invalid">
+            {{ getNameErrorMsg() }}
           </mat-error>
         </mat-form-field>
 
@@ -23,9 +26,9 @@
               Owners too long
             </mat-error>
         </mat-form-field>
-       
+
         <mat-form-field appearance="fill" style="width: 100%;">
-                  <textarea  matInput
+                  <textarea matInput
                             cdkTextareaAutosize
                             cdkAutosizeMinRows="5"
                             cdkAutosizeMaxRows="15"
@@ -54,7 +57,7 @@
                     </mat-checkbox>
                 </mat-panel-title>
                 </mat-expansion-panel-header>
-            
+
                 <span class="provider-list-section">
                     <ul>
                     <li *ngFor="let option of item.options">
@@ -68,9 +71,17 @@
             </mat-expansion-panel>
         </mat-accordion>
     </div>
-       
+
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onCancelClick()">Cancel</button>
-  <button mat-button type="submit" (click)="onCreate()" cdkFocusInitial>Create</button>
+  <button mat-button
+          (click)="onCancelClick()">
+    Cancel
+  </button>
+  <button mat-button
+          [disabled]="name.invalid"
+          type="submit"
+          (click)="onCreate()">
+    Create
+  </button>
 </div>

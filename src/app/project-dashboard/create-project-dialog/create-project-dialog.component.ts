@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import CloudProviderItem from './cloud-provider-item';
 import { HttpClient } from '@angular/common/http';
-import {JsonCloudProvider} from '@openclams/clams-ml';
+import { ClamsProject, CloudProviderFactory, JsonCloudProvider } from '@openclams/clams-ml';
 import { environment } from '../../../environments/environment';
 import Project from '../../model/project';
-import {ClamsProject} from '@openclams/clams-ml';
-import {CloudProviderFactory} from '@openclams/clams-ml';
+import { ProjectManager } from '../../data-management/project-manager';
+import JsonProjectMeta from '../../model/json-project-meta';
 
 @Component({
   selector: 'app-create-project-dialog',
@@ -21,14 +21,16 @@ export class CreateProjectDialogComponent implements OnInit {
 
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder,
-              public dialogRef: MatDialogRef<CreateProjectDialogComponent>) { }
+              public dialogRef: MatDialogRef<CreateProjectDialogComponent>) {
+  }
 
   ngOnInit() {
     this.providerList = [];
     this.projectForm = this.formBuilder.group({
       name: ['', [
         Validators.required,
-        Validators.maxLength(256)
+        Validators.maxLength(256),
+        this.duplicateNameValidator
       ]],
       description: ['', [
         Validators.maxLength(2048)
@@ -38,24 +40,24 @@ export class CreateProjectDialogComponent implements OnInit {
       ]],
     });
 
-    this.http.get<JsonCloudProvider[]>(environment.serviceServer).subscribe( cloudProviders =>
+    this.http.get<JsonCloudProvider[]>(environment.serviceServer).subscribe(cloudProviders =>
       this.providerList = cloudProviders.map(provider => {
-          const item = new CloudProviderItem();
-          item.provider = provider;
-          item.options = provider.regions.map(r => {
-            return  {
-                      completed: true,
-                      region: r
-                    };
-            });
-          return item;
-        })
-      );
+        const item = new CloudProviderItem();
+        item.provider = provider;
+        item.options = provider.regions.map(r => {
+          return {
+            completed: true,
+            region: r
+          };
+        });
+        return item;
+      })
+    );
   }
 
   updateAllComplete(provider: CloudProviderItem) {
     provider.allCompleted = provider.options != null
-                         && provider.options.every(t => t.completed);
+      && provider.options.every(t => t.completed);
   }
 
   someComplete(provider: CloudProviderItem): boolean {
@@ -63,7 +65,7 @@ export class CreateProjectDialogComponent implements OnInit {
       return false;
     }
     return provider.options.filter(t => t.completed).length > 0
-          && !provider.allCompleted;
+      && !provider.allCompleted;
   }
 
   setAll(provider: CloudProviderItem, completed: boolean) {
@@ -101,6 +103,22 @@ export class CreateProjectDialogComponent implements OnInit {
     this.dialogRef.close(project);
   }
 
+  duplicateNameValidator(newName: FormControl) {
+    for (const project of ProjectManager.projectMetas) {
+      const name = project.name.toLowerCase()
+      if (!name.localeCompare(newName.value.trim())) {
+        return {duplicate: true};
+      }
+    }
+    return null;
+  }
+
+  getNameErrorMsg() {
+    return this.name.hasError('required') ? 'Please enter a name' :
+      this.name.hasError('maxlength') ? 'Name too long' :
+        this.name.invalid ? 'Name already exists' : ''
+  }
+
   public getCloudProviders(): JsonCloudProvider[] {
     return this.providerList.map(item => {
       if (this.someComplete(item) || item.allCompleted) {
@@ -117,12 +135,12 @@ export class CreateProjectDialogComponent implements OnInit {
     }).filter(p => p);
   }
 
-  get name() {
-    return this.projectForm.get('name');
-  }
-
   get description() {
     return this.projectForm.get('description');
+  }
+
+  get name() {
+    return this.projectForm.get('name');
   }
 
   get owner() {
