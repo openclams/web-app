@@ -38,18 +38,25 @@ export class ProjectDashboardComponent implements OnInit {
     this.router.navigate(['project', project.id]);
   }
 
-  openCreateProjectDialog() {
-    console.log('Create Project Event');
-    const dialogRef = this.dialog.open(CreateProjectDialogComponent);
+  openProjectDialog(metaData?: JsonProjectMeta) {
+    console.log(metaData);
+    const dialogRef = this.dialog.open(CreateProjectDialogComponent,
+      {data: {projectMeta: metaData}});
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) {
+    dialogRef.afterClosed().subscribe((result: { isUpdate: boolean, data: Project }) => {
+      if (!result || !result.data) {
         return;
       }
-      const project = result as Project;
-      console.log(`Dialog result:`, project);
-      // Save project
-      ProjectManager.save(project);
+      console.log(`Dialog result:`, result);
+      // Update/Save project
+      if (result.isUpdate) {
+        ProjectManager.load(metaData.id).then(project => {
+          project.metaData = result.data.metaData;
+          ProjectManager.save(project);
+        });
+      } else {
+        ProjectManager.save(result.data);
+      }
     });
   }
 

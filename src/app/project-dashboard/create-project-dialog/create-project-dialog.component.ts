@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import CloudProviderItem from './cloud-provider-item';
@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import Project from '../../model/project';
 import { ProjectManager } from '../../data-management/project-manager';
 import JsonProjectMeta from '../../model/json-project-meta';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-project-dialog',
@@ -18,41 +19,46 @@ export class CreateProjectDialogComponent implements OnInit {
 
   public projectForm: FormGroup;
   public providerList: CloudProviderItem[];
+  readonly isUpdate;
 
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder,
-              public dialogRef: MatDialogRef<CreateProjectDialogComponent>) {
+              public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: {projectMeta: JsonProjectMeta}) {
+    this.isUpdate = !!data.projectMeta;
   }
 
   ngOnInit() {
     this.providerList = [];
     this.projectForm = this.formBuilder.group({
-      name: ['', [
+      name: [this.isUpdate ? this.data.projectMeta.name : '', [
         Validators.required,
         Validators.maxLength(256),
-        this.duplicateNameValidator
+        this.duplicateNameValidator(this.isUpdate ? this.data.projectMeta.name : undefined)
       ]],
-      description: ['', [
+      description: [this.isUpdate ? this.data.projectMeta.description : '', [
         Validators.maxLength(2048)
       ]],
-      owner: ['', [
+      owner: [this.isUpdate ? this.data.projectMeta.owner : '', [
         Validators.maxLength(128)
       ]],
     });
 
-    this.http.get<JsonCloudProvider[]>(environment.serviceServer).subscribe(cloudProviders =>
-      this.providerList = cloudProviders.map(provider => {
-        const item = new CloudProviderItem();
-        item.provider = provider;
-        item.options = provider.regions.map(r => {
-          return {
-            completed: true,
-            region: r
-          };
-        });
-        return item;
-      })
-    );
+    if (!this.isUpdate) {
+      this.http.get<JsonCloudProvider[]>(environment.serviceServer).subscribe(cloudProviders =>
+        this.providerList = cloudProviders.map(provider => {
+          const item = new CloudProviderItem();
+          item.provider = provider;
+          item.options = provider.regions.map(r => {
+            return {
+              completed: true,
+              region: r
+            };
+          });
+          return item;
+        })
+      );
+    }
   }
 
   updateAllComplete(provider: CloudProviderItem) {
@@ -77,44 +83,56 @@ export class CreateProjectDialogComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.dialogRef.close(null);
+    this.dialogRef.close(undefined);
   }
 
-  onCreate() {
+  onSubmit() {
     this.projectForm.markAllAsTouched();
     if (this.projectForm.invalid) {
       return;
     }
-    const rawData = this.projectForm.getRawValue();
-    const id = rawData.name + '_' + Date.now().toString(16);
     const project = new Project();
-    project.metaData.id = id;
-    project.metaData.name = rawData.name;
-    project.metaData.description = rawData.description;
-    project.metaData.owner = rawData.owner;
 
-    project.metaData.cloudProviders = this.getCloudProviders();
-    // Create empty model
-    project.model = new ClamsProject();
-    // Include Cloud Providers to model
-    project.model.cloudProviders = project.metaData.cloudProviders.map(jsonCloudProvider =>
-      CloudProviderFactory.fromJSON(jsonCloudProvider));
+    project.metaData.name = this.name.value;
+    project.metaData.description = this.description.value;
+    project.metaData.owner = this.owner.value;
 
-    this.dialogRef.close(project);
+    if (this.isUpdate) {
+      project.metaData.id = this.data.projectMeta.id;
+      project.metaData.cloudProviders = this.data.projectMeta.cloudProviders
+    } else {
+      project.metaData.id = this.name.value + '_' + Date.now().toString(16);
+      project.metaData.cloudProviders = this.getCloudProviders();
+      // Create empty project model
+      project.model = new ClamsProject();
+      // Include Cloud Providers to model
+      project.model.cloudProviders = project.metaData.cloudProviders.map(jsonCloudProvider =>
+        CloudProviderFactory.fromJSON(jsonCloudProvider));
+    }
+    this.dialogRef.close({
+      isUpdate: this.isUpdate,
+      data: project
+    });
   }
 
   /**
    * Check if the current input name already exists in the project manager and return error if it is the case.
-   * @param newName FormControl of the current name input
+   * In case of update, ignore the name of this project.
+   * @param oldName: Name that is excluded from the duplicate check.
    */
-  duplicateNameValidator(newName: FormControl) {
-    for (const project of ProjectManager.projectMetas) {
-      const name = project.name.toLowerCase()
-      if (!name.localeCompare(newName.value.trim())) {
-        return {duplicate: true};
+  duplicateNameValidator(oldName?: string) {
+    return (control) => {
+      for (const project of ProjectManager.projectMetas) {
+        if (oldName && !oldName.localeCompare(control.value.trim())) {
+          continue
+        }
+        const name = project.name.toLowerCase()
+        if (!name.localeCompare(control.value.trim())) {
+          return {duplicate: true};
+        }
       }
+      return null;
     }
-    return null;
   }
 
   /**

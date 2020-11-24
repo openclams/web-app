@@ -75,7 +75,7 @@
   <button mat-button
           [disabled]="name.invalid"
           type="submit"
-          (click)="onCreate()">
-    Create
+          (click)="onSubmit()">
+    {{ isUpdate ? "Update" : "Create" }}
   </button>
 </div>
