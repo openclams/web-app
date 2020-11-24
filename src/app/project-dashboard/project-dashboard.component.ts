@@ -2,9 +2,8 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { ProjectManager } from '../data-management/project-manager';
 import JsonProjectMeta from '../model/json-project-meta';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateProjectDialogComponent } from './create-project-dialog/create-project-dialog.component';
+import { ProjectMetaDataDialogComponent } from './project-meta-data-dialog/project-meta-data-dialog.component';
 import Project from '../model/project';
-import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -40,7 +39,7 @@ export class ProjectDashboardComponent implements OnInit {
 
   openProjectDialog(metaData?: JsonProjectMeta) {
     console.log(metaData);
-    const dialogRef = this.dialog.open(CreateProjectDialogComponent,
+    const dialogRef = this.dialog.open(ProjectMetaDataDialogComponent,
       {data: {projectMeta: metaData}});
 
     dialogRef.afterClosed().subscribe((result: { isUpdate: boolean, data: Project }) => {
@@ -57,22 +56,6 @@ export class ProjectDashboardComponent implements OnInit {
       } else {
         ProjectManager.save(result.data);
       }
-    });
-  }
-
-  openEditDialog(metaData: JsonProjectMeta) {
-    console.log('Create Project Event');
-    const dialogRef = this.dialog.open(EditProjectDialogComponent,
-      {data: {projectMeta: metaData}});
-
-    dialogRef.afterClosed().subscribe(result => {
-        if (!result) {
-          return;
-        }
-        ProjectManager.load(metaData.id).then(project => {
-          project.metaData = result;
-          ProjectManager.save(project);
-        });
     });
   }
 

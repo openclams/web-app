@@ -12,10 +12,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-project-dialog',
-  templateUrl: './create-project-dialog.component.html',
-  styleUrls: ['./create-project-dialog.component.css']
+  templateUrl: './project-meta-data-dialog.component.html',
+  styleUrls: ['./project-meta-data-dialog.component.css']
 })
-export class CreateProjectDialogComponent implements OnInit {
+export class ProjectMetaDataDialogComponent implements OnInit {
 
   public projectForm: FormGroup;
   public providerList: CloudProviderItem[];
@@ -23,7 +23,7 @@ export class CreateProjectDialogComponent implements OnInit {
 
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder,
-              public dialogRef: MatDialogRef<CreateProjectDialogComponent>,
+              public dialogRef: MatDialogRef<ProjectMetaDataDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: {projectMeta: JsonProjectMeta}) {
     this.isUpdate = !!data.projectMeta;
   }

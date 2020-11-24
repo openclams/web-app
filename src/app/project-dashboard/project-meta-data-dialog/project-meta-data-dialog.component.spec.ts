@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateProjectDialogComponent } from './create-project-dialog.component';
+import { ProjectMetaDataDialogComponent } from './project-meta-data-dialog.component';
 
 describe('CreateProjectDialogComponent', () => {
-  let component: CreateProjectDialogComponent;
-  let fixture: ComponentFixture<CreateProjectDialogComponent>;
+  let component: ProjectMetaDataDialogComponent;
+  let fixture: ComponentFixture<ProjectMetaDataDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateProjectDialogComponent ]
+      declarations: [ ProjectMetaDataDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateProjectDialogComponent);
+    fixture = TestBed.createComponent(ProjectMetaDataDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

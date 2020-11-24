@@ -31,8 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AppRoutingModule } from './app-routing.module';
-import { CreateProjectDialogComponent } from './project-dashboard/create-project-dialog/create-project-dialog.component';
-import { EditProjectDialogComponent } from './project-dashboard/edit-project-dialog/edit-project-dialog.component';
+import { ProjectMetaDataDialogComponent } from './project-dashboard/project-meta-data-dialog/project-meta-data-dialog.component';
 import { ProjectBoardComponent } from './project-board/project-board.component';
 import { DiagramComponent } from './project-board/diagram/diagram.component';
 import { CatalogComponent } from './project-board/catalog/catalog.component';
@@ -65,8 +64,7 @@ import { InputDialogComponent } from './project-board/evaluation/input-dialog/in
     AppComponent,
     ProjectDashboardComponent,
     PageNotFoundComponent,
-    CreateProjectDialogComponent,
-    EditProjectDialogComponent,
+    ProjectMetaDataDialogComponent,
     ProjectBoardComponent,
     DiagramComponent,
     CatalogComponent,
@@ -127,8 +125,7 @@ import { InputDialogComponent } from './project-board/evaluation/input-dialog/in
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
-    CreateProjectDialogComponent,
-    EditProjectDialogComponent,
+    ProjectMetaDataDialogComponent,
     CreateGraphDialogComponent,
     EditGraphDialogComponent,
     ReplacementDialogComponent,
