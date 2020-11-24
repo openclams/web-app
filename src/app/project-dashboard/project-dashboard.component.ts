@@ -19,14 +19,6 @@ export class ProjectDashboardComponent implements OnInit {
 
   ngOnInit() {
     ProjectManager.refreshProjectMetas()
-    this.onResize();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event?) {
-    const screenHeight = window.innerHeight;
-    let box2h = 64//document.getElementById("command-bar").offsetHeight
-    document.getElementById("main-container").style.height = (screenHeight - box2h)+'px';
   }
 
   onDelete(project: JsonProjectMeta, idx: number) {
