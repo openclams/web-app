@@ -103,6 +103,10 @@ export class CreateProjectDialogComponent implements OnInit {
     this.dialogRef.close(project);
   }
 
+  /**
+   * Check if the current input name already exists in the project manager and return error if it is the case.
+   * @param newName FormControl of the current name input
+   */
   duplicateNameValidator(newName: FormControl) {
     for (const project of ProjectManager.projectMetas) {
       const name = project.name.toLowerCase()
@@ -113,6 +117,9 @@ export class CreateProjectDialogComponent implements OnInit {
     return null;
   }
 
+  /**
+   * Return the appropriate error message for the name input form field.
+   */
   getNameErrorMsg() {
     return this.name.hasError('required') ? 'Please enter a name' :
       this.name.hasError('maxlength') ? 'Name too long' :
