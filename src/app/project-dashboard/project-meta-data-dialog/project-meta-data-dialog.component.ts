@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import CloudProviderItem from './cloud-provider-item';
 import { HttpClient } from '@angular/common/http';
 import { ClamsProject, CloudProviderFactory, JsonCloudProvider } from '@openclams/clams-ml';
@@ -11,7 +11,7 @@ import JsonProjectMeta from '../../model/json-project-meta';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-create-project-dialog',
+  selector: 'app-project-meta-data-dialog',
   templateUrl: './project-meta-data-dialog.component.html',
   styleUrls: ['./project-meta-data-dialog.component.css']
 })
@@ -24,7 +24,7 @@ export class ProjectMetaDataDialogComponent implements OnInit {
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder,
               public dialogRef: MatDialogRef<ProjectMetaDataDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {projectMeta: JsonProjectMeta}) {
+              @Inject(MAT_DIALOG_DATA) public data: { projectMeta: JsonProjectMeta }) {
     this.isUpdate = !!data.projectMeta;
   }
 
@@ -99,7 +99,7 @@ export class ProjectMetaDataDialogComponent implements OnInit {
 
     if (this.isUpdate) {
       project.metaData.id = this.data.projectMeta.id;
-      project.metaData.cloudProviders = this.data.projectMeta.cloudProviders
+      project.metaData.cloudProviders = this.data.projectMeta.cloudProviders;
     } else {
       project.metaData.id = this.name.value + '_' + Date.now().toString(16);
       project.metaData.cloudProviders = this.getCloudProviders();
@@ -118,30 +118,39 @@ export class ProjectMetaDataDialogComponent implements OnInit {
   /**
    * Check if the current input name already exists in the project manager and return error if it is the case.
    * In case of update, ignore the name of this project.
+   *
    * @param oldName: Name that is excluded from the duplicate check.
+   *
+   * @return Null if the strings do not match
+   *         An object { duplicate: true } if the strings do match
    */
   duplicateNameValidator(oldName?: string) {
     return (control) => {
       for (const project of ProjectManager.projectMetas) {
         if (oldName && !oldName.localeCompare(control.value.trim())) {
-          continue
+          continue;
         }
-        const name = project.name.toLowerCase()
+        const name = project.name.toLowerCase();
         if (!name.localeCompare(control.value.trim())) {
           return {duplicate: true};
         }
       }
       return null;
-    }
+    };
   }
 
   /**
    * Return the appropriate error message for the name input form field.
+   *
+   * @return One of three strings:
+   *         If no input is given:    'Please enter a name'
+   *         If input is too long:    'Name too long'
+   *         If name exists in metas: 'Name already exists'
    */
   getNameErrorMsg() {
     return this.name.hasError('required') ? 'Please enter a name' :
       this.name.hasError('maxlength') ? 'Name too long' :
-        this.name.invalid ? 'Name already exists' : ''
+        this.name.invalid ? 'Name already exists' : '';
   }
 
   public getCloudProviders(): JsonCloudProvider[] {
