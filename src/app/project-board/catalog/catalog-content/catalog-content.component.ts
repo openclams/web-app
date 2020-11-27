@@ -31,9 +31,9 @@ export class CatalogContentComponent implements OnInit {
   }
 
   ngOnInit() {
-    const catalogUrl = this.provider.basePath + this.provider.catalogFile;
+    const catalogUrl = new URL(this.provider.basePath, this.provider.catalogFile);
 
-    this.http.get<JsonCatalog>(catalogUrl).subscribe(jsonCatalog => {
+    this.http.get<JsonCatalog>(catalogUrl.toString()).subscribe(jsonCatalog => {
       this.catalog = CatalogFactory.fromJSON(this.provider, jsonCatalog);
       console.log(this.catalog);
       this.projectService.project.model.bindTo(this.catalog);
