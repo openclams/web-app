@@ -7,7 +7,7 @@ import LocalStorageDriverPrinter from 'src/app/data-management/drivers/local-sto
 export const environment = {
   production: false,
   storageDriver:  LocalStorageDriverPrinter,
-  serviceServer: 'http://localhost:80/bosch/service-catalogs.json',
+  serviceServer: 'http://backend.localhost:80/api/providers',
   evalServers: [{
     menuTitle: 'Predict Availability',
     url: 'http://localhost:8088/',
