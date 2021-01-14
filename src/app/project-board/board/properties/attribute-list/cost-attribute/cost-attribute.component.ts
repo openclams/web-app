@@ -37,10 +37,10 @@ export class CostAttributeComponent implements OnInit {
     this.selectedCost = this.getCostAttribute(this.component, new Cost(null,'',0,0));
 
     // Build the URL of the cost lookup table.
-    const costUrl = this.component.cloudProvider.basePath + this.component.cloudProvider.costLookupFile;
+    const costUrl = new URL(this.component.cloudProvider.basePath, this.component.cloudProvider.costLookupFile);
 
     // Load all cost information of the table with respect to the service
-    this.http.get<JsonCostLookupTable>(costUrl).subscribe(jsonCostLookupTable => {
+    this.http.get<JsonCostLookupTable>(costUrl.toString()).subscribe(jsonCostLookupTable => {
       this.costs = this.getCostsByService(this.component as Service, jsonCostLookupTable);
       if(this.costs.length > 0){
         console.log(this.costs[0]);
