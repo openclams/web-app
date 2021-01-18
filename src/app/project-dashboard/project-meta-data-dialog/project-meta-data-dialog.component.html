@@ -1,0 +1,81 @@
+<h1 mat-dialog-title>Create a new Project</h1>
+<div mat-dialog-content>
+  <form [formGroup]="projectForm" (ngSubmit)="onCreate()" novalidate>
+    <mat-form-field appearance="fill" style="margin-right: 16px; width: 60%;">
+      <mat-label>Name</mat-label>
+      <input matInput
+             formControlName="name"
+             required
+             autofocus>
+      <mat-error *ngIf="name.invalid">
+        {{ getNameErrorMsg() }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: calc(40% - 16px);">
+      <mat-label>Owner</mat-label>
+      <input matInput
+             formControlName="owner">
+      <mat-error *ngIf="owner.hasError('maxlength')">
+        Owners too long
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Description</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMaxRows="15"
+                formControlName="description">
+      </textarea>
+      <mat-error *ngIf="description.hasError('maxlength')">
+        Description too long
+      </mat-error>
+    </mat-form-field>
+    <br>
+  </form>
+
+  Select all regions, which are neccessary for your cloud application.
+
+  <div class="provider-headers-align">
+    <mat-accordion multi>
+      <mat-expansion-panel *ngFor="let item of providerList">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-checkbox class="provider-margin"
+                          [checked]="item.allCompleted"
+                          [indeterminate]="someComplete(item)"
+                          (change)="setAll(item,$event.checked)">
+              {{item.provider.title}}
+            </mat-checkbox>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <span class="provider-list-section">
+          <ul>
+            <li *ngFor="let option of item.options">
+                <mat-checkbox [(ngModel)]="option.completed"
+                              (ngModelChange)="updateAllComplete(item)">
+                {{option.region.name}}
+                </mat-checkbox>
+            </li>
+          </ul>
+        </span>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button
+          (click)="onCancelClick()">
+    Cancel
+  </button>
+  <button mat-button
+          [disabled]="name.invalid"
+          type="submit"
+          (click)="onSubmit()">
+    {{ isUpdate ? "Update" : "Create" }}
+  </button>
+</div>
