@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import GraphHandler from './graph-handler';
-import {Edge} from '@openclams/clams-ml';
+import {AttributeList, Edge} from '@openclams/clams-ml';
 import {Node} from '@openclams/clams-ml';
 import {Graph} from '@openclams/clams-ml';
 import { SequenceDiagramRenderService } from './render/sequence-diagram-render.service';
@@ -23,6 +23,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import {EdgeType} from '@openclams/clams-ml';
 import { ComponentEventType } from '../events/component-event-type';
+import { EdgeEventType } from '../events/edge-event-type';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +67,7 @@ export class SequenceDiagramService extends GraphHandler {
   createElement(component: Component, parent: Element = null): Element {
     let element: Element = null;
 
-    this.addNameAttribute(component);
+    this.addNameAttribute(component, this.searchAndIncrement(component.name));
     const componentWrapper = new ComponentWrapper(component);
     this.graph.model.components.push(componentWrapper);
 
@@ -159,25 +160,57 @@ export class SequenceDiagramService extends GraphHandler {
     return instance;
   }
 
-  addNameAttribute(component: Component) {
-    const nameAttribute = component.getAttribute('name');
+  addNameAttribute(entity: AttributeList, name:string) {
+    const nameAttribute = entity.getAttribute('name');
     if (!nameAttribute) {
-      component.setAttribute({
+      entity.setAttribute({
         id : 'name',
         img: null,
         name: 'Name',
         type: 'string',
-        value: this.searchAndIncrement(component.name),
+        value: name,
         readable: false,
         description: 'Component Name'
       });
     }
   }
 
-  addCostAttribute(component: Component) {
-    const costAttribute = component.getAttribute('cost');
+  addCommentAttribute(entity: AttributeList) {
+    const nameAttribute = entity.getAttribute('comment');
+    if (!nameAttribute) {
+      entity.setAttribute({
+        id : 'comment',
+        img: null,
+        name: 'Comment',
+        type: 'string',
+        value: "",
+        readable: false,
+        description: 'Comment'
+      });
+    }
+  }
+
+  addProtocolAttribute(entity: AttributeList) {
+    const nameAttribute = entity.getAttribute('protocol');
+    if (!nameAttribute) {
+      entity.setAttribute({
+        id : 'protocol',
+        img: null,
+        name: 'Protocol',
+        type: 'string',
+        value: "",
+        readable: false,
+        description: 'Communication Protocol'
+      });
+    }
+  }
+
+
+
+  addCostAttribute(entity: Component) {
+    const costAttribute = entity.getAttribute('cost');
     if (!costAttribute) {
-      component.setAttribute({
+      entity.setAttribute({
         id: 'cost',
         name: 'Cost',
         type: 'cost',
@@ -211,7 +244,7 @@ export class SequenceDiagramService extends GraphHandler {
   }
 
   onDoubleClickEdge(edge: Edge) {
-    return;
+    this.graphService.triggerEdgeEvent(EdgeEventType.SHOW_DETAILS, edge);
   }
 
   onChangeEdge(edge: Edge, label: string) {
@@ -350,6 +383,11 @@ export class SequenceDiagramService extends GraphHandler {
   }
 
   createDefaultEdgeType(): EdgeType {
-    return new EdgeType('tcp', 'TCP Connection', [], [], []);
+    const edgeType = new EdgeType('TCP Connection', []);
+    this.addNameAttribute(edgeType, edgeType.name);
+    this.addProtocolAttribute(edgeType);
+    this.addCommentAttribute(edgeType);
+    return edgeType;
+
   }
 }

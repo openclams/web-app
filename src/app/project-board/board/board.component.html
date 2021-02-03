@@ -32,7 +32,10 @@
         mode="push"
         (closedStart)="closeInfo()"
         class="drawer-width dragscroll">
+
         <app-properties [element]="element" *ngIf="element"></app-properties>
+        <app-edge-properties [message]="message" *ngIf="message"></app-edge-properties>
+      
       </mat-drawer>
       <mat-drawer-content style="background: white;">
         <div class="graph-container dragscroll" id="{{graph.id}}"></div>

@@ -2,7 +2,6 @@ import {Component, OnInit, Input} from '@angular/core';
 import {CloudProvider} from '@openclams/clams-ml';
 import { HttpClient } from '@angular/common/http';
 import { ProjectService } from 'src/app/project.service';
-import {JsonCatalog} from '@openclams/clams-ml';
 import {Catalog} from '@openclams/clams-ml';
 import {CatalogFactory} from '@openclams/clams-ml';
 import {Pattern} from '@openclams/clams-ml';
@@ -12,6 +11,7 @@ import {ClamsComponent} from '@openclams/clams-ml';
 import {ComponentFactory} from '@openclams/clams-ml';
 import { ComponentEventType } from 'src/app/events/component-event-type';
 import {Category} from '@openclams/clams-ml';
+import {JsonCategory} from '@openclams/clams-ml';
 
 
 @Component({
@@ -31,11 +31,28 @@ export class CatalogContentComponent implements OnInit {
   }
 
   ngOnInit() {
-    const catalogUrl = new URL(this.provider.basePath, this.provider.catalogFile);
+    const catalogUrl = new URL(this.provider.categoryListUrl);
 
-    this.http.get<JsonCatalog>(catalogUrl.toString()).subscribe(jsonCatalog => {
-      this.catalog = CatalogFactory.fromJSON(this.provider, jsonCatalog);
-      console.log(this.catalog);
+    this.http.get<JsonCategory[]>(catalogUrl.toString()).subscribe(jsonCategories => {
+
+      this.catalog = new Catalog([],[],this.provider);
+      jsonCategories.forEach(jsonCategory => {
+        console.log(jsonCategory)
+        const components = CatalogFactory.fromJSON(this.provider, jsonCategory.components);
+        const category = new Category(jsonCategory.name,components);
+        components.forEach(c => c.category = category);
+
+        components.forEach(component => {
+          const idx = this.catalog.components.findIndex(c => c.id === component.id)
+          if(idx == -1){
+            this.catalog.components.push(component)
+          }
+        });
+
+        this.catalog.categories.push(category);
+        
+        //console.log(category.name,category.components);
+      })
       this.projectService.project.model.bindTo(this.catalog);
     });
   }

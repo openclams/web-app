@@ -21,6 +21,8 @@ export class CostAttributeComponent implements OnInit {
    */
   costs: Cost[];
 
+  show: boolean;
+
   /**
    * Reference to the componente to which this cost attribute belongs
    */
@@ -33,11 +35,12 @@ export class CostAttributeComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.show = false
     this.costs = [];
     this.selectedCost = this.getCostAttribute(this.component, new Cost(null,'',0,0));
 
     // Build the URL of the cost lookup table.
-    const costUrl = new URL(this.component.cloudProvider.basePath, this.component.cloudProvider.costLookupFile);
+    const costUrl = this.component.cloudProvider.componentUrl+"/"+this.component.id+'/costs';
 
     // Load all cost information of the table with respect to the service
     this.http.get<JsonCostLookupTable>(costUrl.toString()).subscribe(jsonCostLookupTable => {
@@ -45,7 +48,11 @@ export class CostAttributeComponent implements OnInit {
       if(this.costs.length > 0){
         console.log(this.costs[0]);
         this.selectedCost = this.getCostAttribute(this.component, this.costs[0]);
+        this.show = true;
+      }else{
+        this.show = false;
       }
+      
     });
   }
 

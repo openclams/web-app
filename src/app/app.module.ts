@@ -59,6 +59,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { EvaluationComponent } from './project-board/evaluation/evaluation.component';
 import { ReplacementDialogComponent } from './project-board/evaluation/replacement-dialog/replacement-dialog.component';
 import { InputDialogComponent } from './project-board/evaluation/input-dialog/input-dialog.component';
+import { EdgePropertiesComponent } from './project-board/board/edge-properties/edge-properties.component';
+import { EdgeAttributeListComponent } from './project-board/board/edge-properties/edge-attribute-list/edge-attribute-list.component';
+import { MetaAttributeListComponent } from './project-board/board/meta-attribute-list/meta-attribute-list.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +93,10 @@ import { InputDialogComponent } from './project-board/evaluation/input-dialog/in
     ComponentTreeComponent,
     EvaluationComponent,
     ReplacementDialogComponent,
-    InputDialogComponent
+    InputDialogComponent,
+    EdgePropertiesComponent,
+    EdgeAttributeListComponent,
+    MetaAttributeListComponent
   ],
   imports: [
     HttpClientModule,

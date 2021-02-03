@@ -1,5 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
-import {Graph} from '@openclams/clams-ml';
+import {Edge, Graph, Message} from '@openclams/clams-ml';
 import { GraphService } from 'src/app/graph.service';
 import { GraphEventType } from 'src/app/events/graph-event-type';
 import Frame from 'src/app/model/frame';
@@ -10,6 +10,8 @@ import { SequenceDiagramService } from 'src/app/graphs/sequence-diagram.service'
 import { ElementEventType } from 'src/app/events/element-event-type';
 import {Element} from '@openclams/clams-ml';
 import {GraphKeyHandlerService} from '../../graph-key-handler.service';
+import { EdgeEventType } from 'src/app/events/edge-event-type';
+import { ComponentEventType } from 'src/app/events/component-event-type';
 
 @Component({
   selector: 'app-board',
@@ -21,7 +23,11 @@ export class BoardComponent implements OnInit {
   @Input() frame: Frame;
 
   element: Element;
+
+  message: Message;
+
   showInfo: boolean;
+  
   closeButtonHoverIndex: number;
 
   constructor(private graphService: GraphService,
@@ -51,6 +57,11 @@ export class BoardComponent implements OnInit {
     this.graphService.addElementListener(ElementEventType.SHOW_DETAILS, element => {
       this.showInfo = true;
       this.element = element;
+    });
+
+    this.graphService.addEdgeListener(EdgeEventType.SHOW_DETAILS, edge => {
+      this.showInfo = true;
+      this.message = edge as Message;
     });
   }
 
@@ -123,6 +134,8 @@ export class BoardComponent implements OnInit {
   closeInfo() {
     this.showInfo = false;
     this.element = null;
+    this.message = null;
+    this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
   }
 
   getZoomLevelOfGraph(id: string): number {

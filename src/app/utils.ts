@@ -1,6 +1,3 @@
-import {Model} from '@openclams/clams-ml';
-import {ModelFactory} from '@openclams/clams-ml';
-
 /**
  * The utils class provides helpful methods
  * for recurring problems, like removing

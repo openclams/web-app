@@ -1,0 +1,21 @@
+<h2 >Meta Data</h2>
+<button mat-button (click)="addNewMeta()">
+    <mat-icon>add</mat-icon>
+    Add Data
+</button>
+
+<table style="width:100%" *ngIf="list">
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+      <th></th>
+    </tr>
+    <tr  *ngFor="let attribute of meta">
+      <td><input type='text' [(ngModel)]="attribute.name" ></td>
+      <td><input type='text' [(ngModel)]="attribute.value" ></td>
+      <td><button mat-button (click)="removeMeta(attribute)">
+            <mat-icon>delete</mat-icon>
+           </button>
+      </td>
+    </tr>
+</table>

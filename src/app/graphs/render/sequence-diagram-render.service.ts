@@ -154,7 +154,8 @@ export class SequenceDiagramRenderService extends RenderEngine {
         case Template:
           return '';
         case Message:
-          return '';
+          const message = obj as Message;
+          return '['+message.type.getAttribute('protocol').value+']';
       }
     }
     return obj;

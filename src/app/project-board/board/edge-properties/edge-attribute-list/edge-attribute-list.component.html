@@ -1,0 +1,14 @@
+<mat-action-list *ngIf="message">
+    <div  *ngFor="let attribute of message.type.attributes">
+        <ng-container *ngIf="allowed(attribute)">
+          <div mat-subheader> {{attribute.name}}</div>
+          <mat-list-item [ngSwitch]="attribute.type">
+              <app-text-attribute *ngSwitchCase="'text'" [attribute]="attribute"></app-text-attribute>
+              <app-number-attribute *ngSwitchCase="'number'" [attribute]="attribute"></app-number-attribute>
+              <app-enum-attribute *ngSwitchCase="'enum'" [attribute]="attribute"></app-enum-attribute>
+              <app-text-attribute *ngSwitchDefault  [attribute]="attribute"></app-text-attribute>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </ng-container>
+    </div>
+</mat-action-list>

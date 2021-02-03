@@ -139,7 +139,7 @@ export class Styles {
     const style = new Style();
     style[mxConstants.STYLE_FILLCOLOR] = Config.WHITE;
     style[mxConstants.STYLE_FONTCOLOR] = Config.BLACK;
-    style[mxConstants.STYLE_FONTSIZE] = 16;
+    style[mxConstants.STYLE_FONTSIZE] = 8;
     style[mxConstants.STYLE_STROKECOLOR] = Config.BLACK;
     style[mxConstants.OUTLINE_HIGHLIGHT_COLOR] = Config.NEON_GREEN;
     style[mxConstants.ARROW_WIDTH] = 1;

@@ -1,0 +1,11 @@
+<div fxLayout="column" fxLayoutAlign="space-around start" *ngIf="this.message">
+    <mat-toolbar fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center" style="background-color: #ffffff;">
+        {{ name }}
+    </mat-toolbar>
+
+
+    <app-edge-attribute-list  [message]="this.message"></app-edge-attribute-list>
+
+    <app-meta-attribute-list [list]="this.message.type"></app-meta-attribute-list>
+
+</div>

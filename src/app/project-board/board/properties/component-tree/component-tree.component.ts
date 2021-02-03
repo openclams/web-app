@@ -1,10 +1,12 @@
 import { Component, Input, OnInit} from '@angular/core';
-import {ClamsComponent} from '@openclams/clams-ml';
+import {CatalogComponentFactory, ClamsComponent} from '@openclams/clams-ml';
 import { ProjectService } from 'src/app/project.service';
 import {ComponentFactory} from '@openclams/clams-ml';
 import {ComponentWrapper} from '@openclams/clams-ml';
 import { GraphService } from 'src/app/graph.service';
 import { ComponentEventType } from 'src/app/events/component-event-type';
+import JsonCatalogComponent from '@openclams/lib/schema/service-catalog/json-catalog-component';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -14,34 +16,43 @@ import { ComponentEventType } from 'src/app/events/component-event-type';
 })
 export class ComponentTreeComponent implements OnInit {
 
-  @Input() direction: boolean;
-
   @Input() componentWrapper: ComponentWrapper;
 
+  public parents: ClamsComponent[];
+  public children: ClamsComponent[];
 
-  constructor(private projectService: ProjectService, private graphService: GraphService) { }
+
+  constructor(private http: HttpClient, private projectService: ProjectService, 
+    private graphService: GraphService) { }
 
   ngOnInit() {
+    this.load();
   }
 
-  getComponents(): ClamsComponent[] {
-    return this.direction ? this.getParent() : this.getChildren();
+  load(){
+    let url;
+    this.parents = [];
+    this.children = [];
+
+    url = this.componentWrapper.component.cloudProvider.componentUrl+ "/"+
+          this.componentWrapper.component.id+'/parents';
+    this.http.get<JsonCatalogComponent[]>(url.toString()).subscribe(jsonCatalogComponents => {
+      this.parents =  jsonCatalogComponents.map<ClamsComponent>(jsonCatalogComponent => {
+        return CatalogComponentFactory.fromJSON(this.componentWrapper.component.cloudProvider,jsonCatalogComponent);
+      }).filter(c => c);
+    });
+  
+    url = this.componentWrapper.component.cloudProvider.componentUrl + "/"+
+          this.componentWrapper.component.id+'/children';
+    this.http.get<JsonCatalogComponent[]>(url.toString()).subscribe(jsonCatalogComponents => {
+      this.children =  jsonCatalogComponents.map<ClamsComponent>(jsonCatalogComponent => {
+        return CatalogComponentFactory.fromJSON(this.componentWrapper.component.cloudProvider,jsonCatalogComponent);
+      }).filter(c => c);
+    });
   }
 
-  getParent() {
-    if (this.componentWrapper.component.parent) {
-      return [this.componentWrapper.component.parent];
-    } else {
-      return [];
-    }
-  }
-
-  getChildren() {
-    if (this.componentWrapper.component.children) {
-      return this.componentWrapper.component.children;
-    } else {
-      return [];
-    }
+  getComponentes(url,components:ClamsComponent[]){
+    
   }
 
   changeTo(component: ClamsComponent) {
@@ -50,6 +61,7 @@ export class ComponentTreeComponent implements OnInit {
     this.componentWrapper.component = componentCopy;
     this.addNameAttribute(componentCopy, name);
     this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
+     this.load();
   }
 
   addNameAttribute(component: ClamsComponent, name: string) {

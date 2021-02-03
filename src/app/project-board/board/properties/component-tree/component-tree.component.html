@@ -1,8 +1,23 @@
-<ng-container *ngIf="getComponents().length>0">
+<ng-container *ngIf="parents.length>0">
     <div mat-subheader>
-        <ng-content></ng-content>
+        Change to more general
     </div>
-    <mat-list-item *ngFor="let c of getComponents()" (click)="changeTo(c)">
+    <mat-list-item *ngFor="let c of parents" (click)="changeTo(c)">
+        <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
+        <img *ngIf="c.img" style="width: 45px; height:45px"
+        class="mat-grid-tile_img"
+        [src]="c.img"
+        alt="{{c.name}}"
+        title="{{c.name}}">
+        <div>{{c.name}}</div></div>
+    </mat-list-item>
+</ng-container>
+
+<ng-container *ngIf="children.length>0">
+    <div mat-subheader>
+        Be more specific
+    </div>
+    <mat-list-item *ngFor="let c of children" (click)="changeTo(c)">
         <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
         <img *ngIf="c.img" style="width: 45px; height:45px"
         class="mat-grid-tile_img"
