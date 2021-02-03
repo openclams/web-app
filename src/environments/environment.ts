@@ -7,7 +7,7 @@ import LocalStorageDriverPrinter from 'src/app/data-management/drivers/local-sto
 export const environment = {
   production: false,
   storageDriver:  LocalStorageDriverPrinter,
-  serviceServer: 'http://backend.localhost/api/providers',//'http://192.168.216.153/api/providers',
+  serviceServer: 'http://localhost/api/providers',
   evalServers: [{
     menuTitle: 'Predict Availability',
     url: 'http://localhost:8088/',
