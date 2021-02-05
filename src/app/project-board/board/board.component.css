@@ -34,8 +34,8 @@ mat-tab-group {
   overflow: auto;
   display: block;
   background-size: 40px 40px;
-  background-image: linear-gradient(to right, lightgray 1px, transparent 1px),
-  linear-gradient(to bottom, lightgray 1px, transparent 1px);
+  /* background-image: linear-gradient(to right, lightgray 1px, transparent 1px),
+  linear-gradient(to bottom, lightgray 1px, transparent 1px); */
 }
 
 

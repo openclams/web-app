@@ -5,7 +5,7 @@ import {ComponentFactory} from '@openclams/clams-ml';
 import {ComponentWrapper} from '@openclams/clams-ml';
 import { GraphService } from 'src/app/graph.service';
 import { ComponentEventType } from 'src/app/events/component-event-type';
-import JsonCatalogComponent from '@openclams/lib/schema/service-catalog/json-catalog-component';
+import { JsonCatalogComponent } from '@openclams/clams-ml';
 import { HttpClient } from '@angular/common/http';
 
 
