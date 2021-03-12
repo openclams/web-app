@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="space-around start" *ngIf="this.element">
+<div fxLayout="column" fxLayoutAlign="space-around start" *ngIf="this.element" style="max-width: 500px; margin-left: 16px;">
     <mat-toolbar fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center" style="background-color: #ffffff;">
         <img *ngIf="componentWrapper.component.img" style="width: 50px; height:50px"
         class="mat-grid-tile_img"
@@ -8,33 +8,30 @@
         <h2 >{{componentWrapper.component.name}}</h2>
     </mat-toolbar>
 
-    <mat-list>
-      <div mat-subheader> Name</div>
-      <mat-list-item>
-        <mat-form-field>
-          <input matInput="Name" [(ngModel)]="name" (keyup)="updateFilter()" [matAutocomplete]="matAutocompleteInstance">
-        </mat-form-field>
-        <mat-autocomplete #matAutocompleteInstance="matAutocomplete">
-          <mat-optgroup [label]="'Create new Instance'" *ngIf="!existsName(name) && name.length">
-            <mat-option [value]="name" (onSelectionChange)="(onSelectCreateNewInstance(name))">
-              {{name}}
-            </mat-option>
-          </mat-optgroup>
-          <mat-optgroup [label]="'Rename existing Instance'" *ngIf="!existsName(name) && name.length">
-            <mat-option [value]="name" (onSelectionChange)="(onSelectRenameInstance(name))">
-              {{name}}
-            </mat-option>
-          </mat-optgroup>
-          <mat-optgroup [label]="'Use existing Instance'" *ngIf="(filteredPossibleInstances).length > 0 && name.length">
-            <mat-option *ngFor="let i of filteredPossibleInstances" [value]="i.component.getAttribute('name').value"
-              (onSelectionChange)="(onSelectExistingInstance(i))">
-              {{i.component.getAttribute('name').value}}
-            </mat-option>
-          </mat-optgroup>
-        </mat-autocomplete>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-    </mat-list>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Name</mat-label>
+      <input matInput="Name" [(ngModel)]="name" (keyup)="updateFilter()" [matAutocomplete]="matAutocompleteInstance" style="width: 100%">
+      <mat-autocomplete #matAutocompleteInstance="matAutocomplete">
+        <mat-optgroup [label]="'Create new Instance'" *ngIf="!existsName(name) && name.length">
+          <mat-option [value]="name" (onSelectionChange)="(onSelectCreateNewInstance(name))">
+            {{name}}
+          </mat-option>
+        </mat-optgroup>
+        <mat-optgroup [label]="'Rename existing Instance'" *ngIf="!existsName(name) && name.length">
+          <mat-option [value]="name" (onSelectionChange)="(onSelectRenameInstance(name))">
+            {{name}}
+          </mat-option>
+        </mat-optgroup>
+        <mat-optgroup [label]="'Use existing Instance'" *ngIf="(filteredPossibleInstances).length > 0 && name.length">
+          <mat-option *ngFor="let i of filteredPossibleInstances" [value]="i.component.getAttribute('name').value"
+            (onSelectionChange)="(onSelectExistingInstance(i))">
+            {{i.component.getAttribute('name').value}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+      <mat-hint>Change the name of the instance.</mat-hint>
+    </mat-form-field>
+
 
 <app-attribute-list  [componentWrapper]="componentWrapper"></app-attribute-list>
 

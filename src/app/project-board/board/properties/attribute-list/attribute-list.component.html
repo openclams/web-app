@@ -14,18 +14,24 @@
     </mat-expansion-panel>
 </mat-accordion> -->
 
-<mat-action-list *ngIf="componentWrapper">
-    <div  *ngFor="let attribute of componentWrapper.component.attributes">
-        <ng-container *ngIf="allowed(attribute)">
-          <div mat-subheader> {{attribute.name}}</div>
-          <mat-list-item [ngSwitch]="attribute.type">
-              <app-text-attribute *ngSwitchCase="'text'" [attribute]="attribute"></app-text-attribute>
-              <app-number-attribute *ngSwitchCase="'number'" [attribute]="attribute"></app-number-attribute>
-              <app-enum-attribute *ngSwitchCase="'enum'" [attribute]="attribute"></app-enum-attribute>
-              <app-text-attribute *ngSwitchDefault  [attribute]="attribute"></app-text-attribute>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-        </ng-container>
-    </div>
-</mat-action-list>
+<div  *ngFor="let attribute of componentWrapper.component.attributes">
+  <mat-card *ngIf="allowed(attribute)" style="margin-bottom: 6px; width: 100%;">
+    <mat-card-header>
+
+      <!-- <div mat-card-avatar *ngIf></div> -->
+
+      <mat-card-title>{{attribute.name}}</mat-card-title>
+      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content style="max-width: 500px !important;">
+      <ng-container [ngSwitch]="attribute.type">
+        <app-text-attribute *ngSwitchCase="'text'" [attribute]="attribute"></app-text-attribute>
+        <app-number-attribute *ngSwitchCase="'number'" [attribute]="attribute"></app-number-attribute>
+        <app-enum-attribute *ngSwitchCase="'enum'" [attribute]="attribute"></app-enum-attribute>
+        <app-text-attribute *ngSwitchDefault  [attribute]="attribute"></app-text-attribute>
+      </ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>
+
 

@@ -15,6 +15,9 @@ import { Node } from '@openclams/clams-ml';
 })
 export class ProjectService {
 
+  public project: Project;
+  private activeFrame: Frame;
+
   constructor(private graphService: GraphService) {
     this.project = null;
     this.graphService.addGraphListener(GraphEventType.REMOVED, graph => {
@@ -24,10 +27,9 @@ export class ProjectService {
       // When we removed a grpah we redraw the model
       this.addGraph(graph);
     });
-  }
 
-  public project: Project;
-  private activeFrame: Frame;
+
+  }
 
 
   set(project: Project) {

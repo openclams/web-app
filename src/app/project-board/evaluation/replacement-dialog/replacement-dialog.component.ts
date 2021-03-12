@@ -2,7 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import JsonReplacementProtocol from 'src/app/model/json-replacement-protocol';
 import { ProjectService } from 'src/app/project.service';
-import {ClamsComponent, ComponentFactory} from '@openclams/clams-ml';
+import {CatalogComponentFactory, ClamsComponent, ComponentFactory, JsonCatalogComponent} from '@openclams/clams-ml';
+import { HttpClient } from '@angular/common/http';
+import JsonEvalServer from 'src/app/model/json-eval-server';
 
 @Component({
   selector: 'app-replacement-dialog',
@@ -24,17 +26,21 @@ export class ReplacementDialogComponent implements OnInit {
   public selections:{ originalComponent: ClamsComponent,
                       replacementComponent:ClamsComponent}[];
 
-  constructor(public dialogRef: MatDialogRef<ReplacementDialogComponent>,
+  constructor(private http: HttpClient, public dialogRef: MatDialogRef<ReplacementDialogComponent>,
     public projectService: ProjectService,
-    @Inject(MAT_DIALOG_DATA) public data: JsonReplacementProtocol) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    // Remove all components from the list that have nothing to replace.
-    this.data.replacements = this.data.replacements.filter(c=>c.replaceWith && c.replaceWith.length > 0);
-    this.selectionOptions = this.data.replacements.map( c => {
-      return {
-        originalComponent: this.getComponent(c.componentIdx),
-        replacementComponent:this.getComponentById(c.replaceWith)
+    this.http.post<JsonReplacementProtocol>(this.data.server.url, this.data.param).subscribe(async res=>{
+      const replacements = res.replacements.filter(c=>c.replaceWith);
+      this.selectionOptions = [];
+      for(const entry of replacements){
+        const component = this.getComponent(entry.componentIdx);
+        const replacement = await this.getReplacement(component, entry.replaceWith)
+        this.selectionOptions.push({
+          originalComponent: component,
+          replacementComponent: replacement
+        });
       }
     });
   }
@@ -49,15 +55,13 @@ export class ReplacementDialogComponent implements OnInit {
   /**
    * Return the corresponding component from the catalog based on its id.
    */
-  private getComponentById(id:string):ClamsComponent{
-    let component:ClamsComponent = null;
-    for(const cloudProvider of this.projectService.project.model.cloudProviders){
-      component = cloudProvider.catalog.getComponentById(id);
-      if(component){
-        break;
-      }
-    }
-    return component;
+  private async  getReplacement(refComponent:ClamsComponent ,id:string):Promise<ClamsComponent>{
+    const url = refComponent.cloudProvider.componentUrl + '/'+ id;
+    const jsonCatalogComponent = await this.http.get<JsonCatalogComponent>(url).toPromise();
+    const clamsComponent = CatalogComponentFactory.fromJSON(refComponent.cloudProvider,jsonCatalogComponent);
+    return new Promise<ClamsComponent>(resolve => {
+      resolve(clamsComponent);
+    });
   }
 
   /**

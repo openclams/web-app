@@ -49,6 +49,7 @@ export class ProjectManager {
           throw new Error('Project not found!');
         }
         DataManagement.storageDriver.put(DataManagement.KEY_LAST_PROJECT_ID, jsonProject.metaData.id);
+        console.log(jsonProject)
         return ProjectFactory.fromJSON(jsonProject);
       },
       reason => {

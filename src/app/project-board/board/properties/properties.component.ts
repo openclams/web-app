@@ -47,6 +47,7 @@ export class PropertiesComponent implements OnInit {
   onSelectExistingInstance(componentWrapper: ComponentWrapper) {
     Utils.removeItemFromArray(this.element, this.element.componentWrapper.instances);
     this.element.componentWrapper = componentWrapper;
+    this.element.componentWrapper.instances.push(this.element);
     this.projectService.componentGC();
     this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
   }

@@ -7,6 +7,7 @@ import { FrameFactory } from './frame-factory';
 export class ProjectFactory {
     public static fromJSON(jsonProject: JsonProject): Project {
         const project = new Project();
+
         project.metaData = Object.assign({}, jsonProject.metaData);
         project.model = ModelFactory.fromJSON(jsonProject.model);
         project.frames = jsonProject.frames.map(jsonFrame => FrameFactory.fromJSON.call(project, jsonFrame));

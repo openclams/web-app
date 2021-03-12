@@ -58,7 +58,7 @@ export class Styles {
     const style = new Style();
     style[mxConstants.STYLE_FILLCOLOR] = Config.WHITE;
     style[mxConstants.STYLE_FONTCOLOR] = Config.BLACK;
-    style[mxConstants.STYLE_FONTSIZE] = 16;
+    style[mxConstants.STYLE_FONTSIZE] = 24;
     style[mxConstants.STYLE_STROKECOLOR] = Config.BLACK;
     style[mxConstants.OUTLINE_HIGHLIGHT_COLOR] = Config.NEON_GREEN;
     style[mxConstants.STYLE_SHAPE] = mxConstants.SHAPE_IMAGE;
@@ -72,6 +72,7 @@ export class Styles {
     const style = new Style();
     style['resizable'] = 0;
     style['autosize'] = 1;
+    style[mxConstants.STYLE_FONTSIZE] = 12;
     style[mxConstants.STYLE_FILLCOLOR] = Config.NONE;
     style[mxConstants.STYLE_FONTCOLOR] = Config.BLACK;
     style[mxConstants.STYLE_STROKECOLOR] = Config.NONE;
@@ -139,7 +140,7 @@ export class Styles {
     const style = new Style();
     style[mxConstants.STYLE_FILLCOLOR] = Config.WHITE;
     style[mxConstants.STYLE_FONTCOLOR] = Config.BLACK;
-    style[mxConstants.STYLE_FONTSIZE] = 8;
+    style[mxConstants.STYLE_FONTSIZE] = 16;
     style[mxConstants.STYLE_STROKECOLOR] = Config.BLACK;
     style[mxConstants.OUTLINE_HIGHLIGHT_COLOR] = Config.NEON_GREEN;
     style[mxConstants.ARROW_WIDTH] = 1;

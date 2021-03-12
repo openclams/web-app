@@ -37,23 +37,16 @@ export class CostAttributeComponent implements OnInit {
   ngOnInit() {
     this.show = false
     this.costs = [];
-    this.selectedCost = this.getCostAttribute(this.component, new Cost(null,'',0,0));
 
-    // Build the URL of the cost lookup table.
-    const costUrl = this.component.cloudProvider.componentUrl+"/"+this.component.id+'/costs';
-
-    // Load all cost information of the table with respect to the service
-    this.http.get<JsonCostLookupTable>(costUrl.toString()).subscribe(jsonCostLookupTable => {
-      this.costs = this.getCostsByService(this.component as Service, jsonCostLookupTable);
+    if(this.component instanceof Service){
+      this.costs = this.component.costs;
       if(this.costs.length > 0){
-        console.log(this.costs[0]);
         this.selectedCost = this.getCostAttribute(this.component, this.costs[0]);
         this.show = true;
       }else{
         this.show = false;
       }
-      
-    });
+    }
   }
 
   /**
@@ -86,25 +79,6 @@ export class CostAttributeComponent implements OnInit {
       costAttribute.value = defaultCost;
     }
     return component.getAttribute('cost').value as Cost;
-  }
-
-  /**
-   * Get the cost list for the service
-   * @param service The service of the component
-   * @param jsonCostLookupTable The lookup tabel which contains the cost list
-   */
-  getCostsByService(service: Service, jsonCostLookupTable: JsonCostLookupTable): Cost[] {
-    let costs: Cost[] = [];
-    const sidx = jsonCostLookupTable.costTable.findIndex(entry => entry.id === service.id);
-    if (sidx > -1) {
-      costs = jsonCostLookupTable.costTable[sidx].regions.map( costRegion => {
-        const cost = CostFactory.fromJSON(costRegion);
-        // Since the units fields is not available for the cost objects int he lookup table,
-        // we simply add now the units with default 0.
-        cost.units = 0;
-        return cost});
-    }
-    return costs;
   }
 
   /**

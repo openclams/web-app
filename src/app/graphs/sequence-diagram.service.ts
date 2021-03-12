@@ -74,9 +74,10 @@ export class SequenceDiagramService extends GraphHandler {
     if (component instanceof TemplateType) {
       element = this.createTemplate(componentWrapper, parent);
     } else {
-      console.log(componentWrapper, parent);
       element = this.createInstance(componentWrapper, parent);
     }
+
+    componentWrapper.instances.push(element);
 
     if (!parent) {
       this.graph.nodes.push(element);
@@ -108,7 +109,7 @@ export class SequenceDiagramService extends GraphHandler {
 
     templateType.components.forEach(component => {
       const componentCopy = ComponentFactory.copy(component, this.graph.model);
-      // Bind empty references of the copy, like children and parent to the references of the 
+      // Bind empty references of the copy, like children and parent to the references of the
       // catalog component
       const element = this.createElement(componentCopy, template);
       element.geometry.x = innerX;
@@ -183,7 +184,7 @@ export class SequenceDiagramService extends GraphHandler {
         img: null,
         name: 'Comment',
         type: 'string',
-        value: "",
+        value: '',
         readable: false,
         description: 'Comment'
       });
@@ -198,7 +199,7 @@ export class SequenceDiagramService extends GraphHandler {
         img: null,
         name: 'Protocol',
         type: 'string',
-        value: "",
+        value: '',
         readable: false,
         description: 'Communication Protocol'
       });
@@ -248,7 +249,7 @@ export class SequenceDiagramService extends GraphHandler {
   }
 
   onChangeEdge(edge: Edge, label: string) {
-    console.log("change");
+    console.log('change');
     // Change the name of the edge
     return;
   }
@@ -287,7 +288,7 @@ export class SequenceDiagramService extends GraphHandler {
   }
 
   onConnect(edge: Edge) {
-    console.log("connect");
+    console.log('connect');
     const message = edge as Message;
     if( message.from !== message.to){
       message.type = this.createDefaultEdgeType();

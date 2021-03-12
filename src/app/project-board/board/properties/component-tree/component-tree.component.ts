@@ -51,10 +51,6 @@ export class ComponentTreeComponent implements OnInit {
     });
   }
 
-  getComponentes(url,components:ClamsComponent[]){
-    
-  }
-
   changeTo(component: ClamsComponent) {
     const name = this.componentWrapper.component.getAttribute('name').value;
     const componentCopy = ComponentFactory.copy(component, this.projectService.project.model);

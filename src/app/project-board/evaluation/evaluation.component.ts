@@ -31,39 +31,36 @@ export class EvaluationComponent implements OnInit {
 
   transfer(server: JsonEvalServer){
 
-    const data = {
+    const param = {
       model: ModelFactory.toJSON(this.projectService.project.model)
     }
 
     if(this.projectService.getActiveFrame() &&
        this.projectService.getActiveFrame().activeGraph){
-        data['graphIdx'] = this.projectService.getActiveFrame().activeGraph.id
+        param['graphIdx'] = this.projectService.getActiveFrame().activeGraph.id
     }
 
     if(server.parameters){
       const dialogRef = this.dialog.open(InputDialogComponent,{data: server});
 
-      dialogRef.afterClosed().subscribe(parameters => {
-        if (!parameters) {
+      dialogRef.afterClosed().subscribe(customParameters => {
+        if (!customParameters) {
            return;
         }
-        this.evaluate(server,  Object.assign(data,parameters));
+        this.evaluate(server,  Object.assign(param,customParameters));
       });
       // this.evaluate(server,data);
     }else{
-      this.evaluate(server,data);
+      this.evaluate(server,param);
     }
 
   }
 
-  evaluate(server,data){
-    this.http.post<JsonReplacementProtocol>(server.url, data).subscribe(res=>{
+  evaluate(server:JsonEvalServer, param: any){
+    const dialogRef = this.dialog.open(ReplacementDialogComponent,{data: {server,param} });
 
-      const dialogRef = this.dialog.open(ReplacementDialogComponent,{data: res});
-
-      dialogRef.afterClosed().subscribe(modifications => {
-        this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
-      });
+    dialogRef.afterClosed().subscribe(modifications => {
+      this.graphService.triggerComponentEvent(ComponentEventType.DRAW);
     });
   }
 }
