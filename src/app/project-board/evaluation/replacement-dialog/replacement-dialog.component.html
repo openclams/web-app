@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Evaluation Results</h1>
 <div mat-dialog-content>  
-  Result: {{data.result}}
+  Result: {{resultText}}
 
   <mat-selection-list #components style="min-width:400px;min-height: 300px;" (selectionChange)="onSelection(components)">
     <mat-list-option *ngFor="let option of selectionOptions" [value]='option'>

@@ -13,6 +13,8 @@ import JsonEvalServer from 'src/app/model/json-eval-server';
 })
 export class ReplacementDialogComponent implements OnInit {
 
+  public resultText: string;
+
   /**
    * A clean list of the components which are involved in the
    * replacement list.
@@ -33,6 +35,7 @@ export class ReplacementDialogComponent implements OnInit {
   ngOnInit(): void {
     this.http.post<JsonReplacementProtocol>(this.data.server.url, this.data.param).subscribe(async res=>{
       const replacements = res.replacements.filter(c=>c.replaceWith);
+      this.resultText = res.result;
       this.selectionOptions = [];
       for(const entry of replacements){
         const component = this.getComponent(entry.componentIdx);
